@@ -1,0 +1,38 @@
+@import "themeStatics";
+
+$theme-bg-color: $light !default;
+$theme-background: $theme-bg-color !default;
+$theme-color: $dark !default;
+$theme-link-color: $dark !default;
+$theme-active-color: $theme-link-color !default;
+
+$theme-dropdown-background: $light !default;
+$theme-dropdown-border: 1px solid $dark !default;
+$theme-dropdown-color: $dark !default;
+$theme-dropdown-link-color: $dark !default;
+$theme-dropdown-active-color: $theme-dropdown-link-color !default;
+
+$theme-dropdown-transparency: $white-20 !default;
+
+$theme-header-bg-color: transparent !default;
+$theme-header-background: $theme-header-bg-color !default;
+$theme-header-color: $dark !default;
+$theme-header-link-color: $dark !default;
+$theme-header-active-color: $theme-header-link-color !default;
+
+$theme-paragraph-bg-color: $light !default;
+$theme-paragraph-background: $theme-paragraph-bg-color !default;
+$theme-paragraph-border: none !default;
+$theme-paragraph-color: $dark !default;
+$theme-paragraph-link-color: $dark !default;
+$theme-paragraph-active-color: $theme-paragraph-link-color !default;
+
+$theme-aside-background: $white-90 !default;
+
+$theme-footer-bg-color: $light !default;
+$theme-footer-background: $theme-footer-bg-color !default;
+$theme-footer-color: $dark !default;
+$theme-footer-link-color: $dark !default;
+$theme-footer-active-color: $theme-footer-link-color !default;
+
+

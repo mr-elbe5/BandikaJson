@@ -1,0 +1,298 @@
+@import "themeDefaults";
+
+body {
+  height: 100%;
+  background: $theme-background;
+  color: $theme-color;
+}
+
+a, a:visited{
+  text-decoration: none;
+  color: $theme-link-color;
+}
+
+a:active, a:hover{
+  color: $theme-active-color;
+}
+
+button:focus, a:focus, .btn:focus {
+  outline: 0 !important;
+  box-shadow: none;
+}
+
+header{
+
+  color: $theme-header-color;
+  background: $theme-header-background;
+  padding: 0 1rem;
+
+  a, a:visited {
+    color: $theme-header-link-color;
+  }
+
+  a:active, a:hover{
+    color: $theme-header-active-color;
+  }
+
+  section.sysnav{
+    background: $theme-header-background;
+    font-size: $font-size-sm;
+
+    a.nav-link {
+      padding: 0;
+      margin: 0.25rem 0 0.25rem 0.5rem;
+      color: $theme-header-link-color;
+    }
+
+    .nav-item {
+      a {
+        color: $theme-header-link-color;
+      }
+
+    }
+
+    .dropdown-menu{
+      padding: 0;
+      background: $theme-dropdown-background;
+      border: $theme-dropdown-border;
+
+      .dropdown-item{
+        font-size: $font-size-xsm;
+        color: $theme-dropdown-color;
+      }
+
+      .dropdown-item:focus, .dropdown-item:hover, .dropdown-item.active{
+        background: $theme-dropdown-transparency;
+      }
+
+    }
+
+  }
+
+  div.menu{
+    border-bottom: 1px solid $theme-header-color;
+
+    section.menu {
+
+      nav.navbar {
+        padding:0;
+
+        .navbar-toggler span{
+          color: $theme-header-color;
+        }
+
+        a.navbar-brand {
+          color: $theme-header-link-color;
+          img {
+            height: 3rem;
+            padding: 0;
+          }
+        }
+
+        .navbar-collapse{
+          margin-top: 1.75rem; // 3 (img) - 1 (self) -0.25 (padding-top)
+        }
+
+        .nav-link {
+          padding: 0.25rem 1rem;
+        }
+
+        .dropdown-toggle::after {
+          vertical-align: 0.1em;
+        }
+
+        .dropdown-menu {
+          padding: 0.25rem 0;
+          margin: 0;
+          border-width: 0 1px 1px 1px;
+          border-radius: 0;
+
+          .dropdown-item:focus, .dropdown-item:hover, .dropdown-item.active{
+            background: $theme-dropdown-transparency;
+          }
+
+          .dropdown-item.subitem {
+            padding-left: 3rem;
+            font-size: $font-size-sm;
+          }
+
+        }
+
+        .nav-item {
+          a {
+            color: $theme-header-link-color;
+          }
+        }
+
+        .nav-item.dropdown.hover:hover .dropdown-menu{
+          display: block;
+        }
+
+      }
+
+    }
+
+  }
+
+  div.bc {
+
+    .breadcrumb {
+      background: transparent;
+      margin: 0;
+      font-size: $font-size-xsm;
+      padding: 0.25rem 0;
+
+      .breadcrumb-item.active {
+        color: $theme-header-active-color;
+      }
+
+      a, a:visited {
+        color: $theme-header-link-color;
+      }
+
+      a:active, a:hover {
+        color: $theme-header-active-color;
+      }
+    }
+
+  }
+
+}
+
+main {
+  padding-bottom: 3rem;
+
+  div#pageContent {
+
+    h1, h2, h3 {
+      margin: 0;
+    }
+
+    h1.title {
+      margin-bottom: 1rem;
+      text-align: center;
+      color: $theme-color;
+    }
+
+    .contentTop {
+      color: $theme-color;
+    }
+
+    .paragraph {
+      background: $theme-paragraph-background;
+      border: $theme-paragraph-border;
+      color: $theme-paragraph-color;
+      border-radius: 15px;
+      padding: 1rem;
+      height: calc(100% - 30px);
+      margin-top: 15px;
+      overflow: hidden;
+
+      a, a:visited{
+        color: $theme-paragraph-link-color
+      }
+
+      a:active, a:hover{
+        color: $theme-paragraph-active-color;
+      }
+
+      h2 {
+        border-bottom: 1px solid;
+        padding-bottom: 0.5rem;
+        margin-bottom: 0.5rem;
+      }
+
+      h3 {
+        border-width: 1px 0;
+        border-style: solid;
+        padding: 0.5rem 0;
+        margin: 0.5rem 0;
+      }
+
+      h3.partHeader {
+        padding: 0.5rem 1rem;
+        background: $theme-paragraph-background;
+      }
+
+      img{
+        max-width : 100%;
+      }
+
+      img[style*="float: left;"], img[style*="float:left;"]{
+        margin-right: 0.5em;
+        margin-bottom: 0.5em;
+      }
+
+      img[style*="float: right;"], img[style*="float:right;"]{
+        margin-left: 0.5em;
+        margin-bottom: 0.5em;
+      }
+
+    }
+
+    .asideSection {
+      .paragraph {
+        background: $theme-aside-background;
+        border-color: $theme-paragraph-border;
+      }
+    }
+
+  }
+}
+
+.container.fixed-bottom{
+  background: $theme-background;
+  border-top: 1px solid $theme-color;
+  height: 2.25rem;
+}
+
+footer {
+  font-size: 0.8rem;
+  padding: 0;
+  color: $theme-color;
+
+  a, a:visited {
+    color: $theme-link-color;
+  }
+
+  a:active, a:hover, a:focus {
+    color: $theme-active-color;
+  }
+
+}
+
+#searchboxform{
+  padding: 1rem 0;
+
+  .form-control{
+    height: auto;
+    padding: 0 0.75rem;
+  }
+
+}
+
+div.searchResults{
+  padding-top: 1rem;
+
+  div.searchResult{
+    border-bottom: $theme-paragraph-border;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+
+    div.searchTitle{
+      font-size: 1.2em;
+    }
+    div.searchDescription{
+      padding-top:0.5em;
+      font-style: italic;
+    }
+    div.searchContent{
+      padding-top: 0.5em;
+    }
+  }
+}
+
+.searchHighlight{
+  background: $yellow;
+}
+

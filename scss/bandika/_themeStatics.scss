@@ -1,0 +1,39 @@
+@function img-path($name) {
+  @return '../img/'+$name;
+}
+
+$headings-font-weight:        400;
+
+$enable-prefers-reduced-motion-media-query:   false;
+
+// for ckeditor
+$zindex-modal-backdrop: 11040;
+$zindex-modal: 11050;
+$zindex-popover: 11060;
+$zindex-tooltip: 11070;
+
+$modal-dialog-margin-wide: 3rem;
+$modal-content-border-radius: 0.75rem;
+
+$font-size-base:              1rem;
+
+$link-decoration:             none;
+
+$font-size-xsm:               ($font-size-base * .8);
+$font-size-xxsm:              ($font-size-base * .7);
+
+$h1-font-size:                $font-size-base * 2;
+$h2-font-size:                $font-size-base * 1.5;
+$h3-font-size:                $font-size-base * 1.125;
+$h4-font-size:                $font-size-base;
+$h5-font-size:                $font-size-base;
+$h6-font-size:                $font-size-base;
+
+$light:         #f8f9fa !default; //gray-100
+$dark:          #343a40 !default; //gray-800
+
+$white-20:      rgba(255,255,255,0.2);
+$black-20:      rgba(0,0,0,0.2);
+$white-90:      rgba(255,255,255,0.9);
+$black-90:      rgba(0,0,0,0.9);
+

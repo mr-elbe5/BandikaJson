@@ -1,0 +1,40 @@
+@import "bandika/themeStatics";
+
+$blue:    #27446a;
+$primary: $blue;
+
+$theme-bg-color: $blue;
+$theme-background: $blue url(img-path('theme/blue-raster.png'));
+$theme-color: $dark;
+$theme-link-color: $dark;
+
+$theme-dropdown-background: $light;
+$theme-dropdown-border: 1px solid $dark;
+$theme-dropdown-color: $dark;
+$theme-dropdown-link-color: $dark;
+
+$theme-dropdown-transparency: $white-20;
+
+$theme-header-color: $light;
+$theme-header-link-color: $light;
+
+$theme-paragraph-bg-color: #ffffff;
+$theme-paragraph-background: rgba(255, 255, 255, 0.95);
+$theme-paragraph-border: 1px solid $dark;
+$theme-paragraph-color: $dark;
+$theme-paragraph-link-color: $dark;
+
+$theme-aside-background: $white-90;
+
+$theme-footer-bg-color: $theme-bg-color;
+$theme-footer-background: $theme-background;
+$theme-footer-color: $light;
+$theme-footer-link-color: $light;
+
+@import "bandika/themeDefaults";
+@import "bootstrap/bootstrap";
+@import "bandika/font-awesome";
+@import "bandika/datepicker3";
+@import "bandika/bandika";
+@import "bandika/paragraphTheme";
+

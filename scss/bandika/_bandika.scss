@@ -1,0 +1,336 @@
+@import "themeDefaults";
+@import "../bootstrap/functions";
+@import "../bootstrap/variables";
+@import "../bootstrap/mixins/grid";
+
+button:focus, a:focus, .btn:focus {
+  outline: 0 !important;
+  box-shadow: none;
+}
+
+th, td{
+  text-align: left;
+}
+
+.alert, .alert-dismissible .close{
+  padding: 0.5rem 1.25rem;
+}
+
+.formError{
+  color: $red;
+}
+
+form{
+
+  .tab-content > .tab-pane {
+    padding: 1rem 1rem 0 1rem;
+  }
+
+  .form-control-file, .form-control-range {
+    padding: .375rem 0;
+  }
+
+}
+
+.form-group {
+  margin-bottom: 0.5rem;
+}
+
+.form-group.error{
+
+  label{
+    color:red;
+  }
+
+  input{
+    border-color:red;
+  }
+}
+
+.modal-dialog{
+  .modal-content{
+    .modal-header{
+      background-color: $light;
+    }
+
+    .modal-footer{
+      background-color: $light;
+      padding: 0.5rem 0.75rem;
+    }
+
+  }
+ }
+
+.dropdown-menu{
+  a.dropdown-item{
+    cursor:pointer;
+  }
+}
+
+.treeSection {
+  padding: 2rem;
+
+  .treeRoot {
+    font-size: 1.2em;
+  }
+
+  ul.tree {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    li {
+      margin: 0;
+      padding: 0 1em;
+      line-height: 2em;
+      position: relative;
+
+      a.fa {
+        margin-left: .375rem;
+        cursor: pointer;
+        position: relative;
+        top: 1px;
+      }
+
+      button, button:active, button:focus {
+        text-decoration: none;
+        border: none;
+        background: transparent;
+        margin: 0;
+        padding: 0;
+        outline: 0;
+      }
+    }
+
+    ul {
+      position: relative;
+      margin-left: .33em;
+      padding: 0;
+      list-style: none;
+
+      li:before {
+        content: "";
+        display: block;
+        width: 10px;
+        height: 0;
+        border-top: 1px dotted;
+        margin-top: -1px;
+        position: absolute;
+        top: 1em;
+        left: 0
+      }
+
+      li:last-child:before {
+        background: $white;
+        height: auto;
+        top: 1em;
+        bottom: 0
+      }
+    }
+
+    ul:before {
+      content: "";
+      display: block;
+      width: 0;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      border-left: 1px dotted
+    }
+
+    div.icons{
+      display: inline-block;
+      line-height: 1.2em;
+      margin-left: 0.5em;
+      padding: 0 0.5em 1px 0.25em;
+      position: relative;
+      top: 1px;
+    }
+
+    li.documents, li.images{
+      font-size: .75rem;
+      font-style: italic;
+    }
+
+    li.parts{
+      font-size: .75rem;
+    }
+
+  }
+
+  ul.tree.filetree{
+
+    ul li:before{
+      top: 20px;
+    }
+
+    i.treeindicator{
+      position: relative;
+      top: 5px;
+    }
+
+    div.treeline{
+      display: inline-block;
+      padding: 1px;
+      vertical-align: middle;
+
+      img{
+        max-height: 48px;
+        border: 1px solid $dark;
+        border-radius: 3px;
+      }
+    }
+
+  }
+
+  span.treeImage{
+    span.hoverImage{
+      position: absolute;
+      z-index: $zindex-tooltip;
+      left: 200px;
+      display:none;
+    }
+  }
+
+  span.treeImage:hover{
+    span.hoverImage{
+      display:inline-block;
+    }
+  }
+
+  .dropdown-menu{
+    padding: 0.2em 0;
+
+    .dropdown-item{
+      font-size: 90%;
+      padding: 0.2em 1em;
+    }
+  }
+
+  .dropdown-toggle{
+    cursor: context-menu;
+  }
+
+}
+
+.logSection{
+
+  padding: 1rem;
+
+  h3{
+    display: inline-block;
+    padding-bottom: 1rem;
+    padding-right: 1rem
+  }
+
+  table{
+    td:first-child{
+      padding-right: 2rem;
+    }
+  }
+}
+
+/* like button-group */
+
+div.buttonLine{
+  padding: 0.5em 0;
+}
+
+/* page editing */
+
+div#pageContainer {
+
+  div.pageEditButtons {
+    padding-bottom: 0.5em;
+  }
+
+  .editArea {
+
+    .section{
+      min-height: 2rem;
+    }
+
+    .addPartButtons{
+      position: absolute;
+      margin-top: -1.6em;
+      margin-left: -1.25em;
+    }
+
+    .partEditButtons{
+      position: absolute;
+      margin-left: -4.4em;
+    }
+
+    .editSection {
+    }
+
+    .dropdown-menu{
+      padding: 0;
+
+      .dropdown-item{
+        padding: .25rem .5rem;
+      }
+    }
+
+    input.editField, textarea.editField,
+    .textBox input[type="text"], .textBox textarea {
+      width: 100%;
+      color: inherit;
+      background-color: inherit;
+      text-align: inherit;
+    }
+
+  }
+
+}
+
+// in ckeditor
+
+a.link::before{
+  content : "\203A";
+  padding-right: 0.25em;
+}
+
+a.mail::before{
+  content: "\f003";
+  font-family: FontAwesome;
+  padding-right: 0.25em;
+}
+
+// admin
+
+body.admin {
+
+  div.menu {
+    section.menu {
+      nav.navbar {
+        .navbar-collapse {
+          margin-top: 1rem;
+        }
+      }
+    }
+  }
+
+  .navbar-brand{
+    font-size: 2rem;
+    padding-bottom: 0;
+  }
+
+  div#pageContainer {
+    margin-top: 1rem;
+    background: #ffffff;
+    color: #000000;
+    border-radius: 5px;
+    min-height: 500px;
+
+    a, a:active, a:hover, a:visited{
+      color: #000000;
+    }
+  }
+}
+
+
+
+
+
