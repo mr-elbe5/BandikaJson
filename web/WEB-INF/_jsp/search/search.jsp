@@ -22,11 +22,9 @@
 %>
 <div id="pageContent">
     <form:message/>
-    <section class="contentTop">
-        <h1>
-            <%=$SH("_search",locale)%>
-        </h1>
-    </section>
+    <h1 class="title">
+        <%=$SH("_search",locale)%>
+    </h1>
     <section class="contentSection">
         <div class="paragraph">
             <form action="/ctrl/<%=SearchData.TYPE_KEY%>/search" method="post" id="searchboxform" name="searchboxform" accept-charset="UTF-8">
