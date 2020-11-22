@@ -77,7 +77,7 @@ import java.security.spec.AlgorithmParameterSpec;
  * @since 1.0
  * <p/>
  * <p/>
- * Elbe 5 CMS!: changed logging
+ * BandikaJson CMS!: changed logging
  */
 public abstract class JcaCipherService implements CipherService {
 
