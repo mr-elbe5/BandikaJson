@@ -16,7 +16,7 @@
     SessionRequestData rdata = SessionRequestData.getRequestData(request);
     Locale locale=rdata.getLocale();
     ContentData contentData = rdata.getCurrentContent();
-    String title = rdata.getString(RequestData.KEY_TITLE, Application.getAppTitle()) + (contentData!=null ? " | " + contentData.getDisplayName() : "");
+    String title = rdata.getString(RequestData.KEY_TITLE, Application.getConfiguration().getApplicationName()) + (contentData!=null ? " | " + contentData.getDisplayName() : "");
     String keywords=contentData!=null ? contentData.getKeywords() : title;
     String description=contentData!=null ? contentData.getDescription() : "";
 %>

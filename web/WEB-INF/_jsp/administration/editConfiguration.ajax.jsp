@@ -30,7 +30,7 @@
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
-        <form:form url="<%=url%>" name="appform" ajax="true">
+        <form:form url="<%=url%>" name="appform" ajax="true" multi="true">
             <div class="modal-body">
                 <form:message/>
                 <form:text name="applicationName" label="_applicationName" value="<%=configuration.getApplicationName()%>">

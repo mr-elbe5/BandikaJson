@@ -18,7 +18,7 @@
     assert (contentData != null);
     %>
     <div class="paragraph">
-        <%=contentData.getContent()%>>
+        <%=contentData.getContent()%>
     </div>
 
 

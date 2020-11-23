@@ -49,7 +49,7 @@ public class ApiWebToken {
         SecretKey key = new SecretKeySpec(secretBytes, SignatureAlgorithm.HS256.getJcaName());
         Log.log(Encoders.BASE64.encode(key.getEncoded()));
         JwtBuilder builder = Jwts.builder()
-                .setSubject(Application.getAppTitle())
+                .setSubject(Application.getConfiguration().getApplicationName())
                 .setId(Integer.toString(user.getId()))
                 .setIssuedAt(Timestamp.valueOf(now))
                 .setIssuer(ISSUER)

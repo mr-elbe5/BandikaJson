@@ -185,10 +185,6 @@ public class Application {
     // getter and setter
 
 
-    public static String getAppTitle() {
-        return "Bandika Api";
-    }
-
     public static String getSalt() {
         return salt;
     }
