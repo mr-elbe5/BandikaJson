@@ -1,4 +1,4 @@
-<%--
+<%@ page import="de.elbe5.servlet.ResponseException" %><%--
   BandikaJson CMS - A Java based Content Management System with JSON Database
   Copyright (C) 2009-2020 Michael Roennau
 
@@ -14,9 +14,11 @@
 
 <%
     Locale locale = request.getLocale();
-    int status = (int) request.getAttribute("status");
+    ResponseException ex = (ResponseException) request.getAttribute("exception");
+    int status = ex.getResponseCode();
     String error=$SH("_errorHeader",locale);
     String errorText=$SH("_error"+status,locale);
+    String errorMessage = ex.getLocalizedMessage();
 %>
 <html lang="en">
 <head>
@@ -31,7 +33,7 @@
         bottom: 0;
         left: 0;
         right: 0;
-        background: #f8f9fa url("/static-content/img/pattern.svg");
+        background: #f8f9fa;
         color: #343a40;
         font-family: Arial, Helvetica, sans-serif;
         font-size: 1rem;
@@ -63,6 +65,9 @@
 <main>
     <h1><%=error%></h1>
     <div class="errorText"><%=errorText%></div>
+    <% if (errorMessage!=null){%>
+    <div class="errorText"><%=errorMessage%></div>
+    <%}%>
     <div class="link"><a href="/" title="Home"><%=$SH("_home",locale)%></a></div>
 </main>
 </body>
