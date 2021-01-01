@@ -253,9 +253,7 @@ public class Application {
         try {
             idLock.lock();
             if (idChanged) {
-                Log.log(("next id has changed"));
                 saveId();
-                Log.log(("next id saved"));
                 idChanged = false;
                 result = true;
             }

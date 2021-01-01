@@ -9,8 +9,6 @@
 package de.elbe5.actionqueue;
 
 import de.elbe5.application.Application;
-import de.elbe5.base.data.StringUtil;
-import de.elbe5.base.log.Log;
 import de.elbe5.search.SearchController;
 
 public class SearchIndexAction extends RegularAction {
@@ -30,11 +28,9 @@ public class SearchIndexAction extends RegularAction {
     }
 
     public SearchIndexAction(){
-        Log.log("creating searchtask");
     }
 
     public void execute() {
-        Log.log("Indexing");
         SearchController.getInstance().indexPages();
     }
 

@@ -26,6 +26,7 @@ public class ApplicationPath {
     private static String appThemeFilePath = "";
     private static String appContentFilePath = "";
     private static String appUsersFilePath = "";
+    private static String appTemplatePath = "";
     private static String appFilePath = "";
     private static String appTempFilePath = "";
     private static String appBackupPath = "";
@@ -40,6 +41,7 @@ public class ApplicationPath {
 
     private static DiskDirectory layoutDirectory;
     private static DiskDirectory dataDirectory;
+    private static DiskDirectory templateDirectory;
     private static DiskDirectory fileDirectory;
     private static DiskDirectory tempFileDirectory;
     private static DiskDirectory backupDirectory;
@@ -97,6 +99,10 @@ public class ApplicationPath {
         return appUsersFilePath;
     }
 
+    public static String getAppTemplatePath() {
+        return appTemplatePath;
+    }
+
     public static String getAppFilePath() {
         return appFilePath;
     }
@@ -137,6 +143,10 @@ public class ApplicationPath {
         return dataDirectory;
     }
 
+    public static DiskDirectory getTemplateDirectory() {
+        return templateDirectory;
+    }
+
     public static DiskDirectory getFileDirectory() {
         return fileDirectory;
     }
@@ -169,6 +179,7 @@ public class ApplicationPath {
         appThemeFilePath = appDataPath + "/theme.json";
         appContentFilePath = appDataPath + "/content.json";
         appUsersFilePath = appDataPath + "/users.json";
+        appTemplatePath = appDataPath + "/templates";
         appFilePath = appDataPath + "/files";
         appTempFilePath = appFilePath + "/tmp";
         appSearchIndexPath = appDataPath + "/index";
@@ -183,12 +194,14 @@ public class ApplicationPath {
 
         layoutDirectory = new DiskDirectory(layoutPath);
         dataDirectory = new DiskDirectory(appDataPath);
+        templateDirectory = new DiskDirectory(appTemplatePath);
         fileDirectory = new DiskDirectory(appFilePath);
         tempFileDirectory = new DiskDirectory(appTempFilePath);
         backupDirectory = new DiskDirectory(appBackupPath);
         indexDirectory = new DiskDirectory(appSearchIndexPath);
 
         boolean success = dataDirectory.ensureExists();
+        success &= templateDirectory.ensureExists();
         success &= fileDirectory.ensureExists();
         success &= tempFileDirectory.ensureExists();
         success &= indexDirectory.ensureExists();

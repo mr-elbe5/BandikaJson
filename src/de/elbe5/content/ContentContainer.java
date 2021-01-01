@@ -510,9 +510,6 @@ public class ContentContainer extends DataContainer {
                         Log.warn("could not delete file " + file.getName());
                     }
                 }
-                else{
-                    Log.log("file ok: " + file.getName());
-                }
             }
         }
     }

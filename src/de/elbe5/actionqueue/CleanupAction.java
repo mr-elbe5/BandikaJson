@@ -9,9 +9,7 @@
 package de.elbe5.actionqueue;
 
 import de.elbe5.application.Application;
-import de.elbe5.base.data.StringUtil;
 import de.elbe5.base.data.Token;
-import de.elbe5.base.log.Log;
 
 public class CleanupAction extends RegularAction {
 
@@ -31,9 +29,7 @@ public class CleanupAction extends RegularAction {
 
     @Override
     public void execute() {
-        Log.log("Cleanup");
         Token.cleanup();
-        //todo
     }
 
     @Override

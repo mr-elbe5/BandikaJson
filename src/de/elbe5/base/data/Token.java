@@ -8,8 +8,6 @@
  */
 package de.elbe5.base.data;
 
-import de.elbe5.base.log.Log;
-
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -46,7 +44,6 @@ public class Token {
             }
         }
         if (result){
-            Log.log("token cleanup done");
         }
         return result;
     }

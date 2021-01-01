@@ -332,7 +332,6 @@ public class Configuration extends DataContainer {
         JSONObject obj = toJSONObject();
         String jsonString = obj.toString(4);
         if (ApplicationPath.getConfigFile().writeToDisk(jsonString)) {
-            Log.log(("configuration saved"));
             return true;
         }
         Log.error("configuration could not be saved");

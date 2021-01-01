@@ -43,10 +43,10 @@
             }
         }
     }%>
-    <li>
+    <%--<li>
         <a class="nav-link fa fa-search" href="/ctrl/search/openSearch" title="<%=$SH("_search", locale)%>">
         </a>
-    </li>
+    </li>--%>
     <li class="nav-item">
         <a class="nav-link fa <%=userClass%>" data-toggle="dropdown" title="<%=$SH("_user",locale)%>"></a>
         <div class="dropdown-menu">

@@ -54,7 +54,6 @@ public class ApiRequestData extends RequestData implements DataAccessor {
         catch (Exception e){
             return HttpServletResponse.SC_FORBIDDEN;
         }
-        Log.log("token is ok");
         return HttpServletResponse.SC_OK;
     }
 

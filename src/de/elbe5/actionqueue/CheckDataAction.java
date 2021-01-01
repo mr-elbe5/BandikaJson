@@ -30,7 +30,6 @@ public class CheckDataAction extends RegularAction {
 
     @Override
     public void execute() {
-        Log.log("Checking data");
         Token.cleanup();
         Application.checkIdChanged();
         Application.getConfiguration().checkChanged();
