@@ -8,10 +8,14 @@
  */
 package de.elbe5.page;
 
+import de.elbe5.base.log.Log;
 import de.elbe5.data.DataFactory;
 import de.elbe5.data.IData;
 import de.elbe5.request.RequestData;
 import de.elbe5.request.SessionRequestData;
+import de.elbe5.template.PageTemplate;
+import de.elbe5.template.TemplateCache;
+import de.elbe5.template.TemplateContext;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -204,6 +208,15 @@ public class SectionPageData extends PageData {
     }
 
     // view
+
+    @Override
+    public void processContent(StringBuilder sb, TemplateContext context){
+        Log.log("section page process content");
+        Log.log("layout = " + layout);
+        PageTemplate template = TemplateCache.getPageTemplate(layout);
+        assert(template!=null);
+        template.processCode(sb, context);
+    }
 
     @Override
     public String getEditDataJsp() {
