@@ -6,16 +6,14 @@
  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  You should have received a copy of the GNU General Public License along with this program; if not, see <http://www.gnu.org/licenses/>.
  */
-package de.elbe5.page;
+package de.elbe5.sectionpage;
 
 import de.elbe5.base.log.Log;
 import de.elbe5.data.DataFactory;
 import de.elbe5.data.IData;
+import de.elbe5.page.PageData;
 import de.elbe5.request.RequestData;
 import de.elbe5.request.SessionRequestData;
-import de.elbe5.template.PageTemplate;
-import de.elbe5.template.TemplateCache;
-import de.elbe5.template.TemplateContext;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -210,15 +208,6 @@ public class SectionPageData extends PageData {
     // view
 
     @Override
-    public void processContent(StringBuilder sb, TemplateContext context){
-        Log.log("section page process content");
-        Log.log("layout = " + layout);
-        PageTemplate template = TemplateCache.getPageTemplate(layout);
-        assert(template!=null);
-        template.processCode(sb, context);
-    }
-
-    @Override
     public String getEditDataJsp() {
         return "/WEB-INF/_jsp/sectionpage/editContentData.ajax.jsp";
     }
@@ -233,6 +222,25 @@ public class SectionPageData extends PageData {
     @Override
     protected void displayDraftContent(PageContext context, JspWriter writer, SessionRequestData rdata) throws IOException, ServletException {
          context.include(getLayoutUrl());
+    }
+
+    // html
+
+
+
+    public TemplateContext getTemplateContext(RequestData rdata){
+        return new TemplateContext(rdata, this);
+    }
+
+    public void processContent(StringBuilder sb, TemplateContext context){
+        Log.log("section page process content");
+        Log.log("layout = " + layout);
+        PageTemplate template = TemplateCache.getPageTemplate(layout);
+        if (template==null){
+            Log.error("page template not found:" + layout);
+            return;
+        }
+        template.processCode(sb, context);
     }
 
 }

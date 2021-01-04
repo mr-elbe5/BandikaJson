@@ -10,8 +10,8 @@ package de.elbe5.tag;
 
 import de.elbe5.base.data.StringUtil;
 import de.elbe5.base.log.Log;
-import de.elbe5.page.SectionPageData;
-import de.elbe5.page.SectionPartData;
+import de.elbe5.sectionpage.SectionPageData;
+import de.elbe5.sectionpage.SectionPartData;
 import de.elbe5.request.RequestData;
 import de.elbe5.request.SessionRequestData;
 

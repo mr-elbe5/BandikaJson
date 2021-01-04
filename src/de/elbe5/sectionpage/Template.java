@@ -1,4 +1,4 @@
-package de.elbe5.template;
+package de.elbe5.sectionpage;
 
 import de.elbe5.application.ApplicationPath;
 import de.elbe5.base.log.Log;
@@ -18,8 +18,6 @@ abstract public class Template {
             """;
     protected String fileEnd = "\n</template>";
 
-    public static final String TYPE_MASTER = "master";
-    public static final String TYPE_LAYOUT = "layout";
     public static final String TYPE_PAGE = "page";
     public static final String TYPE_PART = "part";
 
@@ -110,10 +108,10 @@ abstract public class Template {
         while (true) {
             pos1 = code.indexOf(STARTTAG_START, pos2);
             if (pos1 == -1) {
-                sb.append(context.replaceVariables(code.substring(pos2)));
+                sb.append(code.substring(pos2));
                 break;
             }
-            sb.append(context.replaceVariables(code.substring(pos2, pos1)));
+            sb.append(code.substring(pos2, pos1));
             pos2 = getTagEnd(pos1 + STARTTAG_START.length());
             if (pos2 == -1)
                 throw new TemplateException("no tag end");

@@ -11,7 +11,7 @@
 <%@ include file="/WEB-INF/_jsp/_include/functions.inc.jsp" %>
 <%@ page import="de.elbe5.request.SessionRequestData" %>
 <%@ page import="java.util.Locale" %>
-<%@ page import="de.elbe5.page.SectionPageData" %>
+<%@ page import="de.elbe5.sectionpage.SectionPageData" %>
 <%@ taglib uri="/WEB-INF/formtags.tld" prefix="form" %>
 <%
     SessionRequestData rdata = SessionRequestData.getRequestData(request);

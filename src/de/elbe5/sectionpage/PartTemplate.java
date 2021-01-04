@@ -1,4 +1,4 @@
-package de.elbe5.template;
+package de.elbe5.sectionpage;
 
 import java.util.Map;
 

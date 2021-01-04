@@ -12,7 +12,7 @@ import de.elbe5.application.Application;
 import de.elbe5.base.log.Log;
 import de.elbe5.content.ContentContainer;
 import de.elbe5.content.ContentData;
-import de.elbe5.page.SectionPageData;
+import de.elbe5.sectionpage.SectionPageData;
 import de.elbe5.user.UserData;
 
 import java.time.LocalDateTime;

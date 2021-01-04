@@ -16,7 +16,6 @@ import de.elbe5.data.IData;
 import de.elbe5.request.*;
 import de.elbe5.response.IResponse;
 import de.elbe5.response.PageResponse;
-import de.elbe5.response.StaticPageResponse;
 import de.elbe5.rights.ContentRights;
 import de.elbe5.servlet.ControllerCache;
 
@@ -48,8 +47,7 @@ public class PageController extends ContentController {
         PageData data = contentContainer().getContent(contentId, PageData.class);
         assert(data!=null);
         checkRights(ContentRights.hasUserReadRight(rdata.getCurrentUser(), data.getId()));
-        //return new PageResponse(data);
-        return new StaticPageResponse(data);
+        return new PageResponse(data);
     }
 
     public IResponse show(String url, SessionRequestData rdata) {
@@ -57,8 +55,7 @@ public class PageController extends ContentController {
         assert(data!=null);
         checkRights(ContentRights.hasUserReadRight(rdata.getCurrentUser(), data.getId()));
         //Log.log("show: "+data.getClass().getSimpleName());
-        //return new PageResponse(data);
-        return new StaticPageResponse(data);
+        return new PageResponse(data);
     }
 
     public IResponse openEditPage(SessionRequestData rdata) {

@@ -10,9 +10,9 @@
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@include file="/WEB-INF/_jsp/_include/functions.inc.jsp" %>
 <%@ page import="de.elbe5.request.SessionRequestData" %>
-<%@ page import="de.elbe5.page.SectionPartData" %>
-<%@ page import="de.elbe5.page.SectionPageData" %>
-<%@ page import="de.elbe5.page.SectionData" %>
+<%@ page import="de.elbe5.sectionpage.SectionPartData" %>
+<%@ page import="de.elbe5.sectionpage.SectionPageData" %>
+<%@ page import="de.elbe5.sectionpage.SectionData" %>
 <%@ page import="de.elbe5.request.RequestData" %>
 <%@ taglib uri="/WEB-INF/formtags.tld" prefix="form" %>
 <%
