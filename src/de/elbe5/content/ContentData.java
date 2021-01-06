@@ -39,7 +39,6 @@ public abstract class ContentData extends BaseData implements Comparable<Content
     public static final String VIEW_TYPE_SHOW = "SHOW";
     public static final String VIEW_TYPE_SHOWPUBLISHED = "PUBLISHED";
     public static final String VIEW_TYPE_EDIT = "EDIT";
-    public static final String VIEW_TYPE_PUBLISH = "PUBLISH";
 
     public static final int ID_ROOT = 1;
 

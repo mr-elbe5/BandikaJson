@@ -129,8 +129,8 @@ public class PageController extends ContentController {
         PageData data = contentContainer().getContent(contentId,PageData.class);
         assert(data != null);
         checkRights(ContentRights.hasUserApproveRight(rdata.getCurrentUser(), data.getId()));
-        data.setViewType(ContentData.VIEW_TYPE_PUBLISH);
-        data.setPublishDate(Application.getCurrentTime());
+        data.createPublishedContent(rdata);
+        Application.getContent().publishPage(data);
         return new PageResponse(data);
     }
 

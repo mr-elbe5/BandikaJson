@@ -181,9 +181,7 @@ public abstract class PageData extends ContentData {
         this.publishedContent = publishedContent;
     }
 
-    public void reformatPublishedContent() {
-        Document doc= Jsoup.parseBodyFragment(getPublishedContent());
-        setPublishedContent(doc.body().html());
+    public void createPublishedContent(RequestData rdata){
     }
 
     // view
@@ -196,20 +194,6 @@ public abstract class PageData extends ContentData {
     public void displayContent(PageContext context, SessionRequestData rdata) throws IOException, ServletException {
         JspWriter writer = context.getOut();
         switch (getViewType()) {
-            case VIEW_TYPE_PUBLISH: {
-                writer.write("<div id=\"pageContent\" class=\"viewArea\">");
-                StringWriter stringWriter = new StringWriter();
-                context.pushBody(stringWriter);
-                displayDraftContent(context, context.getOut(), rdata);
-                setPublishedContent(stringWriter.toString());
-                reformatPublishedContent();
-                Application.getContent().publishPage(this);
-                context.popBody();
-                writer.write(getPublishedContent());
-                setViewType(ContentData.VIEW_TYPE_SHOW);
-                writer.write("</div>");
-            }
-            break;
             case VIEW_TYPE_EDIT: {
                 writer.write("<div id=\"pageContent\" class=\"editArea\">");
                 displayEditContent(context, context.getOut(), rdata);
