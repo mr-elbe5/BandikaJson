@@ -1,4 +1,4 @@
-package de.elbe5.sectionpage;
+package de.elbe5.templatepage;
 
 public class TemplateException extends RuntimeException{
 

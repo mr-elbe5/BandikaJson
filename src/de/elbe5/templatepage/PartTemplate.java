@@ -1,4 +1,4 @@
-package de.elbe5.sectionpage;
+package de.elbe5.templatepage;
 
 import de.elbe5.application.Strings;
 import de.elbe5.base.data.StringUtil;
@@ -45,7 +45,7 @@ public class PartTemplate extends Template{
 
     @Override
     public void processCode(StringBuilder sb, TemplateContext context) throws TemplateException {
-        SectionPartData partData = context.currentPart;
+        TemplatePartData partData = context.currentPart;
         if (context.pageData.isEditing()) {
             sb.append(StringUtil.format(editPartHtmlStart,
                     context.currentPart.getPartWrapperId(),
@@ -67,19 +67,13 @@ public class PartTemplate extends Template{
     public void processTag(StringBuilder sb, String type, Map<String,String> attributes, String content, TemplateContext context) throws TemplateException{
         switch(type){
             case "textfield" -> {
-                if (context.currentPart instanceof FieldSectionPartData){
-                    processTextField(sb, (FieldSectionPartData) context.currentPart, attributes, content, context);
-                }
+                processTextField(sb, (TemplatePartData) context.currentPart, attributes, content, context);
             }
             case "htmlfield" -> {
-                if (context.currentPart instanceof FieldSectionPartData){
-                    processHtmlField(sb, (FieldSectionPartData) context.currentPart, attributes, content, context);
-                }
+                processHtmlField(sb, (TemplatePartData) context.currentPart, attributes, content, context);
             }
             case "scriptfield" -> {
-                if (context.currentPart instanceof FieldSectionPartData){
-                    processScriptField(sb, (FieldSectionPartData) context.currentPart, attributes, content, context);
-                }
+                processScriptField(sb, (TemplatePartData) context.currentPart, attributes, content, context);
             }
         }
     }
@@ -125,7 +119,7 @@ public class PartTemplate extends Template{
             """;
 
     private void appendEditPartHeader(StringBuilder sb, TemplateContext context){
-        List<String> layoutNames = Layouts.getLayoutNames(SectionPartData.LAYOUT_TYPE);
+        List<String> layoutNames = Layouts.getLayoutNames(TemplatePartData.LAYOUT_TYPE);
         List<String> partTypes = new ArrayList<>();
         context.pageData.collectPartTypes(partTypes);
         Locale locale = context.requestData.getLocale();
@@ -173,8 +167,8 @@ public class PartTemplate extends Template{
             <input type="text" class="editField" name="{1}" placeholder="{2}" value="{3}" />
             """;
 
-    private void processTextField(StringBuilder sb, FieldSectionPartData partData, Map<String,String> attributes, String content, TemplateContext context){
-        PartTextField field = partData.ensureTextField(attributes.get("name"));
+    private void processTextField(StringBuilder sb, TemplatePartData partData, Map<String,String> attributes, String content, TemplateContext context){
+        TextField field = partData.ensureTextField(attributes.get("name"));
         boolean editMode = context.pageData.getViewType().equals(ContentData.VIEW_TYPE_EDIT);
         if (editMode) {
             int rows = 1;
@@ -208,8 +202,8 @@ public class PartTemplate extends Template{
                   </script>
             """;
 
-    private void processHtmlField(StringBuilder sb, FieldSectionPartData partData, Map<String,String> attributes, String content, TemplateContext context){
-        PartHtmlField field = partData.ensureHtmlField(attributes.get("name"));
+    private void processHtmlField(StringBuilder sb, TemplatePartData partData, Map<String,String> attributes, String content, TemplateContext context){
+        HtmlField field = partData.ensureHtmlField(attributes.get("name"));
         boolean editMode = context.pageData.getViewType().equals(ContentData.VIEW_TYPE_EDIT);
         if (editMode) {
             sb.append(StringUtil.format(htmlTagScript,
@@ -238,8 +232,8 @@ public class PartTemplate extends Template{
             <script type="text/javascript">{1}</script>
             """;
 
-    private void processScriptField(StringBuilder sb, FieldSectionPartData partData, Map<String,String> attributes, String content, TemplateContext context){
-        PartScriptField field = partData.ensureScriptField(attributes.get("name"));
+    private void processScriptField(StringBuilder sb, TemplatePartData partData, Map<String,String> attributes, String content, TemplateContext context){
+        ScriptField field = partData.ensureScriptField(attributes.get("name"));
         boolean editMode = context.pageData.getViewType().equals(ContentData.VIEW_TYPE_EDIT);
         if (editMode) {
             sb.append(StringUtil.format(scriptEditTag,

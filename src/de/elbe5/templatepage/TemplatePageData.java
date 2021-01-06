@@ -6,7 +6,7 @@
  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  You should have received a copy of the GNU General Public License along with this program; if not, see <http://www.gnu.org/licenses/>.
  */
-package de.elbe5.sectionpage;
+package de.elbe5.templatepage;
 
 import de.elbe5.application.Application;
 import de.elbe5.base.log.Log;
@@ -30,12 +30,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SectionPageData extends PageData {
+public class TemplatePageData extends PageData {
 
-    public static final String TYPE_KEY = "sectionpage";
+    public static final String TYPE_KEY = "templatepage";
 
     public static void register(){
-        DataFactory.addClass(SectionPageData.TYPE_KEY, SectionPageData.class);
+        DataFactory.addClass(TemplatePageData.TYPE_KEY, TemplatePageData.class);
     }
 
     public static List<String> childTypes = new ArrayList<>();
@@ -55,12 +55,12 @@ public class SectionPageData extends PageData {
 
     // constructors and type
 
-    public SectionPageData() {
+    public TemplatePageData() {
     }
 
     @Override
     public String getTypeKey(){
-        return SectionPageData.TYPE_KEY;
+        return TemplatePageData.TYPE_KEY;
     }
 
     // copy and editing methods
@@ -68,15 +68,15 @@ public class SectionPageData extends PageData {
     @Override
     public void copyEditableAttributes(IData idata){
         super.copyEditableAttributes(idata);
-        assert (idata instanceof SectionPageData);
-        SectionPageData data = (SectionPageData)idata;
+        assert (idata instanceof TemplatePageData);
+        TemplatePageData data = (TemplatePageData)idata;
         setLayout(data.getLayout());
     }
 
     public void copyPageAttributes(PageData pdata){
         super.copyPageAttributes(pdata);
-        assert pdata instanceof SectionPageData;
-        SectionPageData data = (SectionPageData) pdata;
+        assert pdata instanceof TemplatePageData;
+        TemplatePageData data = (TemplatePageData) pdata;
         sections.clear();
         for (String sectionName : data.sections.keySet()) {
             SectionData section = data.sections.get(sectionName);
@@ -179,16 +179,16 @@ public class SectionPageData extends PageData {
         }
     }
 
-    public SectionPartData getPart(int pid) {
+    public TemplatePartData getPart(int pid) {
         for (SectionData section : getSections().values()) {
-            SectionPartData part = section.getPart(pid);
+            TemplatePartData part = section.getPart(pid);
             if (part!=null)
                 return part;
         }
         return null;
     }
 
-    public void addPart(SectionPartData part, int fromPartId, boolean setRanking) {
+    public void addPart(TemplatePartData part, int fromPartId, boolean setRanking) {
         SectionData section = getSection(part.getSectionName());
         if (section == null) {
             section = new SectionData();
@@ -206,7 +206,7 @@ public class SectionPageData extends PageData {
 
     public void deletePart(int pid) {
         for (SectionData section : getSections().values()) {
-            SectionPartData part = section.getPart(pid);
+            TemplatePartData part = section.getPart(pid);
             if (part!=null) {
                 section.deletePart(pid);
                 break;

@@ -10,24 +10,24 @@
 <%@include file="/WEB-INF/_jsp/_include/functions.inc.jsp" %>
 <%@ page import="de.elbe5.request.SessionRequestData" %>
 <%@ page import="java.util.Locale" %>
-<%@ page import="de.elbe5.sectionpage.SectionPageData" %>
-<%@ page import="de.elbe5.sectionpage.SectionData" %>
-<%@ page import="de.elbe5.sectionpage.SectionPartData" %>
+<%@ page import="de.elbe5.templatepage.TemplatePageData" %>
+<%@ page import="de.elbe5.templatepage.SectionData" %>
 <%@ page import="de.elbe5.layout.Layouts" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="de.elbe5.request.RequestData" %>
+<%@ page import="de.elbe5.templatepage.TemplatePartData" %>
 <%@ taglib uri="/WEB-INF/formtags.tld" prefix="form" %>
 <%
     SessionRequestData rdata = SessionRequestData.getRequestData(request);
     Locale locale = rdata.getLocale();
-    SectionPageData contentData = rdata.getCurrentContent(SectionPageData.class);
+    TemplatePageData contentData = rdata.getCurrentContent(TemplatePageData.class);
     assert contentData != null;
     SectionData sectionData = rdata.get("sectionData", SectionData.class);
     assert sectionData != null;
     List<String> partTypes = new ArrayList<>();
     contentData.collectPartTypes(partTypes);
-    List<String> layoutNames = Layouts.getLayoutNames(SectionPartData.LAYOUT_TYPE);
+    List<String> layoutNames = Layouts.getLayoutNames(TemplatePartData.LAYOUT_TYPE);
 %>
 <div class="section <%=sectionData.getCssClass()%>" id="<%=sectionData.getSectionId()%>" title="Section <%=sectionData.getName()%>">
     <%-- empty section --%>
@@ -51,7 +51,7 @@
         </div>
     </div>
     <%-- parts exist --%>
-    <%for (SectionPartData partData : sectionData.getParts()) {
+    <%for (TemplatePartData partData : sectionData.getParts()) {
         rdata.put(RequestData.KEY_PART, partData);
         String include = partData.getEditPartInclude();
         if (include != null) {%>

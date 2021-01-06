@@ -1,19 +1,13 @@
-package de.elbe5.sectionpage;
+package de.elbe5.templatepage;
 
 import de.elbe5.application.ApplicationPath;
-import de.elbe5.base.data.StringUtil;
 import de.elbe5.base.log.Log;
-import de.elbe5.request.RequestData;
-import de.elbe5.request.SessionRequestData;
 import org.apache.commons.io.FileUtils;
 import org.jsoup.select.Elements;
 
 
-import javax.servlet.jsp.JspException;
 import java.io.File;
-import java.io.Writer;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 abstract public class Template {

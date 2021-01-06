@@ -6,9 +6,11 @@
  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  You should have received a copy of the GNU General Public License along with this program; if not, see <http://www.gnu.org/licenses/>.
  */
-package de.elbe5.sectionpage;
+package de.elbe5.templatepage;
 
+import de.elbe5.application.Application;
 import de.elbe5.base.log.Log;
+import de.elbe5.data.BaseData;
 import de.elbe5.data.DataFactory;
 import de.elbe5.data.IData;
 import de.elbe5.request.RequestData;
@@ -19,23 +21,35 @@ import org.json.JSONObject;
 import java.time.LocalDateTime;
 import java.util.*;
 
-public class FieldSectionPartData extends SectionPartData {
+public class TemplatePartData extends BaseData implements Comparable<TemplatePartData>  {
 
-    public static final String TYPE_KEY = "fieldsectionpart";
+    public static final String TYPE_KEY = "templatepart";
+
+    public static String LAYOUT_TYPE = "Part";
 
     public static void register(){
-        DataFactory.addClass(FieldSectionPartData.TYPE_KEY, FieldSectionPartData.class);
+        DataFactory.addClass(TemplatePartData.TYPE_KEY, TemplatePartData.class);
     }
 
     public static List<String> fieldTypes = new ArrayList<>();
 
+    public static String jspBasePath = "/WEB-INF/_jsp/_layout";
+
     private enum keys{
+        cssClass,
+        sectionName,
+        position,
+        editable,
         layout,
         publishDate,
         publishedContent,
         fields
     }
 
+    protected String cssClass = "";
+    protected String sectionName = "";
+    protected int position = 0;
+    protected boolean editable = true;
     protected String layout="";
     protected LocalDateTime publishDate = null;
     protected String publishedContent = "";
@@ -44,20 +58,24 @@ public class FieldSectionPartData extends SectionPartData {
 
     // constructors and type
 
-    public FieldSectionPartData() {
+    public TemplatePartData() {
     }
 
     @Override
     public String getTypeKey(){
-        return FieldSectionPartData.TYPE_KEY;
+        return TemplatePartData.TYPE_KEY;
     }
 
     // copy and editing methods
 
     public void copyEditableAttributes(IData idata){
         super.copyEditableAttributes(idata);
-        assert (idata instanceof FieldSectionPartData);
-        FieldSectionPartData data = (FieldSectionPartData)idata;
+        assert (idata instanceof TemplatePartData);
+        TemplatePartData data = (TemplatePartData)idata;
+        setCssClass(data.getCssClass());
+        setSectionName(data.getSectionName());
+        setPosition(data.getPosition());
+        setEditable(data.isEditable());
         setLayout(data.getLayout());
         setPublishDate(data.getPublishDate());
         setPublishedContent(data.getPublishedContent());
@@ -70,11 +88,12 @@ public class FieldSectionPartData extends SectionPartData {
         }
     }
 
-    @Override
     public void setCreateValues(SessionRequestData rdata) {
-        super.setCreateValues(rdata);
         setSectionName(rdata.getString("sectionName"));
         setLayout(rdata.getString("layout"));
+        setId(Application.getNextId());
+        setNew(true);
+
     }
 
     // json methods
@@ -82,6 +101,10 @@ public class FieldSectionPartData extends SectionPartData {
     @Override
     public void addJSONAttributes(JSONObject obj) {
         super.addJSONAttributes(obj);
+        obj.put(keys.cssClass.name(), cssClass);
+        obj.put(keys.sectionName.name(), sectionName);
+        obj.put(keys.position.name(), position);
+        obj.put(keys.editable.name(), editable);
         obj.put(keys.layout.name(), layout);
         obj.put(keys.publishDate.name(), jsonString(publishDate));
         obj.put(keys.publishedContent.name(), publishedContent);
@@ -91,6 +114,10 @@ public class FieldSectionPartData extends SectionPartData {
     @Override
     public void fromJSONObject(JSONObject obj) throws JSONException {
         super.fromJSONObject(obj);
+        cssClass = obj.optString(keys.cssClass.name());
+        sectionName = obj.optString(keys.sectionName.name());
+        position = obj.optInt(keys.position.name());
+        editable = obj.optBoolean(keys.editable.name());
         layout = obj.optString(keys.layout.name());
         publishDate = getLocalDateTime(obj.optString(keys.publishDate.name()));
         publishedContent = keys.publishedContent.name();
@@ -107,10 +134,16 @@ public class FieldSectionPartData extends SectionPartData {
 
     @Override
     public void readRequestData(RequestData rdata){
-        super.readRequestData(rdata);
+        // -1 if deleted
+        setPosition(rdata.getInt(getPartPositionName(),-1));
         for (PartField field : getFields().values()) {
             field.readRequestData(rdata);
         }
+    }
+
+    @Override
+    public int compareTo(TemplatePartData data) {
+        return position - data.position;
     }
 
     // interface implementation and defaults
@@ -119,7 +152,51 @@ public class FieldSectionPartData extends SectionPartData {
         return jspBasePath + "/sectionpage";
     }
 
+    public String getEditTitle(Locale locale) {
+        return "Section Part, ID=" + getId();
+    }
+
     // getter and setter
+
+    public String getCssClass() {
+        return cssClass;
+    }
+
+    public void setCssClass(String cssClass) {
+        this.cssClass = cssClass;
+    }
+
+    public String getSectionName() {
+        return sectionName;
+    }
+
+    public void setSectionName(String sectionName) {
+        this.sectionName = sectionName;
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
+
+    public String getPartWrapperId() {
+        return "part_" + getId();
+    }
+
+    public String getPartPositionName() {
+        return "partpos_" + getId();
+    }
+
+    public boolean isEditable() {
+        return editable;
+    }
+
+    public void setEditable(boolean editable) {
+        this.editable = editable;
+    }
 
     public String getLayout() {
         return layout;
@@ -139,10 +216,6 @@ public class FieldSectionPartData extends SectionPartData {
 
     public String getEditPartInclude() {
         return getTemplateUrl();
-    }
-
-    public String getEditTitle(Locale lcale) {
-        return getLayout() + ", ID=" + getId();
     }
 
     public LocalDateTime getPublishDate() {
@@ -177,33 +250,33 @@ public class FieldSectionPartData extends SectionPartData {
         return fields.get(name);
     }
 
-    public PartTextField ensureTextField(String name) {
+    public TextField ensureTextField(String name) {
         PartField field = fields.get(name);
-        if (field instanceof PartTextField)
-            return (PartTextField) field;
-        PartTextField textfield = new PartTextField();
+        if (field instanceof TextField)
+            return (TextField) field;
+        TextField textfield = new TextField();
         textfield.setName(name);
         textfield.setPartId(getId());
         fields.put(name, textfield);
         return textfield;
     }
 
-    public PartHtmlField ensureHtmlField(String name) {
+    public HtmlField ensureHtmlField(String name) {
         PartField field = fields.get(name);
-        if (field instanceof PartHtmlField)
-            return (PartHtmlField) field;
-        PartHtmlField htmlfield = new PartHtmlField();
+        if (field instanceof HtmlField)
+            return (HtmlField) field;
+        HtmlField htmlfield = new HtmlField();
         htmlfield.setName(name);
         htmlfield.setPartId(getId());
         fields.put(name, htmlfield);
         return htmlfield;
     }
 
-    public PartScriptField ensureScriptField(String name) {
+    public ScriptField ensureScriptField(String name) {
         PartField field = fields.get(name);
-        if (field instanceof PartScriptField)
-            return (PartScriptField) field;
-        PartScriptField scriptField = new PartScriptField();
+        if (field instanceof ScriptField)
+            return (ScriptField) field;
+        ScriptField scriptField = new ScriptField();
         scriptField.setName(name);
         scriptField.setPartId(getId());
         fields.put(name, scriptField);

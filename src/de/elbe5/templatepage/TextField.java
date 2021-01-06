@@ -6,12 +6,40 @@
  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  You should have received a copy of the GNU General Public License along with this program; if not, see <http://www.gnu.org/licenses/>.
  */
-package de.elbe5.sectionpage;
+package de.elbe5.templatepage;
 
-public abstract class PartStaticField extends PartField {
+import de.elbe5.data.DataFactory;
+import de.elbe5.request.RequestData;
 
-    public boolean isDynamic() {
-        return false;
+public class TextField extends PartField {
+
+    public static final String TYPE_KEY = "textfield";
+
+    public static void register(){
+        DataFactory.addClass(TextField.TYPE_KEY, TextField.class);
+    }
+
+    // constructors and type
+
+    public TextField() {
+    }
+
+    @Override
+    public String getTypeKey(){
+        return TextField.TYPE_KEY;
+    }
+
+    // request
+
+    @Override
+    public void readRequestData(RequestData rdata) {
+        setContent(rdata.getString(getIdentifier()));
+    }
+
+    // search
+
+    public void appendSearchText(StringBuilder sb) {
+        sb.append(" ").append(getContent());
     }
 
 }

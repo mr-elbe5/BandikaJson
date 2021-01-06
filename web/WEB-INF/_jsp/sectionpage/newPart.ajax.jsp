@@ -9,15 +9,15 @@
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@include file="/WEB-INF/_jsp/_include/functions.inc.jsp" %>
 <%@ page import="de.elbe5.request.SessionRequestData" %>
-<%@ page import="de.elbe5.sectionpage.SectionPageData" %>
-<%@ page import="de.elbe5.sectionpage.SectionPartData" %>
+<%@ page import="de.elbe5.templatepage.TemplatePageData" %>
 <%@ page import="de.elbe5.request.RequestData" %>
+<%@ page import="de.elbe5.templatepage.TemplatePartData" %>
 <%@ taglib uri="/WEB-INF/formtags.tld" prefix="form" %>
 <%
     SessionRequestData rdata = SessionRequestData.getRequestData(request);
-    SectionPageData contentData = rdata.getCurrentContent(SectionPageData.class);
+    TemplatePageData contentData = rdata.getCurrentContent(TemplatePageData.class);
     assert contentData != null;
-    SectionPartData partData = rdata.get(RequestData.KEY_PART, SectionPartData.class);
+    TemplatePartData partData = rdata.get(RequestData.KEY_PART, TemplatePartData.class);
     String include = partData.getEditPartInclude();
 %>
     <% if (include != null) {%>

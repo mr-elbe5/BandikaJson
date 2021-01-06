@@ -13,7 +13,7 @@ import de.elbe5.data.IData;
 import de.elbe5.page.PageData;
 import de.elbe5.request.RequestData;
 import de.elbe5.request.SessionRequestData;
-import de.elbe5.sectionpage.SectionData;
+import de.elbe5.templatepage.SectionData;
 import org.json.JSONException;
 import org.json.JSONObject;
 

@@ -10,21 +10,21 @@
 <%@include file="/WEB-INF/_jsp/_include/functions.inc.jsp" %>
 <%@ page import="de.elbe5.request.SessionRequestData" %>
 <%@ page import="java.util.Locale" %>
-<%@ page import="de.elbe5.sectionpage.SectionPageData" %>
-<%@ page import="de.elbe5.sectionpage.SectionPartData" %>
+<%@ page import="de.elbe5.templatepage.TemplatePageData" %>
 <%@ page import="de.elbe5.layout.Layouts" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="de.elbe5.request.RequestData" %>
+<%@ page import="de.elbe5.templatepage.TemplatePartData" %>
 <%@ taglib uri="/WEB-INF/formtags.tld" prefix="form" %>
 <%
     SessionRequestData rdata = SessionRequestData.getRequestData(request);
     Locale locale = rdata.getLocale();
-    SectionPageData contentData = rdata.getCurrentContent(SectionPageData.class);
+    TemplatePageData contentData = rdata.getCurrentContent(TemplatePageData.class);
     assert contentData != null;
-    SectionPartData partData = rdata.get(RequestData.KEY_PART,SectionPartData.class);
+    TemplatePartData partData = rdata.get(RequestData.KEY_PART, TemplatePartData.class);
     assert partData != null;
-    List<String> layoutNames = Layouts.getLayoutNames(SectionPartData.LAYOUT_TYPE);
+    List<String> layoutNames = Layouts.getLayoutNames(TemplatePartData.LAYOUT_TYPE);
     List<String> partTypes = new ArrayList<>();
     contentData.collectPartTypes(partTypes);
 %>

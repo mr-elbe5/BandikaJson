@@ -1,4 +1,4 @@
-package de.elbe5.sectionpage;
+package de.elbe5.templatepage;
 
 import de.elbe5.application.Strings;
 import de.elbe5.base.data.StringUtil;
@@ -62,7 +62,7 @@ public class PageTemplate extends Template{
     private void getEditSectionHtml(StringBuilder sb, SectionData sectionData, Map<String,String> attributes, TemplateContext context){
         List<String> partTypes = new ArrayList<>();
         context.pageData.collectPartTypes(partTypes);
-        List<String> layoutNames = Layouts.getLayoutNames(SectionPartData.LAYOUT_TYPE);
+        List<String> layoutNames = Layouts.getLayoutNames(TemplatePartData.LAYOUT_TYPE);
         Locale locale = context.requestData.getLocale();
         sb.append(StringUtil.format(editSectionHtmlStart,
                 attributes.get("css"),
@@ -90,7 +90,7 @@ public class PageTemplate extends Template{
             ));
         }
         sb.append(editSectionHtmlDropdownEnd);
-        for (SectionPartData partData : sectionData.getParts()) {
+        for (TemplatePartData partData : sectionData.getParts()) {
             context.currentPart = partData;
             partData.appendHtml(sb, context);
             context.currentPart = null;
@@ -106,7 +106,7 @@ public class PageTemplate extends Template{
         sb.append(StringUtil.format(sectionStart,
                 sectionData.getCssClass()
                 ));
-        for (SectionPartData partData : sectionData.getParts()) {
+        for (TemplatePartData partData : sectionData.getParts()) {
             context.currentPart = partData;
             partData.appendHtml(sb, context);
             context.currentPart = null;

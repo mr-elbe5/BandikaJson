@@ -1,16 +1,16 @@
-package de.elbe5.sectionpage;
+package de.elbe5.templatepage;
 
 import de.elbe5.request.RequestData;
 
 public class TemplateContext {
 
     public final RequestData requestData;
-    public final SectionPageData pageData;
+    public final TemplatePageData pageData;
 
     public SectionData currentSection = null;
-    public SectionPartData currentPart = null;
+    public TemplatePartData currentPart = null;
 
-    public TemplateContext(RequestData requestData, SectionPageData pageData){
+    public TemplateContext(RequestData requestData, TemplatePageData pageData){
         this.requestData = requestData;
         this.pageData = pageData;
     }

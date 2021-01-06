@@ -11,12 +11,12 @@
 <%@ include file="/WEB-INF/_jsp/_include/functions.inc.jsp" %>
 <%@ page import="de.elbe5.request.SessionRequestData" %>
 <%@ page import="java.util.Locale" %>
-<%@ page import="de.elbe5.sectionpage.SectionPageData" %>
+<%@ page import="de.elbe5.templatepage.TemplatePageData" %>
 <%@ taglib uri="/WEB-INF/formtags.tld" prefix="form" %>
 <%
     SessionRequestData rdata = SessionRequestData.getRequestData(request);
     Locale locale = rdata.getLocale();
-    SectionPageData contentData = rdata.getCurrentContent(SectionPageData.class);
+    TemplatePageData contentData = rdata.getCurrentContent(TemplatePageData.class);
     assert (contentData != null);
     String url = "/ajax/sectionpage/saveContentData/" + contentData.getId();
 %>

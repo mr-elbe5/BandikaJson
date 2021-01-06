@@ -6,27 +6,27 @@
  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  You should have received a copy of the GNU General Public License along with this program; if not, see <http://www.gnu.org/licenses/>.
  */
-package de.elbe5.sectionpage;
+package de.elbe5.templatepage;
 
 import de.elbe5.data.DataFactory;
 import de.elbe5.request.RequestData;
 
-public class PartTextField extends PartField {
+public class HtmlField extends PartField {
 
-    public static final String TYPE_KEY = "parttextfield";
+    public static final String TYPE_KEY = "htmlfield";
 
     public static void register(){
-        DataFactory.addClass(PartTextField.TYPE_KEY, PartTextField.class);
+        DataFactory.addClass(HtmlField.TYPE_KEY, HtmlField.class);
     }
 
     // constructors and type
 
-    public PartTextField() {
+    public HtmlField() {
     }
 
     @Override
     public String getTypeKey(){
-        return PartTextField.TYPE_KEY;
+        return HtmlField.TYPE_KEY;
     }
 
     // request
@@ -34,12 +34,6 @@ public class PartTextField extends PartField {
     @Override
     public void readRequestData(RequestData rdata) {
         setContent(rdata.getString(getIdentifier()));
-    }
-
-    // search
-
-    public void appendSearchText(StringBuilder sb) {
-        sb.append(" ").append(getContent());
     }
 
 }

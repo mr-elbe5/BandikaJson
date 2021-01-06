@@ -6,7 +6,7 @@
  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  You should have received a copy of the GNU General Public License along with this program; if not, see <http://www.gnu.org/licenses/>.
  */
-package de.elbe5.sectionpage;
+package de.elbe5.templatepage;
 
 import de.elbe5.data.DataFactory;
 import de.elbe5.data.IData;
@@ -14,12 +14,12 @@ import de.elbe5.request.RequestData;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class PartScriptField extends PartField {
+public class ScriptField extends PartField {
 
-    public static final String TYPE_KEY = "partscriptfield";
+    public static final String TYPE_KEY = "scriptfield";
 
     public static void register(){
-        DataFactory.addClass(PartScriptField.TYPE_KEY, PartScriptField.class);
+        DataFactory.addClass(ScriptField.TYPE_KEY, ScriptField.class);
     }
 
     private enum keys{
@@ -28,12 +28,12 @@ public class PartScriptField extends PartField {
 
     // constructors and type
 
-    public PartScriptField() {
+    public ScriptField() {
     }
 
     @Override
     public String getTypeKey(){
-        return PartScriptField.TYPE_KEY;
+        return ScriptField.TYPE_KEY;
     }
 
     protected String code = "";
@@ -43,8 +43,8 @@ public class PartScriptField extends PartField {
     @Override
     public void copyEditableAttributes(IData idata){
         super.copyEditableAttributes(idata);
-        assert idata instanceof PartScriptField;
-        PartScriptField data = (PartScriptField) idata;
+        assert idata instanceof ScriptField;
+        ScriptField data = (ScriptField) idata;
         setCode(data.getCode());
     }
 

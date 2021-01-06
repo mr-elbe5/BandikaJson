@@ -6,7 +6,7 @@
  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  You should have received a copy of the GNU General Public License along with this program; if not, see <http://www.gnu.org/licenses/>.
  */
-package de.elbe5.sectionpage;
+package de.elbe5.templatepage;
 
 import de.elbe5.data.DataFactory;
 import de.elbe5.page.PageController;
@@ -16,36 +16,36 @@ import de.elbe5.response.IResponse;
 import de.elbe5.rights.ContentRights;
 import de.elbe5.servlet.ControllerCache;
 
-public class SectionPageController extends PageController {
+public class TemplatePageController extends PageController {
 
-    private static SectionPageController instance = null;
+    private static TemplatePageController instance = null;
 
-    public static void setInstance(SectionPageController instance) {
-        SectionPageController.instance = instance;
+    public static void setInstance(TemplatePageController instance) {
+        TemplatePageController.instance = instance;
     }
 
-    public static SectionPageController getInstance() {
+    public static TemplatePageController getInstance() {
         return instance;
     }
 
-    public static void register(SectionPageController controller){
+    public static void register(TemplatePageController controller){
         setInstance(controller);
         ControllerCache.addController(controller.getKey(),getInstance());
     }
 
     @Override
     public String getKey() {
-        return SectionPageData.TYPE_KEY;
+        return TemplatePageData.TYPE_KEY;
     }
 
     public IResponse addPart(SessionRequestData rdata) {
         int contentId = rdata.getId();
-        SectionPageData data = rdata.getCurrentSessionContent(SectionPageData.class);
+        TemplatePageData data = rdata.getCurrentSessionContent(TemplatePageData.class);
         assert(data != null && data.getId() == contentId);
         checkRights(ContentRights.hasUserEditRight(rdata.getCurrentUser(), data.getId()));
         int fromPartId = rdata.getInt("fromPartId", -1);
         String partType = rdata.getString("partType");
-        SectionPartData pdata = DataFactory.createObject(partType, SectionPartData.class);
+        TemplatePartData pdata = DataFactory.createObject(partType, TemplatePartData.class);
         assert(pdata != null);
         pdata.setCreateValues(rdata);
         data.addPart(pdata, fromPartId, true);

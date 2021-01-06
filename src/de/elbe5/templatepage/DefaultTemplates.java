@@ -1,4 +1,4 @@
-package de.elbe5.sectionpage;
+package de.elbe5.templatepage;
 
 import de.elbe5.application.ApplicationPath;
 import de.elbe5.base.log.Log;

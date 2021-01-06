@@ -12,7 +12,7 @@ import de.elbe5.application.Application;
 import de.elbe5.base.log.Log;
 import de.elbe5.content.ContentContainer;
 import de.elbe5.content.ContentData;
-import de.elbe5.sectionpage.SectionPageData;
+import de.elbe5.templatepage.TemplatePageData;
 import de.elbe5.user.UserData;
 
 import java.time.LocalDateTime;
@@ -26,7 +26,7 @@ public class DefaultContentContainer extends ContentContainer {
     }
 
     public void initializeRootContent(){
-        SectionPageData content = new SectionPageData();
+        TemplatePageData content = new TemplatePageData();
         content.setNew(false);
         content.setId(ContentData.ID_ROOT);
         content.setCreationDate(LocalDateTime.now());

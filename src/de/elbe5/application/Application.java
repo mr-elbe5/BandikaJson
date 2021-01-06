@@ -18,8 +18,8 @@ import de.elbe5.content.ContentData;
 import de.elbe5.content.ContentContainer;
 import de.elbe5.fullpage.FullPageController;
 import de.elbe5.fullpage.FullPageData;
-import de.elbe5.sectionpage.*;
-import de.elbe5.sectionpage.TemplateCache;
+import de.elbe5.templatepage.*;
+import de.elbe5.templatepage.TemplateCache;
 import de.elbe5.user.UserContainer;
 import de.elbe5.file.FileController;
 import de.elbe5.file.FileData;
@@ -123,8 +123,6 @@ public class Application {
 
     private static void registerLayouts() {
         Layouts.addType(PageData.MASTER_TYPE);
-        Layouts.addType(SectionPageData.PAGE_TYPE);
-        Layouts.addType(SectionPartData.LAYOUT_TYPE);
         Layouts.load();
     }
 
@@ -134,7 +132,7 @@ public class Application {
         PageController.register(new PageController());
         CkEditorController.register(new CkEditorController());
         FullPageController.register(new FullPageController());
-        SectionPageController.register(new SectionPageController());
+        TemplatePageController.register(new TemplatePageController());
         FileController.register(new FileController());
         GroupController.register(new GroupController());
         UserController.register(new UserController());
@@ -144,21 +142,20 @@ public class Application {
     private static void registerDataClasses(){
         ContentData.register();
         ContentData.childTypes.add(FullPageData.TYPE_KEY);
-        ContentData.childTypes.add(SectionPageData.TYPE_KEY);
+        ContentData.childTypes.add(TemplatePageData.TYPE_KEY);
         FileData.register();
         PageData.register();
         FullPageData.register();
         SectionData.register();
-        SectionPageData.register();
-        SectionPageData.partTypes.add(FieldSectionPartData.TYPE_KEY);
-        SectionPartData.register();
-        FieldSectionPartData.register();
-        FieldSectionPartData.fieldTypes.add(PartHtmlField.TYPE_KEY);
-        FieldSectionPartData.fieldTypes.add(PartTextField.TYPE_KEY);
-        FieldSectionPartData.fieldTypes.add(PartScriptField.TYPE_KEY);
-        PartHtmlField.register();
-        PartScriptField.register();
-        PartTextField.register();
+        TemplatePageData.register();
+        TemplatePageData.partTypes.add(TemplatePartData.TYPE_KEY);
+        TemplatePartData.register();
+        TemplatePartData.fieldTypes.add(HtmlField.TYPE_KEY);
+        TemplatePartData.fieldTypes.add(TextField.TYPE_KEY);
+        TemplatePartData.fieldTypes.add(ScriptField.TYPE_KEY);
+        HtmlField.register();
+        ScriptField.register();
+        TextField.register();
         GroupData.register();
         UserData.register();
     }

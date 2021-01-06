@@ -10,11 +10,11 @@
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@include file="/WEB-INF/_jsp/_include/functions.inc.jsp" %>
 <%@ page import="de.elbe5.request.SessionRequestData" %>
-<%@ page import="de.elbe5.sectionpage.SectionPageData" %>
+<%@ page import="de.elbe5.templatepage.TemplatePageData" %>
 <%@ taglib uri="/WEB-INF/formtags.tld" prefix="form" %>
 <%
     SessionRequestData rdata = SessionRequestData.getRequestData(request);
-    SectionPageData contentData = rdata.getCurrentContent(SectionPageData.class);
+    TemplatePageData contentData = rdata.getCurrentContent(TemplatePageData.class);
     Locale locale =rdata.getLocale();
     assert contentData != null;%>
     <form action="/ctrl/<%=contentData.getTypeKey()%>/savePage/<%=contentData.getId()%>" method="post" id="pageform" name="pageform" accept-charset="UTF-8">

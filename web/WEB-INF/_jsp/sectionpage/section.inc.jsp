@@ -10,21 +10,21 @@
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@include file="/WEB-INF/_jsp/_include/functions.inc.jsp" %>
 <%@ page import="de.elbe5.request.SessionRequestData" %>
-<%@ page import="de.elbe5.sectionpage.SectionPartData" %>
-<%@ page import="de.elbe5.sectionpage.SectionPageData" %>
-<%@ page import="de.elbe5.sectionpage.SectionData" %>
+<%@ page import="de.elbe5.templatepage.TemplatePageData" %>
+<%@ page import="de.elbe5.templatepage.SectionData" %>
 <%@ page import="de.elbe5.request.RequestData" %>
+<%@ page import="de.elbe5.templatepage.TemplatePartData" %>
 <%@ taglib uri="/WEB-INF/formtags.tld" prefix="form" %>
 <%
     SessionRequestData rdata = SessionRequestData.getRequestData(request);
-    SectionPageData contentData = rdata.getCurrentContent(SectionPageData.class);
+    TemplatePageData contentData = rdata.getCurrentContent(TemplatePageData.class);
     assert contentData != null;
     SectionData sectionData = rdata.get("sectionData", SectionData.class);
     assert sectionData != null;
 
     if (!sectionData.getParts().isEmpty()) {%>
 <div class="section <%=sectionData.getCssClass()%>">
-    <% for (SectionPartData partData : sectionData.getParts()) {
+    <% for (TemplatePartData partData : sectionData.getParts()) {
         rdata.put(RequestData.KEY_PART, partData);
         String include = partData.getPartInclude();%>
         <% if (include != null) {%>

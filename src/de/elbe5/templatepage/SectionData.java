@@ -6,7 +6,7 @@
  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  You should have received a copy of the GNU General Public License along with this program; if not, see <http://www.gnu.org/licenses/>.
  */
-package de.elbe5.sectionpage;
+package de.elbe5.templatepage;
 
 import de.elbe5.data.DataFactory;
 import de.elbe5.data.IData;
@@ -37,7 +37,7 @@ public class SectionData implements IData, JsonData {
     protected String name = "";
     protected int contentId = 0;
     protected String cssClass = "";
-    protected List<SectionPartData> parts = new ArrayList<>();
+    protected List<TemplatePartData> parts = new ArrayList<>();
 
     // constructors and type
 
@@ -64,8 +64,8 @@ public class SectionData implements IData, JsonData {
         setContentId(data.getContentId());
         setCssClass(data.getCssClass());
         parts.clear();
-        for (SectionPartData part : data.getParts()) {
-            SectionPartData p = IData.getEditableCopy(part);
+        for (TemplatePartData part : data.getParts()) {
+            TemplatePartData p = IData.getEditableCopy(part);
             assert p!=null;
             parts.add(p);
         }
@@ -91,7 +91,7 @@ public class SectionData implements IData, JsonData {
         name = obj.optString(keys.name.name());
         contentId = obj.optInt(keys.contentId.name());
         cssClass = obj.optString(keys.cssClass.name());
-        parts = getList(obj, keys.parts.name(), SectionPartData.class);
+        parts = getList(obj, keys.parts.name(), TemplatePartData.class);
     }
 
     // request
@@ -99,7 +99,7 @@ public class SectionData implements IData, JsonData {
     @Override
     public void readRequestData(RequestData rdata){
         for (int i=getParts().size()-1;i>=0;i--){
-            SectionPartData part = getParts().get(i);
+            TemplatePartData part = getParts().get(i);
             part.readRequestData(rdata);
             if (part.getPosition()==-1) {
                 getParts().remove(i);
@@ -141,7 +141,7 @@ public class SectionData implements IData, JsonData {
         this.cssClass = cssClass;
     }
 
-    public List<SectionPartData> getParts() {
+    public List<TemplatePartData> getParts() {
         return parts;
     }
 
@@ -149,8 +149,8 @@ public class SectionData implements IData, JsonData {
         Collections.sort(parts);
     }
 
-    public SectionPartData getPart(int pid) {
-        for (SectionPartData pdata : parts) {
+    public TemplatePartData getPart(int pid) {
+        for (TemplatePartData pdata : parts) {
             if (pdata.getId() == pid) {
                 return pdata;
             }
@@ -158,7 +158,7 @@ public class SectionData implements IData, JsonData {
         return null;
     }
 
-    public<T extends SectionPartData> T getPart(int pid,Class<T> cls) {
+    public<T extends TemplatePartData> T getPart(int pid, Class<T> cls) {
         try{
             return cls.cast(getPart(pid));
         }
@@ -168,11 +168,11 @@ public class SectionData implements IData, JsonData {
         return null;
     }
 
-    public void addPart(SectionPartData part, int fromPartId, boolean setRanking) {
+    public void addPart(TemplatePartData part, int fromPartId, boolean setRanking) {
         boolean found = false;
         if (fromPartId != -1) {
             for (int i = 0; i < parts.size(); i++) {
-                SectionPartData ppd = parts.get(i);
+                TemplatePartData ppd = parts.get(i);
                 if (ppd.getId() == fromPartId) {
                     parts.add(i + 1, part);
                     found = true;
@@ -192,7 +192,7 @@ public class SectionData implements IData, JsonData {
 
     public void movePart(int id, int dir) {
         for (int i = 0; i < parts.size(); i++) {
-            SectionPartData ppd = parts.get(i);
+            TemplatePartData ppd = parts.get(i);
             if (ppd.getId() == id) {
                 parts.remove(i);
                 int idx = i + dir;
@@ -213,7 +213,7 @@ public class SectionData implements IData, JsonData {
 
     public void deletePart(int id) {
         for (int i = 0; i < parts.size(); i++) {
-            SectionPartData ppd = parts.get(i);
+            TemplatePartData ppd = parts.get(i);
             if (ppd.getId() == id) {
                 parts.remove(i);
                 return;

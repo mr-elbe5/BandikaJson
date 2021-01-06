@@ -12,15 +12,15 @@
 <%@ page import="de.elbe5.request.SessionRequestData" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Locale" %>
-<%@ page import="de.elbe5.sectionpage.SectionPageData" %>
+<%@ page import="de.elbe5.templatepage.TemplatePageData" %>
 <%@ page import="de.elbe5.layout.Layouts" %>
 <%@ taglib uri="/WEB-INF/formtags.tld" prefix="form" %>
 <%
     SessionRequestData rdata = SessionRequestData.getRequestData(request);
     Locale locale = rdata.getLocale();
-    SectionPageData contentData = rdata.getCurrentContent(SectionPageData.class);
+    TemplatePageData contentData = rdata.getCurrentContent(TemplatePageData.class);
     assert (contentData != null);
-    List<String> pageNames = Layouts.getLayoutNames(SectionPageData.PAGE_TYPE);
+    List<String> pageNames = Layouts.getLayoutNames(TemplatePageData.PAGE_TYPE);
 %>
                 <form:select name="layout" label="_pageLayout" required="true">
                     <option value="" <%=contentData.getLayout().isEmpty() ? "selected" : ""%>><%=$SH("_pleaseSelect",locale)%>
