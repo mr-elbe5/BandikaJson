@@ -9,6 +9,7 @@
 package de.elbe5.sectionpage;
 
 import de.elbe5.application.Application;
+import de.elbe5.base.log.Log;
 import de.elbe5.data.BaseData;
 import de.elbe5.data.DataFactory;
 import de.elbe5.data.IData;
@@ -163,6 +164,9 @@ public abstract class SectionPartData extends BaseData implements Comparable<Sec
 
     public String getJspPath() {
         return jspBasePath;
+    }
+
+    public void appendHtml(StringBuilder sb, TemplateContext context){
     }
 
 }

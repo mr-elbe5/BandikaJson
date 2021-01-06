@@ -221,26 +221,25 @@ public class SectionPageData extends PageData {
     //used in jsp
     @Override
     protected void displayDraftContent(PageContext context, JspWriter writer, SessionRequestData rdata) throws IOException, ServletException {
-         context.include(getLayoutUrl());
+         //context.include(getLayoutUrl());
+        writer.write(getHtml(rdata));
+    }
+
+    protected void displayPublishedContent(PageContext context, JspWriter writer, SessionRequestData rdata) throws IOException, ServletException {
+        //writer.write(publishedContent);
+        writer.write(getHtml(rdata));
     }
 
     // html
 
-
-
-    public TemplateContext getTemplateContext(RequestData rdata){
-        return new TemplateContext(rdata, this);
-    }
-
-    public void processContent(StringBuilder sb, TemplateContext context){
-        Log.log("section page process content");
-        Log.log("layout = " + layout);
+    public String getHtml(RequestData rdata){
+        TemplateContext context = new TemplateContext(rdata, this);
         PageTemplate template = TemplateCache.getPageTemplate(layout);
         if (template==null){
             Log.error("page template not found:" + layout);
-            return;
+            return "";
         }
-        template.processCode(sb, context);
+        return template.processTemplate(context);
     }
 
 }

@@ -1,13 +1,19 @@
 package de.elbe5.sectionpage;
 
 import de.elbe5.application.ApplicationPath;
+import de.elbe5.base.data.StringUtil;
 import de.elbe5.base.log.Log;
+import de.elbe5.request.RequestData;
+import de.elbe5.request.SessionRequestData;
 import org.apache.commons.io.FileUtils;
 import org.jsoup.select.Elements;
 
 
+import javax.servlet.jsp.JspException;
 import java.io.File;
+import java.io.Writer;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 abstract public class Template {
@@ -102,20 +108,24 @@ abstract public class Template {
 
     public void processCode(StringBuilder sb, TemplateContext context) throws TemplateException {
         Log.log("template process code");
+        processString(code, sb, context);
+    }
+
+    public void processString(String src, StringBuilder sb, TemplateContext context) throws TemplateException {
         int pos1;
         int pos2 = 0;
         boolean shortTag;
         while (true) {
-            pos1 = code.indexOf(STARTTAG_START, pos2);
+            pos1 = src.indexOf(STARTTAG_START, pos2);
             if (pos1 == -1) {
-                sb.append(code.substring(pos2));
+                sb.append(src.substring(pos2));
                 break;
             }
-            sb.append(code.substring(pos2, pos1));
+            sb.append(src.substring(pos2, pos1));
             pos2 = getTagEnd(pos1 + STARTTAG_START.length());
             if (pos2 == -1)
                 throw new TemplateException("no tag end");
-            String startTag=code.substring(pos1,pos2);
+            String startTag=src.substring(pos1,pos2);
             shortTag=false;
             if (startTag.endsWith("/")) {
                 startTag = startTag.substring(0, startTag.length() - 1);
@@ -133,10 +143,10 @@ abstract public class Template {
                 continue;
             }
             pos2++;
-            pos1 = code.indexOf(END_TAG, pos2);
+            pos1 = src.indexOf(END_TAG, pos2);
             if (pos1 == -1)
                 throw new TemplateException("no end tag ");
-            String content = code.substring(pos2, pos1).trim();
+            String content = src.substring(pos2, pos1).trim();
             pos2 = pos1 + END_TAG.length();
             processTag(sb, type, attributes, content, context);
         }

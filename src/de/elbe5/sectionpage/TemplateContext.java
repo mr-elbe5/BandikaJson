@@ -4,19 +4,15 @@ import de.elbe5.request.RequestData;
 
 public class TemplateContext {
 
-    private final RequestData requestData;
-    private final SectionPageData pageData;
+    public final RequestData requestData;
+    public final SectionPageData pageData;
+
+    public SectionData currentSection = null;
+    public SectionPartData currentPart = null;
 
     public TemplateContext(RequestData requestData, SectionPageData pageData){
         this.requestData = requestData;
         this.pageData = pageData;
     }
 
-    public RequestData getRequestData() {
-        return requestData;
-    }
-
-    public SectionPageData getPageData() {
-        return pageData;
-    }
 }

@@ -8,6 +8,7 @@
  */
 package de.elbe5.sectionpage;
 
+import de.elbe5.base.log.Log;
 import de.elbe5.data.DataFactory;
 import de.elbe5.data.IData;
 import de.elbe5.request.RequestData;
@@ -207,6 +208,17 @@ public class FieldSectionPartData extends SectionPartData {
         scriptField.setPartId(getId());
         fields.put(name, scriptField);
         return scriptField;
+    }
+
+    // html
+
+    public void appendHtml(StringBuilder sb, TemplateContext context){
+        PartTemplate template = TemplateCache.getPartTemplate(layout);
+        if (template==null){
+            Log.error("part template not found:" + layout);
+            return;
+        }
+        template.processCode(sb, context);
     }
 
 }
