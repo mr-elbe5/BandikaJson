@@ -94,7 +94,7 @@ abstract public class Template {
     }
 
     public String processTemplate(TemplateContext context){
-        Log.log("template process template");
+        //Log.log("template process template");
         StringBuilder sb = new StringBuilder();
         try {
             processCode(sb, context);
@@ -107,7 +107,7 @@ abstract public class Template {
     }
 
     public void processCode(StringBuilder sb, TemplateContext context) throws TemplateException {
-        Log.log("template process code");
+        //Log.log("template process code");
         processString(code, sb, context);
     }
 
@@ -155,7 +155,7 @@ abstract public class Template {
     public abstract void processTag(StringBuilder sb, String type, Map<String,String> attributes, String content, TemplateContext context) throws TemplateException;
     
     protected Map<String, String> getAttributes(String src){
-        Log.log("template get attributes");
+        //Log.log("template get attributes");
         Map<String, String> map = new HashMap<>();
         boolean inString = false;
         char ch;
@@ -179,7 +179,7 @@ abstract public class Template {
                 lastBlank = i;
             }
         }
-        Log.log("template attributes = " + map.toString());
+        //Log.log("template attributes = " + map.toString());
         return map;
     }
 

@@ -76,6 +76,11 @@ public class PartTemplate extends Template{
                     processHtmlField(sb, (FieldSectionPartData) context.currentPart, attributes, content, context);
                 }
             }
+            case "scriptfield" -> {
+                if (context.currentPart instanceof FieldSectionPartData){
+                    processScriptField(sb, (FieldSectionPartData) context.currentPart, attributes, content, context);
+                }
+            }
         }
     }
 
@@ -222,6 +227,30 @@ public class PartTemplate extends Template{
                     sb.append(field.getContent());
                 }
             } catch (Exception ignored) {
+            }
+        }
+    }
+
+    final String scriptEditTag = """
+            <textarea class="editField" name="{1}" rows="5" >{2}</textarea>
+            """;
+    final String scriptViewTag = """
+            <script type="text/javascript">{1}</script>
+            """;
+
+    private void processScriptField(StringBuilder sb, FieldSectionPartData partData, Map<String,String> attributes, String content, TemplateContext context){
+        PartScriptField field = partData.ensureScriptField(attributes.get("name"));
+        boolean editMode = context.pageData.getViewType().equals(ContentData.VIEW_TYPE_EDIT);
+        if (editMode) {
+            sb.append(StringUtil.format(scriptEditTag,
+                    field.getIdentifier(),
+                    StringUtil.toHtml(field.getContent().isEmpty() ? content : field.getContent())
+            ));
+        } else {
+            if (!field.getContent().isEmpty()) {
+                sb.append(StringUtil.format(scriptViewTag,
+                        StringUtil.toHtml(field.getContent().isEmpty() ? content : field.getContent())
+                ));
             }
         }
     }
