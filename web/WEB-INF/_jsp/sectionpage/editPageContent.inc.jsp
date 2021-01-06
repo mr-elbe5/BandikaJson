@@ -10,7 +10,7 @@
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@include file="/WEB-INF/_jsp/_include/functions.inc.jsp" %>
 <%@ page import="de.elbe5.request.SessionRequestData" %>
-<%@ page import="de.elbe5.page.SectionPageData" %>
+<%@ page import="de.elbe5.sectionpage.SectionPageData" %>
 <%@ taglib uri="/WEB-INF/formtags.tld" prefix="form" %>
 <%
     SessionRequestData rdata = SessionRequestData.getRequestData(request);
@@ -22,7 +22,7 @@
             <button type="submit" class="btn btn-sm btn-success" onclick="updateEditors();"><%=$SH("_savePage", locale)%></button>
             <button class="btn btn-sm btn-secondary" onclick="return linkTo('/ctrl/<%=contentData.getTypeKey()%>/cancelEditPage/<%=contentData.getId()%>');"><%=$SH("_cancel", locale)%></button>
         </div>
-        <jsp:include page="<%=contentData.getLayoutUrl()%>" flush="true" />
+        <%=contentData.getHtml(rdata)%>
     </form>
     <script type="text/javascript">
 

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xmlns:cms="https://elbe5.de">
+    <!-- pages -->
+    <template type="page" name="defaultSectionPage" >
+        <tpl type="message" />
+        <section class="contentSection" id="content">
+            <tpl type="section" name="main" css="row"></tpl>
+        </section>
+    </template>
+    <template type="page" name="contentAsideSectionPage" >
+        <tpl type="message" />
+        <section class="contentTop">
+            <tpl type="section" name="top"></tpl>
+        </section>
+        <div class="row">
+            <section class="col-lg-8 contentSection" id="content">
+                <tpl type="section" name="main"></tpl>
+            </section>
+            <aside class="col-lg-4 asideSection" id="aside">
+                <tpl type="section" name="aside"></tpl>
+            </aside>
+        </div>
+    </template>
+    <!-- content parts -->
+    <template type="part" name="titlePart" css="col-lg-12">
+        <h1 class="title">
+            <tpl type="textfield" name="header">Lorem ipsum</tpl>
+        </h1>
+    </template>
+    <template type="part" name="fullPart" css="col-lg-12">
+        <div>
+            <tpl type="htmlfield" name="html">Lorem ipsum</tpl>
+        </div>
+    </template>
+    <template type="part" name="fullParagraphPart" css="col-lg-12">
+        <div class="paragraph">
+            <tpl type="htmlfield" name="html">Lorem ipsum</tpl>
+        </div>
+    </template>
+    <template type="part" name="halfParagraphPart" css="col-lg-6">
+        <div class="paragraph">
+            <tpl type="htmlfield" name="html">Lorem ipsum</tpl>
+        </div>
+    </template>
+</templates>
+

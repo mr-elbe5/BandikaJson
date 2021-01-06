@@ -16,8 +16,11 @@ import de.elbe5.ckeditor.CkEditorController;
 import de.elbe5.content.ContentController;
 import de.elbe5.content.ContentData;
 import de.elbe5.content.ContentContainer;
+import de.elbe5.fullpage.FullPageController;
+import de.elbe5.fullpage.FullPageData;
+import de.elbe5.sectionpage.*;
+import de.elbe5.sectionpage.TemplateCache;
 import de.elbe5.user.UserContainer;
-import de.elbe5.fieldsectionpart.*;
 import de.elbe5.file.FileController;
 import de.elbe5.file.FileData;
 import de.elbe5.file.FileService;
@@ -82,6 +85,7 @@ public class Application {
         registerControllers();
         registerDataClasses();
         registerLayouts();
+        TemplateCache.loadTemplates();
         if (!ApplicationPath.getStaticsFile().exists()){
             Log.log("creating default static configuration");
             if (!initializeStatics()){

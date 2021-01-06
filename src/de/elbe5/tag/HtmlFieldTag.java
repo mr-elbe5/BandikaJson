@@ -11,9 +11,9 @@ package de.elbe5.tag;
 import de.elbe5.base.data.StringUtil;
 import de.elbe5.base.log.Log;
 import de.elbe5.content.ContentData;
-import de.elbe5.fieldsectionpart.FieldSectionPartData;
-import de.elbe5.page.SectionPageData;
-import de.elbe5.fieldsectionpart.PartHtmlField;
+import de.elbe5.sectionpage.FieldSectionPartData;
+import de.elbe5.sectionpage.SectionPageData;
+import de.elbe5.sectionpage.PartHtmlField;
 import de.elbe5.request.RequestData;
 import de.elbe5.request.SessionRequestData;
 

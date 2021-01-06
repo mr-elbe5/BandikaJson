@@ -9,8 +9,8 @@
 package de.elbe5.tag;
 
 import de.elbe5.base.log.Log;
-import de.elbe5.page.SectionData;
-import de.elbe5.page.SectionPageData;
+import de.elbe5.sectionpage.SectionData;
+import de.elbe5.sectionpage.SectionPageData;
 import de.elbe5.request.SessionRequestData;
 
 import javax.servlet.http.HttpServletRequest;

@@ -28,17 +28,6 @@ public class SessionRequestData extends RequestData {
         this.type = type;
     }
 
-    /*********** message *********/
-
-    public boolean hasMessage() {
-        return containsKey(RequestData.KEY_MESSAGE);
-    }
-
-    public void setMessage(String msg, String type) {
-        put(RequestData.KEY_MESSAGE, msg);
-        put(RequestData.KEY_MESSAGETYPE, type);
-    }
-
     /************ user ****************/
 
     @Override

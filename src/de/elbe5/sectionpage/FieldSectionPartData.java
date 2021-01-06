@@ -6,12 +6,11 @@
  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  You should have received a copy of the GNU General Public License along with this program; if not, see <http://www.gnu.org/licenses/>.
  */
-package de.elbe5.fieldsectionpart;
+package de.elbe5.sectionpage;
 
+import de.elbe5.base.log.Log;
 import de.elbe5.data.DataFactory;
 import de.elbe5.data.IData;
-import de.elbe5.page.PageData;
-import de.elbe5.page.SectionPartData;
 import de.elbe5.request.RequestData;
 import de.elbe5.request.SessionRequestData;
 import org.json.JSONException;
@@ -209,6 +208,17 @@ public class FieldSectionPartData extends SectionPartData {
         scriptField.setPartId(getId());
         fields.put(name, scriptField);
         return scriptField;
+    }
+
+    // html
+
+    public void appendHtml(StringBuilder sb, TemplateContext context){
+        PartTemplate template = TemplateCache.getPartTemplate(layout);
+        if (template==null){
+            Log.error("part template not found:" + layout);
+            return;
+        }
+        template.processCode(sb, context);
     }
 
 }

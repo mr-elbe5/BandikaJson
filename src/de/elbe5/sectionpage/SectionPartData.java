@@ -6,10 +6,10 @@
  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  You should have received a copy of the GNU General Public License along with this program; if not, see <http://www.gnu.org/licenses/>.
  */
-package de.elbe5.page;
+package de.elbe5.sectionpage;
 
 import de.elbe5.application.Application;
-import de.elbe5.content.ContentData;
+import de.elbe5.base.log.Log;
 import de.elbe5.data.BaseData;
 import de.elbe5.data.DataFactory;
 import de.elbe5.data.IData;
@@ -164,6 +164,9 @@ public abstract class SectionPartData extends BaseData implements Comparable<Sec
 
     public String getJspPath() {
         return jspBasePath;
+    }
+
+    public void appendHtml(StringBuilder sb, TemplateContext context){
     }
 
 }

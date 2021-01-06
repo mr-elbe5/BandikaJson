@@ -6,14 +6,20 @@
  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  You should have received a copy of the GNU General Public License along with this program; if not, see <http://www.gnu.org/licenses/>.
  */
-package de.elbe5.page;
+package de.elbe5.sectionpage;
 
+import de.elbe5.application.Application;
+import de.elbe5.base.log.Log;
 import de.elbe5.data.DataFactory;
 import de.elbe5.data.IData;
+import de.elbe5.page.PageData;
 import de.elbe5.request.RequestData;
 import de.elbe5.request.SessionRequestData;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.parser.Parser;
 
 import javax.servlet.ServletException;
 import javax.servlet.jsp.JspWriter;
@@ -127,6 +133,11 @@ public class SectionPageData extends PageData {
         list.addAll(partTypes);
     }
 
+    public void createPublishedContent(RequestData rdata){
+        setPublishedContent(getHtml(rdata));
+        setPublishDate(Application.getCurrentTime());
+    }
+
     // base data
 
     public String getLayout() {
@@ -210,16 +221,35 @@ public class SectionPageData extends PageData {
         return "/WEB-INF/_jsp/sectionpage/editContentData.ajax.jsp";
     }
 
-    //used in jsp
     @Override
     protected void displayEditContent(PageContext context, JspWriter writer, SessionRequestData rdata) throws IOException, ServletException {
         context.include("/WEB-INF/_jsp/sectionpage/editPageContent.inc.jsp");
     }
 
-    //used in jsp
     @Override
     protected void displayDraftContent(PageContext context, JspWriter writer, SessionRequestData rdata) throws IOException, ServletException {
-         context.include(getLayoutUrl());
+        writer.write(getHtml(rdata));
+    }
+
+    protected void displayPublishedContent(PageContext context, JspWriter writer, SessionRequestData rdata) throws IOException, ServletException {
+        writer.write(getHtml(rdata));
+    }
+
+    // html
+
+    public String getHtml(RequestData rdata){
+        TemplateContext context = new TemplateContext(rdata, this);
+        PageTemplate template = TemplateCache.getPageTemplate(layout);
+        if (template==null){
+            Log.error("page template not found:" + layout);
+            return "";
+        }
+        String html = template.processTemplate(context);
+        Document doc = Jsoup.parse(html, "", Parser.xmlParser());
+        doc.outputSettings().indentAmount(2);
+        html = "\n" + doc.toString() + "\n";
+        //Log.log(html);
+        return html;
     }
 
 }
