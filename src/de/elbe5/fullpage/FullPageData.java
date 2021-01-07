@@ -8,9 +8,11 @@
  */
 package de.elbe5.fullpage;
 
+import de.elbe5.application.Application;
 import de.elbe5.data.DataFactory;
 import de.elbe5.data.IData;
 import de.elbe5.page.PageData;
+import de.elbe5.page.PageTypes;
 import de.elbe5.request.RequestData;
 import de.elbe5.request.SessionRequestData;
 import de.elbe5.templatepage.SectionData;
@@ -32,11 +34,10 @@ public class FullPageData extends PageData {
 
     public static void register(){
         DataFactory.addClass(FullPageData.TYPE_KEY, FullPageData.class);
+        PageTypes.typeNames.add(FullPageData.TYPE_KEY);
     }
 
     public static List<String> childTypes = new ArrayList<>();
-
-    public static String PAGE_TYPE = "FullPage";
 
     private enum keys{
         cssClass,
@@ -105,8 +106,12 @@ public class FullPageData extends PageData {
         setContent(rdata.getString("content"));
     }
 
-    // base data
+    public void createPublishedContent(RequestData rdata){
+        setPublishedContent(getContent());
+        setPublishDate(Application.getCurrentTime());
+    }
 
+    // base data
 
     public String getCssClass() {
         return cssClass;

@@ -200,22 +200,6 @@ public class Configuration extends DataContainer {
         return "/static-content/css/"+theme+"Theme.css";
     }
 
-    public String getLayoutName(){
-        switch (theme){
-            case "blue":
-            case "carbon":
-            case "light":
-            case "paper":
-                return "paragraphLayout";
-            default:
-                return "emptyLayout";
-        }
-    }
-
-    public String getLayout(){
-        return "/WEB-INF/_jsp/_theme/"+getLayoutName()+".inc.jsp";
-    }
-
     public void setTheme(String theme) {
         this.theme = theme;
     }

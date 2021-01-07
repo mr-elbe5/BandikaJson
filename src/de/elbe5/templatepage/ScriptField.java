@@ -20,6 +20,7 @@ public class ScriptField extends PartField {
 
     public static void register(){
         DataFactory.addClass(ScriptField.TYPE_KEY, ScriptField.class);
+        PartTypes.typeNames.add(ScriptField.TYPE_KEY);
     }
 
     private enum keys{

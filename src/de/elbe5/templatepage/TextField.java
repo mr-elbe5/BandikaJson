@@ -17,6 +17,7 @@ public class TextField extends PartField {
 
     public static void register(){
         DataFactory.addClass(TextField.TYPE_KEY, TextField.class);
+        PartTypes.typeNames.add(TextField.TYPE_KEY);
     }
 
     // constructors and type

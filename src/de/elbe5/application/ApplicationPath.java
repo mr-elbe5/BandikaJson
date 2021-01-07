@@ -17,7 +17,7 @@ public class ApplicationPath {
 
     private static String appPath = "";
     private static String jspPath = "";
-    private static String layoutPath = "";
+    private static String masterPath = "";
     private static String appBasePath = "";
     private static String appDataPath = "";
     private static String appStaticsFilePath = "";
@@ -39,7 +39,7 @@ public class ApplicationPath {
     private static DiskFile contentFile;
     private static DiskFile usersFile;
 
-    private static DiskDirectory layoutDirectory;
+    private static DiskDirectory masterDirectory;
     private static DiskDirectory dataDirectory;
     private static DiskDirectory templateDirectory;
     private static DiskDirectory fileDirectory;
@@ -55,8 +55,8 @@ public class ApplicationPath {
         return jspPath;
     }
 
-    public static String getLayoutPath() {
-        return layoutPath;
+    public static String getMasterPath() {
+        return masterPath;
     }
 
     public static String getAppBasePath() {
@@ -135,8 +135,8 @@ public class ApplicationPath {
         return usersFile;
     }
 
-    public static DiskDirectory getLayoutDirectory() {
-        return layoutDirectory;
+    public static DiskDirectory getMasterDirectory() {
+        return masterDirectory;
     }
 
     public static DiskDirectory getDataDirectory() {
@@ -171,7 +171,7 @@ public class ApplicationPath {
         System.out.println("application base path is: " + getAppBasePath());
         appPath = appDir.getAbsolutePath().replace('\\', '/');
         jspPath = appPath + "/WEB-INF/_jsp";
-        layoutPath= jspPath + "/_layout";
+        masterPath = jspPath + "/_master";
         appDataPath = appBasePath + "_data";
         appStaticsFilePath = appDataPath + "/statics.json";
         nextIdFilePath = appDataPath + "/next.id";
@@ -192,7 +192,7 @@ public class ApplicationPath {
         contentFile = new DiskFile(getAppContentFilePath());
         usersFile = new DiskFile(getAppUsersFilePath());
 
-        layoutDirectory = new DiskDirectory(layoutPath);
+        masterDirectory = new DiskDirectory(masterPath);
         dataDirectory = new DiskDirectory(appDataPath);
         templateDirectory = new DiskDirectory(appTemplatePath);
         fileDirectory = new DiskDirectory(appFilePath);

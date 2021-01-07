@@ -13,6 +13,7 @@ import de.elbe5.base.log.Log;
 import de.elbe5.data.DataFactory;
 import de.elbe5.data.IData;
 import de.elbe5.page.PageData;
+import de.elbe5.page.PageTypes;
 import de.elbe5.request.RequestData;
 import de.elbe5.request.SessionRequestData;
 import org.json.JSONException;
@@ -36,6 +37,7 @@ public class TemplatePageData extends PageData {
 
     public static void register(){
         DataFactory.addClass(TemplatePageData.TYPE_KEY, TemplatePageData.class);
+        PageTypes.typeNames.add(TemplatePageData.TYPE_KEY);
     }
 
     public static List<String> childTypes = new ArrayList<>();
@@ -142,10 +144,6 @@ public class TemplatePageData extends PageData {
 
     public String getLayout() {
         return layout;
-    }
-
-    public String getLayoutUrl() {
-        return "/WEB-INF/_jsp/_layout/"+ layout +".jsp";
     }
 
     public void setLayout(String layout) {

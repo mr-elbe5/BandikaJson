@@ -46,8 +46,6 @@ public abstract class PageData extends ContentData {
         publishedContent
     }
 
-    public static String MASTER_TYPE = "Master";
-
     private String keywords = "";
     protected String master = MasterResponse.DEFAULT_MASTER;
     protected LocalDateTime publishDate = null;

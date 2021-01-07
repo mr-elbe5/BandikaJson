@@ -11,7 +11,7 @@
 <%@ page import="de.elbe5.request.SessionRequestData" %>
 <%@ page import="java.util.Locale" %>
 <%@ page import="de.elbe5.templatepage.TemplatePageData" %>
-<%@ page import="de.elbe5.layout.Layouts" %>
+<%@ page import="de.elbe5.page.MasterPage" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="de.elbe5.request.RequestData" %>
@@ -24,7 +24,7 @@
     assert contentData != null;
     TemplatePartData partData = rdata.get(RequestData.KEY_PART, TemplatePartData.class);
     assert partData != null;
-    List<String> layoutNames = Layouts.getLayoutNames(TemplatePartData.LAYOUT_TYPE);
+    List<String> layoutNames = MasterPage.getLayoutNames(TemplatePartData.LAYOUT_TYPE);
     List<String> partTypes = new ArrayList<>();
     contentData.collectPartTypes(partTypes);
 %>

@@ -13,14 +13,14 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Locale" %>
 <%@ page import="de.elbe5.page.PageData" %>
-<%@ page import="de.elbe5.layout.Layouts" %>
+<%@ page import="de.elbe5.page.MasterPage" %>
 <%@ taglib uri="/WEB-INF/formtags.tld" prefix="form" %>
 <%
     SessionRequestData rdata = SessionRequestData.getRequestData(request);
     Locale locale = rdata.getLocale();
     PageData contentData = rdata.getCurrentContent(PageData.class);
     assert (contentData != null);
-    List<String> masterNames = Layouts.getLayoutNames(PageData.MASTER_TYPE);
+    List<String> masterNames = MasterPage.getMasterPageNames();
     %>
                 <form:select name="master" label="_masterLayout" required="true">
                     <option value="" <%=contentData.getMaster().isEmpty() ? "selected" : ""%>><%=$SH("_pleaseSelect", locale)%>

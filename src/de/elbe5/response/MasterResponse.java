@@ -31,7 +31,7 @@ public class MasterResponse implements IResponse {
 
     @Override
     public void processResponse(ServletContext context, RequestData rdata, HttpServletResponse response)  {
-        RequestDispatcher rd = context.getRequestDispatcher("/WEB-INF/_jsp/_layout/"+master+".jsp");
+        RequestDispatcher rd = context.getRequestDispatcher("/WEB-INF/_jsp/_master/"+master+".jsp");
         try {
             rd.forward(rdata.getRequest(), response);
         } catch (ServletException | IOException e) {

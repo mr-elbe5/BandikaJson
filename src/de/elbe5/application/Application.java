@@ -24,7 +24,7 @@ import de.elbe5.user.UserContainer;
 import de.elbe5.file.FileController;
 import de.elbe5.file.FileData;
 import de.elbe5.file.FileService;
-import de.elbe5.layout.Layouts;
+import de.elbe5.page.MasterPage;
 import de.elbe5.page.*;
 import de.elbe5.search.SearchController;
 import de.elbe5.actionqueue.*;
@@ -84,7 +84,7 @@ public class Application {
         Log.log("initializing Bandika Json Application...");
         registerControllers();
         registerDataClasses();
-        registerLayouts();
+        registerMasterPages();
         TemplateCache.loadTemplates();
         if (!ApplicationPath.getStaticsFile().exists()){
             Log.log("creating default static configuration");
@@ -121,9 +121,8 @@ public class Application {
         return true;
     }
 
-    private static void registerLayouts() {
-        Layouts.addType(PageData.MASTER_TYPE);
-        Layouts.load();
+    private static void registerMasterPages() {
+        MasterPage.loadNames();
     }
 
     private static void registerControllers(){

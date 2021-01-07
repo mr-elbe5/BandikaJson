@@ -4,7 +4,6 @@ import de.elbe5.application.Strings;
 import de.elbe5.base.data.StringUtil;
 import de.elbe5.base.log.Log;
 import de.elbe5.content.ContentData;
-import de.elbe5.layout.Layouts;
 import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
@@ -66,15 +65,9 @@ public class PartTemplate extends Template{
 
     public void processTag(StringBuilder sb, String type, Map<String,String> attributes, String content, TemplateContext context) throws TemplateException{
         switch(type){
-            case "textfield" -> {
-                processTextField(sb, (TemplatePartData) context.currentPart, attributes, content, context);
-            }
-            case "htmlfield" -> {
-                processHtmlField(sb, (TemplatePartData) context.currentPart, attributes, content, context);
-            }
-            case "scriptfield" -> {
-                processScriptField(sb, (TemplatePartData) context.currentPart, attributes, content, context);
-            }
+            case TextField.TYPE_KEY -> processTextField(sb, context.currentPart, attributes, content, context);
+            case HtmlField.TYPE_KEY -> processHtmlField(sb, context.currentPart, attributes, content, context);
+            case ScriptField.TYPE_KEY -> processScriptField(sb, context.currentPart, attributes, content, context);
         }
     }
 
@@ -119,7 +112,6 @@ public class PartTemplate extends Template{
             """;
 
     private void appendEditPartHeader(StringBuilder sb, TemplateContext context){
-        List<String> layoutNames = Layouts.getLayoutNames(TemplatePartData.LAYOUT_TYPE);
         List<String> partTypes = new ArrayList<>();
         context.pageData.collectPartTypes(partTypes);
         Locale locale = context.requestData.getLocale();
@@ -131,13 +123,13 @@ public class PartTemplate extends Template{
         ));
         for (String partType : partTypes) {
             String name = Strings.html("type." + partType, locale);
-            for (String layout : layoutNames){
-                String layoutName = Strings.html("layout."+layout,locale);
+            for (String typeName : PartTypes.typeNames){
+                String layoutName = Strings.html("layout."+typeName,locale);
                 sb.append(StringUtil.format(partLinkHtml,
                         Integer.toString(partId),
                         StringUtil.toHtml(context.currentPart.getSectionName()),
                         partType,
-                        StringUtil.toHtml(layout),
+                        StringUtil.toHtml(typeName),
                         name,
                         layoutName
                 ));

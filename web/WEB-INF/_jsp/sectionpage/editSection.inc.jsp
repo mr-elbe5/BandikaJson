@@ -12,7 +12,7 @@
 <%@ page import="java.util.Locale" %>
 <%@ page import="de.elbe5.templatepage.TemplatePageData" %>
 <%@ page import="de.elbe5.templatepage.SectionData" %>
-<%@ page import="de.elbe5.layout.Layouts" %>
+<%@ page import="de.elbe5.page.MasterPage" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="de.elbe5.request.RequestData" %>
@@ -27,7 +27,7 @@
     assert sectionData != null;
     List<String> partTypes = new ArrayList<>();
     contentData.collectPartTypes(partTypes);
-    List<String> layoutNames = Layouts.getLayoutNames(TemplatePartData.LAYOUT_TYPE);
+    List<String> layoutNames = MasterPage.getLayoutNames(TemplatePartData.LAYOUT_TYPE);
 %>
 <div class="section <%=sectionData.getCssClass()%>" id="<%=sectionData.getSectionId()%>" title="Section <%=sectionData.getName()%>">
     <%-- empty section --%>

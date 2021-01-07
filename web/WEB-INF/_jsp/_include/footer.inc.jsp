@@ -10,25 +10,29 @@
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@include file="/WEB-INF/_jsp/_include/functions.inc.jsp" %>
 <%@ page import="de.elbe5.request.SessionRequestData" %>
-<%@ page import="java.util.Locale" %>
-<%@ page import="de.elbe5.templatepage.TemplatePageData" %>
-<%@ page import="de.elbe5.page.PageTypes" %>
-<%@ taglib uri="/WEB-INF/formtags.tld" prefix="form" %>
+<%@ page import="de.elbe5.rights.ContentRights" %>
+<%@ page import="de.elbe5.content.ContentData" %>
 <%
     SessionRequestData rdata = SessionRequestData.getRequestData(request);
-    Locale locale = rdata.getLocale();
-    TemplatePageData contentData = rdata.getCurrentContent(TemplatePageData.class);
-    assert (contentData != null);
+    ContentData currentContent = rdata.getCurrentContent();
+    if (currentContent == null)
+        currentContent = contentContainer().getContentRoot();;
 %>
-                <form:select name="layout" label="_pageLayout" required="true">
-                    <option value="" <%=contentData.getLayout().isEmpty() ? "selected" : ""%>><%=$SH("_pleaseSelect",locale)%>
-                    </option>
-                    <% for (String pageType : PageTypes.typeNames) {
-                        String layoutName = $SH("layout." + pageType,locale);
-                    %>
-                    <option value="<%=$H(pageType)%>" <%=pageType.equals(contentData.getLayout()) ? "selected" : ""%>><%=layoutName%>
-                    </option>
-                    <%}%>
-                </form:select>
 
+        <ul class="nav">
+            <li class="nav-item">
+                <a class="nav-link">&copy; <%=Application.getConfiguration().getCopyright()%>
+                </a>
+            </li>
+            <% for (ContentData data : contentContainer().getContentRoot().getChildren()) {
+                if (data.getNavType().equals(ContentData.NAV_TYPE_FOOTER) && ContentRights.hasUserReadRight(rdata.getCurrentUser(), currentContent)) {%>
+            <li class="nav-item">
+                <a class="nav-link" href="<%=data.getUrl()%>"><%=$H(data.getDisplayName())%>
+                </a>
+            </li>
+            <%
+                    }
+                }
+            %>
+        </ul>
 

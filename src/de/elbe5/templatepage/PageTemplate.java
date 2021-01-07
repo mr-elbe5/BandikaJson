@@ -2,7 +2,7 @@ package de.elbe5.templatepage;
 
 import de.elbe5.application.Strings;
 import de.elbe5.base.data.StringUtil;
-import de.elbe5.layout.Layouts;
+import de.elbe5.page.MasterPage;
 import de.elbe5.tag.MessageHtml;
 
 import java.util.ArrayList;
@@ -62,7 +62,6 @@ public class PageTemplate extends Template{
     private void getEditSectionHtml(StringBuilder sb, SectionData sectionData, Map<String,String> attributes, TemplateContext context){
         List<String> partTypes = new ArrayList<>();
         context.pageData.collectPartTypes(partTypes);
-        List<String> layoutNames = Layouts.getLayoutNames(TemplatePartData.LAYOUT_TYPE);
         Locale locale = context.requestData.getLocale();
         sb.append(StringUtil.format(editSectionHtmlStart,
                 attributes.get("css"),
@@ -73,12 +72,12 @@ public class PageTemplate extends Template{
                 ));
         for (String partType : partTypes) {
             String name = Strings.html("type." + partType, locale);
-            for (String layout : layoutNames) {
-                String layoutName = Strings.html("layout." + layout, locale);
+            for (String typeName : PartTypes.typeNames) {
+                String layoutName = Strings.html("layout." + typeName, locale);
                 sb.append(StringUtil.format(partTypeLink,
                         StringUtil.toHtml(sectionData.getName()),
                         partType,
-                        StringUtil.toHtml(layout),
+                        StringUtil.toHtml(typeName),
                         name,
                         layoutName
                 ));

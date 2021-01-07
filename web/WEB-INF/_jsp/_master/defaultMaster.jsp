@@ -14,18 +14,22 @@
 <%@ page import="de.elbe5.request.RequestData" %>
 <%
     SessionRequestData rdata = SessionRequestData.getRequestData(request);
-    Locale locale=rdata.getLocale();
-    ContentData contentData = rdata.getCurrentContent();
-    String title = rdata.getString(RequestData.KEY_TITLE, Application.getConfiguration().getApplicationName()) + (contentData!=null ? " | " + contentData.getDisplayName() : "");
-    String keywords=contentData!=null ? contentData.getKeywords() : title;
-    String description=contentData!=null ? contentData.getDescription() : "";
+    Locale locale = rdata.getLocale();
+    ContentData home = contentContainer().getContentRoot();
+    ContentData currentContent = rdata.getCurrentContent();
+    if (currentContent == null)
+        currentContent = home;
+    String title = rdata.getString(RequestData.KEY_TITLE, Application.getConfiguration().getApplicationName()) + (currentContent != null ? " | " + currentContent.getDisplayName() : "");
+    String keywords = currentContent != null ? currentContent.getKeywords() : title;
+    String description = currentContent != null ? currentContent.getDescription() : "";
 %>
 <!DOCTYPE html>
 <html lang="<%=locale.getLanguage()%>">
 <head>
     <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <title><%=$H(title)%></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <title><%=$H(title)%>
+    </title>
     <meta name="keywords" content="<%=$H(keywords)%>">
     <meta name="description" content="<%=$H(description)%>">
     <link rel="shortcut icon" href="/favicon.ico"/>
@@ -37,5 +41,35 @@
     <script type="text/javascript" src="/static-content/ckeditor/adapters/jquery.js"></script>
     <script type="text/javascript" src="/static-content/js/bandika.js"></script>
 </head>
-<jsp:include page="<%=Application.getConfiguration().getLayout()%>" flush="true"/>
+<body>
+<div class="container">
+    <header>
+        <section class="sysnav">
+            <jsp:include page="/WEB-INF/_jsp/_include/sysnav.inc.jsp" flush="true"/>
+        </section>
+        <div class="menu row">
+            <jsp:include page="/WEB-INF/_jsp/_include/mainnav.inc.jsp" flush="true"/>
+        </div>
+        <div class="bc row">
+            <jsp:include page="/WEB-INF/_jsp/_include/breadcrumb.inc.jsp" flush="true"/>
+        </div>
+    </header>
+    <main id="main" role="main">
+        <div id="pageContainer">
+            <% if (currentContent != null) {
+                try {
+                    currentContent.displayContent(pageContext, rdata);
+                } catch (Exception ignore) {
+                }
+            }%>
+        </div>
+    </main>
+</div>
+<div class="container fixed-bottom">
+    <footer class="footer">
+        <jsp:include page="/WEB-INF/_jsp/_include/footer.inc.jsp" flush="true"/>
+    </footer>
+</div>
+<div class="modal" id="modalDialog" tabindex="-1" role="dialog"></div>
+</body>
 </html>

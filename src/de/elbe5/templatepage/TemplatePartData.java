@@ -33,8 +33,6 @@ public class TemplatePartData extends BaseData implements Comparable<TemplatePar
 
     public static List<String> fieldTypes = new ArrayList<>();
 
-    public static String jspBasePath = "/WEB-INF/_jsp/_layout";
-
     private enum keys{
         cssClass,
         sectionName,
@@ -148,10 +146,6 @@ public class TemplatePartData extends BaseData implements Comparable<TemplatePar
 
     // interface implementation and defaults
 
-    public String getJspPath() {
-        return jspBasePath + "/sectionpage";
-    }
-
     public String getEditTitle(Locale locale) {
         return "Section Part, ID=" + getId();
     }
@@ -204,18 +198,6 @@ public class TemplatePartData extends BaseData implements Comparable<TemplatePar
 
     public void setLayout(String layout) {
         this.layout = layout;
-    }
-
-    public String getTemplateUrl() {
-        return "/WEB-INF/_jsp/_layout/"+ layout +".jsp";
-    }
-
-    public String getPartInclude() {
-        return getTemplateUrl();
-    }
-
-    public String getEditPartInclude() {
-        return getTemplateUrl();
     }
 
     public LocalDateTime getPublishDate() {

@@ -6,35 +6,31 @@
  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  You should have received a copy of the GNU General Public License along with this program; if not, see <http://www.gnu.org/licenses/>.
  */
-package de.elbe5.templatepage;
+package de.elbe5.page;
 
-import de.elbe5.data.DataFactory;
-import de.elbe5.request.RequestData;
+import de.elbe5.application.ApplicationPath;
+import de.elbe5.base.log.Log;
 
-public class HtmlField extends PartField {
+import java.io.File;
+import java.util.*;
 
-    public static final String TYPE_KEY = "htmlfield";
+public class MasterPage {
 
-    public static void register(){
-        DataFactory.addClass(HtmlField.TYPE_KEY, HtmlField.class);
-        PartTypes.typeNames.add(HtmlField.TYPE_KEY);
+    private static final List<String> masterPageNames = new ArrayList<>();
+
+    public static synchronized void loadNames() {
+        masterPageNames.clear();
+        File[] files = ApplicationPath.getMasterDirectory().listFiles();
+        if (files!=null){
+            for (File f : files){
+                String name = f.getName();
+                masterPageNames.add(name.substring(0,name.lastIndexOf('.')));
+            }
+        }
+        Log.log("found "+ masterPageNames.size()+" master page(s)");
     }
 
-    // constructors and type
-
-    public HtmlField() {
+    public static List<String> getMasterPageNames() {
+        return masterPageNames;
     }
-
-    @Override
-    public String getTypeKey(){
-        return HtmlField.TYPE_KEY;
-    }
-
-    // request
-
-    @Override
-    public void readRequestData(RequestData rdata) {
-        setContent(rdata.getString(getIdentifier()));
-    }
-
 }
