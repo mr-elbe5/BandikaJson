@@ -18,7 +18,7 @@
     Locale locale = rdata.getLocale();
     TemplatePageData contentData = rdata.getCurrentContent(TemplatePageData.class);
     assert (contentData != null);
-    String url = "/ajax/sectionpage/saveContentData/" + contentData.getId();
+    String url = "/ajax/templatepage/saveContentData/" + contentData.getId();
 %>
 <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     <div class="modal-content">
@@ -33,7 +33,7 @@
             <div class="modal-body">
                 <jsp:include page = "/WEB-INF/_jsp/content/contentFormFields.inc.jsp" flush="true" />
                 <jsp:include page = "/WEB-INF/_jsp/page/contentFormFields.inc.jsp" flush="true" />
-                <jsp:include page = "/WEB-INF/_jsp/sectionpage/contentFormFields.inc.jsp" flush="true" />
+                <jsp:include page = "/WEB-INF/_jsp/templatepage/contentFormFields.inc.jsp" flush="true" />
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-secondary" data-dismiss="modal"><%=$SH("_close",locale)%>

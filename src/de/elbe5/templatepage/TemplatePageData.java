@@ -45,13 +45,11 @@ public class TemplatePageData extends PageData {
     public static List<String> partTypes = new ArrayList<>();
 
     private enum keys{
-        layout,
+        template,
         sections
     }
 
-    public static String PAGE_TYPE = "SectionPage";
-
-    protected String layout = "";
+    protected String template = "";
 
     protected Map<String, SectionData> sections = new HashMap<>();
 
@@ -72,7 +70,7 @@ public class TemplatePageData extends PageData {
         super.copyEditableAttributes(idata);
         assert (idata instanceof TemplatePageData);
         TemplatePageData data = (TemplatePageData)idata;
-        setLayout(data.getLayout());
+        setTemplate(data.getTemplate());
     }
 
     public void copyPageAttributes(PageData pdata){
@@ -94,14 +92,14 @@ public class TemplatePageData extends PageData {
     @Override
     public void addJSONAttributes(JSONObject obj) {
         super.addJSONAttributes(obj);
-        obj.put(keys.layout.name(), layout);
+        obj.put(keys.template.name(), template);
         obj.put(keys.sections.name(), createJSONObjectFromStringMap(sections));
     }
 
     @Override
     public void fromJSONObject(JSONObject obj) throws JSONException {
         super.fromJSONObject(obj);
-        layout = obj.optString(keys.layout.name());
+        template = obj.optString(keys.template.name());
         sections = this.getStringMap(obj, keys.sections.name(), SectionData.class);
     }
 
@@ -110,9 +108,9 @@ public class TemplatePageData extends PageData {
     @Override
     public void readRequestData(RequestData rdata){
         super.readRequestData(rdata);
-        setLayout(rdata.getString("layout"));
-        if (getLayout().isEmpty()) {
-            rdata.addIncompleteField("layout");
+        setTemplate(rdata.getString("template"));
+        if (getTemplate().isEmpty()) {
+            rdata.addIncompleteField("template");
         }
     }
 
@@ -142,12 +140,12 @@ public class TemplatePageData extends PageData {
 
     // base data
 
-    public String getLayout() {
-        return layout;
+    public String getTemplate() {
+        return template;
     }
 
-    public void setLayout(String layout) {
-        this.layout = layout;
+    public void setTemplate(String template) {
+        this.template = template;
     }
 
     public Map<String, SectionData> getSections() {
@@ -216,12 +214,12 @@ public class TemplatePageData extends PageData {
 
     @Override
     public String getEditDataJsp() {
-        return "/WEB-INF/_jsp/sectionpage/editContentData.ajax.jsp";
+        return "/WEB-INF/_jsp/templatepage/editContentData.ajax.jsp";
     }
 
     @Override
     protected void displayEditContent(PageContext context, JspWriter writer, SessionRequestData rdata) throws IOException, ServletException {
-        context.include("/WEB-INF/_jsp/sectionpage/editPageContent.inc.jsp");
+        context.include("/WEB-INF/_jsp/templatepage/editPageContent.inc.jsp");
     }
 
     @Override
@@ -237,9 +235,9 @@ public class TemplatePageData extends PageData {
 
     public String getHtml(RequestData rdata){
         TemplateContext context = new TemplateContext(rdata, this);
-        PageTemplate template = TemplateCache.getPageTemplate(layout);
+        PageTemplate template = TemplateCache.getPageTemplate(this.template);
         if (template==null){
-            Log.error("page template not found:" + layout);
+            Log.error("page template not found:" + this.template);
             return "";
         }
         String html = template.processTemplate(context);

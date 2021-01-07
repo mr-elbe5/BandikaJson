@@ -36,7 +36,7 @@ public class DefaultContentContainer extends ContentContainer {
         content.setName("");
         content.setDisplayName("Home");
         content.setDescription("Content Root");
-        content.setLayout("defaultSectionPage");
+        content.setTemplate("defaultSectionPage");
         content.setPublishDate(LocalDateTime.now());
         content.setPublishedContent("test");
         content.setVersion(1);

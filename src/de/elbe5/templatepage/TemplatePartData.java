@@ -37,18 +37,14 @@ public class TemplatePartData extends BaseData implements Comparable<TemplatePar
         cssClass,
         sectionName,
         position,
-        editable,
-        layout,
-        publishDate,
-        publishedContent,
+        template,
         fields
     }
 
     protected String cssClass = "";
     protected String sectionName = "";
     protected int position = 0;
-    protected boolean editable = true;
-    protected String layout="";
+    protected String template ="";
     protected LocalDateTime publishDate = null;
     protected String publishedContent = "";
 
@@ -73,10 +69,7 @@ public class TemplatePartData extends BaseData implements Comparable<TemplatePar
         setCssClass(data.getCssClass());
         setSectionName(data.getSectionName());
         setPosition(data.getPosition());
-        setEditable(data.isEditable());
-        setLayout(data.getLayout());
-        setPublishDate(data.getPublishDate());
-        setPublishedContent(data.getPublishedContent());
+        setTemplate(data.getTemplate());
         fields.clear();
         for (String fieldName : data.getFields().keySet()){
             PartField field = IData.getEditableCopy(data.getFields().get(fieldName));
@@ -88,7 +81,7 @@ public class TemplatePartData extends BaseData implements Comparable<TemplatePar
 
     public void setCreateValues(SessionRequestData rdata) {
         setSectionName(rdata.getString("sectionName"));
-        setLayout(rdata.getString("layout"));
+        setTemplate(rdata.getString("layout"));
         setId(Application.getNextId());
         setNew(true);
 
@@ -102,10 +95,7 @@ public class TemplatePartData extends BaseData implements Comparable<TemplatePar
         obj.put(keys.cssClass.name(), cssClass);
         obj.put(keys.sectionName.name(), sectionName);
         obj.put(keys.position.name(), position);
-        obj.put(keys.editable.name(), editable);
-        obj.put(keys.layout.name(), layout);
-        obj.put(keys.publishDate.name(), jsonString(publishDate));
-        obj.put(keys.publishedContent.name(), publishedContent);
+        obj.put(keys.template.name(), template);
         obj.put(keys.fields.name(), createJSONObjectFromStringMap(fields));
     }
 
@@ -115,10 +105,7 @@ public class TemplatePartData extends BaseData implements Comparable<TemplatePar
         cssClass = obj.optString(keys.cssClass.name());
         sectionName = obj.optString(keys.sectionName.name());
         position = obj.optInt(keys.position.name());
-        editable = obj.optBoolean(keys.editable.name());
-        layout = obj.optString(keys.layout.name());
-        publishDate = getLocalDateTime(obj.optString(keys.publishDate.name()));
-        publishedContent = keys.publishedContent.name();
+        template = obj.optString(keys.template.name());
         fields = getStringMap(obj, keys.fields.name(), PartField.class);
     }
 
@@ -184,44 +171,12 @@ public class TemplatePartData extends BaseData implements Comparable<TemplatePar
         return "partpos_" + getId();
     }
 
-    public boolean isEditable() {
-        return editable;
+    public String getTemplate() {
+        return template;
     }
 
-    public void setEditable(boolean editable) {
-        this.editable = editable;
-    }
-
-    public String getLayout() {
-        return layout;
-    }
-
-    public void setLayout(String layout) {
-        this.layout = layout;
-    }
-
-    public LocalDateTime getPublishDate() {
-        return publishDate;
-    }
-
-    public boolean hasUnpublishedDraft() {
-        return publishDate == null || publishDate.isBefore(getChangeDate());
-    }
-
-    public boolean isPublished() {
-        return publishDate != null;
-    }
-
-    public void setPublishDate(LocalDateTime publishDate) {
-        this.publishDate = publishDate;
-    }
-
-    public String getPublishedContent() {
-        return publishedContent;
-    }
-
-    public void setPublishedContent(String publishedContent) {
-        this.publishedContent = publishedContent;
+    public void setTemplate(String template) {
+        this.template = template;
     }
 
     public Map<String, PartField> getFields() {
@@ -267,10 +222,18 @@ public class TemplatePartData extends BaseData implements Comparable<TemplatePar
 
     // html
 
+    public String getHtml(RequestData rdata, TemplatePageData pageData){
+        StringBuilder sb = new StringBuilder();
+        TemplateContext context = new TemplateContext(rdata, pageData);
+        context.currentPart = this;
+        appendHtml(sb, context);
+        return sb.toString();
+    }
+
     public void appendHtml(StringBuilder sb, TemplateContext context){
-        PartTemplate template = TemplateCache.getPartTemplate(layout);
+        PartTemplate template = TemplateCache.getPartTemplate(this.template);
         if (template==null){
-            Log.error("part template not found:" + layout);
+            Log.error("part template not found:" + this.template);
             return;
         }
         template.processCode(sb, context);

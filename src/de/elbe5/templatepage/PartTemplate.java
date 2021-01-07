@@ -1,3 +1,11 @@
+/*
+ BandikaJson CMS - A Java based Content Management System with JSON Database
+ Copyright (C) 2009-2020 Michael Roennau
+
+ This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
+ This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ You should have received a copy of the GNU General Public License along with this program; if not, see <http://www.gnu.org/licenses/>.
+ */
 package de.elbe5.templatepage;
 
 import de.elbe5.application.Strings;
@@ -101,15 +109,10 @@ public class PartTemplate extends Template{
 
     final String partLinkHtml = """
                                         <a class="dropdown-item" href="" onclick="return addPart({1},'{2}','{3}','{4}');">
-                                             {5} ({6})
+                                             {5}
                                         </a>
             """;
 
-    final String partLastLinkHtml = """
-                                        <a class="dropdown-item" href="" onclick="return addPart({1},'{2}','{3}');">
-                                                                                        {4}
-                                                                                    </a>
-            """;
 
     private void appendEditPartHeader(StringBuilder sb, TemplateContext context){
         List<String> partTypes = new ArrayList<>();
@@ -122,24 +125,15 @@ public class PartTemplate extends Template{
                 Strings.html("_newPart",locale)
         ));
         for (String partType : partTypes) {
-            String name = Strings.html("type." + partType, locale);
-            for (String typeName : PartTypes.typeNames){
-                String layoutName = Strings.html("layout."+typeName,locale);
+            for (PartTemplate template : TemplateCache.getPartTemplates().values()){
                 sb.append(StringUtil.format(partLinkHtml,
                         Integer.toString(partId),
                         StringUtil.toHtml(context.currentPart.getSectionName()),
                         partType,
-                        StringUtil.toHtml(typeName),
-                        name,
-                        layoutName
+                        StringUtil.toHtml(template.getName()),
+                        StringUtil.toHtml(template.getDisplayName())
                 ));
             }
-            sb.append(StringUtil.format(partLastLinkHtml,
-                    Integer.toString(partId),
-                    StringUtil.toHtml(context.currentPart.getSectionName()),
-                    partType,
-                    name
-            ));
         }
         sb.append(StringUtil.format(editPartHeaderEndHtml,
                 Strings.html("_more",locale),

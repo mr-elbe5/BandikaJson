@@ -25,10 +25,8 @@
                 <form:select name="master" label="_masterLayout" required="true">
                     <option value="" <%=contentData.getMaster().isEmpty() ? "selected" : ""%>><%=$SH("_pleaseSelect", locale)%>
                     </option>
-                    <% for (String master : masterNames) {
-                        String masterName = $SH("layout."+master,locale);
-                    %>
-                    <option value="<%=$H(master)%>" <%=master.equals(contentData.getMaster()) ? "selected" : ""%>><%=masterName%>
+                    <% for (String master : masterNames) {%>
+                    <option value="<%=$H(master)%>" <%=master.equals(contentData.getMaster()) ? "selected" : ""%>><%=master%>
                     </option>
                     <%}%>
                 </form:select>

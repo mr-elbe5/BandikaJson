@@ -1,3 +1,11 @@
+/*
+ BandikaJson CMS - A Java based Content Management System with JSON Database
+ Copyright (C) 2009-2020 Michael Roennau
+
+ This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
+ This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ You should have received a copy of the GNU General Public License along with this program; if not, see <http://www.gnu.org/licenses/>.
+ */
 package de.elbe5.templatepage;
 
 import de.elbe5.application.ApplicationPath;
@@ -14,7 +22,7 @@ abstract public class Template {
 
     protected String fileStart = """
             <?xml version="1.0" encoding="UTF-8"?>
-            <template type="%s" name="%s">
+            <template type="%s" name="%s" displayName="%s">
             """;
     protected String fileEnd = "\n</template>";
 
@@ -30,6 +38,7 @@ abstract public class Template {
 
     protected String type = "";
     protected String name = "";
+    protected String displayName = "";
     protected String code = "";
 
     public Template() {
@@ -51,6 +60,14 @@ abstract public class Template {
         this.name = name;
     }
 
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
     public String getFilePath() {
         return getTemplatePath(getName());
     }
@@ -67,6 +84,7 @@ abstract public class Template {
         try {
             setType(element.attr("type"));
             setName(element.attr("name"));
+            setDisplayName(element.attr("displayName"));
             setCode(element.html());
         }
         catch(Exception e){
@@ -77,7 +95,7 @@ abstract public class Template {
     public void save(){
         try {
             File file = new File(getTemplatePath(getName()));
-            String str = String.format(fileStart, getType(), getName()) +
+            String str = String.format(fileStart, getType(), getName(), getDisplayName()) +
                     getCode() +
                     fileEnd;
             FileUtils.writeStringToFile(file, str);

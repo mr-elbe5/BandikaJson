@@ -1,0 +1,6 @@
+"sectionpage" -> "templatepage"
+"fieldsectionpart" -> "templatepart"
+"parthtmlfield" -> "htmlfield"
+"parttextfield" -> "textfield"
+"partscriptfield" -> "scriptfield"
+"layout" -> "template"

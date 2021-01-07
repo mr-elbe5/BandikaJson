@@ -1,8 +1,15 @@
+/*
+ BandikaJson CMS - A Java based Content Management System with JSON Database
+ Copyright (C) 2009-2020 Michael Roennau
+
+ This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
+ This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ You should have received a copy of the GNU General Public License along with this program; if not, see <http://www.gnu.org/licenses/>.
+ */
 package de.elbe5.templatepage;
 
 import de.elbe5.application.Strings;
 import de.elbe5.base.data.StringUtil;
-import de.elbe5.page.MasterPage;
 import de.elbe5.tag.MessageHtml;
 
 import java.util.ArrayList;
@@ -35,24 +42,23 @@ public class PageTemplate extends Template{
 
     final String editSectionHtmlStart = """
             <div class="section {1}" id="{2}" title="Section {3}">
+                        """;
+    final String addPartButtonsStart = """
                 <div class="addPartButtons">
-                    <div class="btn-group btn-group-sm editheader" title="Section {4}">
-                        <button class="btn  btn-primary dropdown-toggle fa fa-plus" data-toggle="dropdown" title="{5}"></button>
+                    <div class="btn-group btn-group-sm editheader">
+                        <button class="btn  btn-primary dropdown-toggle fa fa-plus" data-toggle="dropdown"  title="{4}"></button>
                         <div class="dropdown-menu">
                         """;
     final String partTypeLink = """
                             <a class="dropdown-item" href="" onclick="return addPart(-1,'{1}','{2}','{3}');">
-                                {4} ({5})
-                            </a>
-                            """;
-    final String partTypeLastLink = """
-                            <a class="dropdown-item" href="" onclick="return addPart(-1,'{1}','{2}');">
-                                {3}
+                                {4}
                             </a>
                             """;
     final String editSectionHtmlDropdownEnd = """
                         </div>
                      </div>
+                """;
+    final String addPartButtonsEnd = """
                </div>
                 """;
     final String sectionEnd = """
@@ -63,32 +69,28 @@ public class PageTemplate extends Template{
         List<String> partTypes = new ArrayList<>();
         context.pageData.collectPartTypes(partTypes);
         Locale locale = context.requestData.getLocale();
+        boolean showPartButtons = sectionData.getParts().isEmpty();
         sb.append(StringUtil.format(editSectionHtmlStart,
                 attributes.get("css"),
                 sectionData.getSectionId(),
-                sectionData.getName(),
                 StringUtil.toHtml(sectionData.getName()),
-                Strings.html("_newPart", locale)
+                Strings.html("_newPart",locale)
                 ));
-        for (String partType : partTypes) {
-            String name = Strings.html("type." + partType, locale);
-            for (String typeName : PartTypes.typeNames) {
-                String layoutName = Strings.html("layout." + typeName, locale);
-                sb.append(StringUtil.format(partTypeLink,
-                        StringUtil.toHtml(sectionData.getName()),
-                        partType,
-                        StringUtil.toHtml(typeName),
-                        name,
-                        layoutName
-                ));
+        if (showPartButtons) {
+            sb.append(addPartButtonsStart);
+            for (String partType : partTypes) {
+                for (PartTemplate template : TemplateCache.getPartTemplates().values()) {
+                    sb.append(StringUtil.format(partTypeLink,
+                            StringUtil.toHtml(sectionData.getName()),
+                            partType,
+                            StringUtil.toHtml(template.getName()),
+                            StringUtil.toHtml(template.getDisplayName())
+                    ));
+                }
             }
-            sb.append(StringUtil.format(partTypeLastLink,
-                    StringUtil.toHtml(sectionData.getName()),
-                    partType,
-                    name
-            ));
+            sb.append(editSectionHtmlDropdownEnd);
+            sb.append(addPartButtonsEnd);
         }
-        sb.append(editSectionHtmlDropdownEnd);
         for (TemplatePartData partData : sectionData.getParts()) {
             context.currentPart = partData;
             partData.appendHtml(sb, context);

@@ -50,7 +50,7 @@ public class TemplatePageController extends PageController {
         pdata.setCreateValues(rdata);
         data.addPart(pdata, fromPartId, true);
         rdata.put(RequestData.KEY_PART, pdata);
-        return new AjaxResponse("/WEB-INF/_jsp/sectionpage/newPart.ajax.jsp");
+        return new AjaxResponse("/WEB-INF/_jsp/templatepage/newPart.ajax.jsp");
     }
 
 }

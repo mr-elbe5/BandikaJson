@@ -12,7 +12,8 @@
 <%@ page import="de.elbe5.request.SessionRequestData" %>
 <%@ page import="java.util.Locale" %>
 <%@ page import="de.elbe5.templatepage.TemplatePageData" %>
-<%@ page import="de.elbe5.page.PageTypes" %>
+<%@ page import="de.elbe5.templatepage.TemplateCache" %>
+<%@ page import="de.elbe5.templatepage.PageTemplate" %>
 <%@ taglib uri="/WEB-INF/formtags.tld" prefix="form" %>
 <%
     SessionRequestData rdata = SessionRequestData.getRequestData(request);
@@ -20,13 +21,12 @@
     TemplatePageData contentData = rdata.getCurrentContent(TemplatePageData.class);
     assert (contentData != null);
 %>
-                <form:select name="layout" label="_pageLayout" required="true">
-                    <option value="" <%=contentData.getLayout().isEmpty() ? "selected" : ""%>><%=$SH("_pleaseSelect",locale)%>
+                <form:select name="template" label="_pageTemplate" required="true">
+                    <option value="" <%=contentData.getTemplate().isEmpty() ? "selected" : ""%>><%=$SH("_pleaseSelect",locale)%>
                     </option>
-                    <% for (String pageType : PageTypes.typeNames) {
-                        String layoutName = $SH("layout." + pageType,locale);
+                    <% for (PageTemplate template : TemplateCache.getPageTemplates().values()) {
                     %>
-                    <option value="<%=$H(pageType)%>" <%=pageType.equals(contentData.getLayout()) ? "selected" : ""%>><%=layoutName%>
+                    <option value="<%=$H(template.getName())%>" <%=template.getName().equals(contentData.getTemplate()) ? "selected" : ""%>><%=$H(template.getDisplayName())%>
                     </option>
                     <%}%>
                 </form:select>
