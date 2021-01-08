@@ -39,6 +39,7 @@ public class FileData extends BaseData {
     }
 
     private String fileName = "";
+    private String extension = "";
     private String displayName = "";
     private String description = "";
     protected String contentType = null;
@@ -188,6 +189,7 @@ public class FileData extends BaseData {
 
     public void setFileName(String fileName) {
         this.fileName = StringUtil.toSafeWebName(fileName);
+        extension = FileService.getExtension(fileName);
     }
 
     public String getIdFileName(){
@@ -196,6 +198,14 @@ public class FileData extends BaseData {
 
     public String getURL(){
         return "/files/" + getIdFileName();
+    }
+
+    public String getDownloadURL(){
+        return "/files/" + getIdFileName() + "?download=true";
+    }
+
+    public String getDisplayFileName(){
+        return getDisplayName() + extension;
     }
 
     public String getPreviewName(){

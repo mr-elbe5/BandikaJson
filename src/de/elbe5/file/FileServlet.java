@@ -69,6 +69,7 @@ public class FileServlet extends WebServlet {
             else{
                 file = data.getViewableFile(rdata);
             }
+            fileName = data.getDisplayFileName();
         }
         // if not exists, create from database
         RangeInfo rangeInfo = null;
@@ -76,7 +77,7 @@ public class FileServlet extends WebServlet {
         if (rangeHeader != null) {
             rangeInfo = new RangeInfo(rangeHeader, file.length());
         }
-        IResponse result = new FileResponse(file, rangeInfo);
+        IResponse result = new FileResponse(file, fileName, rangeInfo);
         result.processResponse(getServletContext(), rdata, response);
     }
 

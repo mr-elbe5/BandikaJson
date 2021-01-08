@@ -10,6 +10,7 @@
  */
 package de.elbe5.file;
 
+import de.elbe5.base.data.StringUtil;
 import de.elbe5.request.RequestData;
 import de.elbe5.response.IResponse;
 
@@ -23,10 +24,12 @@ public class FileResponse implements IResponse {
     private static final int DEFAULT_BUFFER_SIZE = 0x4000;
 
     private final File file;
+    private final String fileName;
     private final RangeInfo rangeInfo;
 
-    public FileResponse(File file, RangeInfo rangeInfo){
+    public FileResponse(File file, String fileName, RangeInfo rangeInfo){
         this.file = file;
+        this.fileName = fileName;
         this.rangeInfo = rangeInfo;
     }
 
@@ -40,8 +43,8 @@ public class FileResponse implements IResponse {
         response.reset();
         response.setBufferSize(DEFAULT_BUFFER_SIZE);
         boolean forceDownload = rsdata.getBoolean("download");
-        String disposition = forceDownload ? "attachment" : "inline";
-        response.setHeader("Content-Disposition", disposition + ";filename=\"" + file.getName() + "\"");
+        String disposition = (forceDownload ? "attachment" : "inline") + ";filename=\"" + StringUtil.toSafeWebName(fileName) + "\"";
+        response.setHeader("Content-Disposition", disposition);
         response.setHeader("Accept-Ranges", "bytes");
         String contentType = context.getMimeType(file.getName());
         if (contentType == null) {

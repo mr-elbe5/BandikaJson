@@ -33,7 +33,7 @@
             for (FileData file : files) {%>
         <li>
             <div class="treeline">
-                <a id="<%=file.getId()%>" href="" onclick="return ckLinkCallback('<%=file.getURL()%>');">
+                <a id="<%=file.getId()%>" href="" onclick="return ckLinkCallback('<%=file.getDownloadURL()%>');">
                     <% if (file.isImage()){%>
                     <img src="<%=file.getPreviewURL()%>" alt="<%=$H(file.getFileName())%>"/>
                     <%}%>
