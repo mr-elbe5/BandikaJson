@@ -169,22 +169,7 @@ public class TemplatePageData extends PageData {
 
     // part data
 
-    public void sortParts() {
-        for (SectionData section : sections.values()) {
-            section.sortParts();
-        }
-    }
-
-    public TemplatePartData getPart(int pid) {
-        for (SectionData section : getSections().values()) {
-            TemplatePartData part = section.getPart(pid);
-            if (part!=null)
-                return part;
-        }
-        return null;
-    }
-
-    public void addPart(TemplatePartData part, int fromPartId, boolean setRanking) {
+    public void addPart(TemplatePartData part, int fromPartId) {
         SectionData section = getSection(part.getSectionName());
         if (section == null) {
             section = new SectionData();
@@ -192,22 +177,7 @@ public class TemplatePageData extends PageData {
             section.setName(part.getSectionName());
             sections.put(part.getSectionName(), section);
         }
-        section.addPart(part, fromPartId, setRanking);
-    }
-
-    public void movePart(String sectionName, int id, int dir) {
-        SectionData section = getSection(sectionName);
-        section.movePart(id, dir);
-    }
-
-    public void deletePart(int pid) {
-        for (SectionData section : getSections().values()) {
-            TemplatePartData part = section.getPart(pid);
-            if (part!=null) {
-                section.deletePart(pid);
-                break;
-            }
-        }
+        section.addPart(part, fromPartId);
     }
 
     // view

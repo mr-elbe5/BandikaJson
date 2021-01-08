@@ -92,6 +92,7 @@ public class SectionData implements IData, JsonData {
         contentId = obj.optInt(keys.contentId.name());
         cssClass = obj.optString(keys.cssClass.name());
         parts = getList(obj, keys.parts.name(), TemplatePartData.class);
+        sortParts();
     }
 
     // request
@@ -105,6 +106,7 @@ public class SectionData implements IData, JsonData {
                 getParts().remove(i);
             }
         }
+        sortParts();
     }
 
     // getter and setter
@@ -168,7 +170,7 @@ public class SectionData implements IData, JsonData {
         return null;
     }
 
-    public void addPart(TemplatePartData part, int fromPartId, boolean setRanking) {
+    public void addPart(TemplatePartData part, int fromPartId) {
         boolean found = false;
         if (fromPartId != -1) {
             for (int i = 0; i < parts.size(); i++) {
@@ -183,41 +185,12 @@ public class SectionData implements IData, JsonData {
         if (!found) {
             parts.add(part);
         }
-        if (setRanking) {
-            for (int i = 0; i < parts.size(); i++) {
-                parts.get(i).setPosition(i + 1);
-            }
-        }
+        setRankings();
     }
 
-    public void movePart(int id, int dir) {
-        for (int i = 0; i < parts.size(); i++) {
-            TemplatePartData ppd = parts.get(i);
-            if (ppd.getId() == id) {
-                parts.remove(i);
-                int idx = i + dir;
-                if (idx > parts.size() - 1) {
-                    parts.add(ppd);
-                } else if (idx < 0) {
-                    parts.add(0, ppd);
-                } else {
-                    parts.add(idx, ppd);
-                }
-                break;
-            }
-        }
+    public void setRankings() {
         for (int i = 0; i < parts.size(); i++) {
             parts.get(i).setPosition(i + 1);
-        }
-    }
-
-    public void deletePart(int id) {
-        for (int i = 0; i < parts.size(); i++) {
-            TemplatePartData ppd = parts.get(i);
-            if (ppd.getId() == id) {
-                parts.remove(i);
-                return;
-            }
         }
     }
 

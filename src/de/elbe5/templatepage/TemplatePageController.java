@@ -49,7 +49,7 @@ public class TemplatePageController extends PageController {
         TemplatePartData pdata = DataFactory.createObject(partType, TemplatePartData.class);
         assert(pdata != null);
         pdata.setCreateValues(rdata);
-        data.addPart(pdata, fromPartId, true);
+        data.addPart(pdata, fromPartId);
         rdata.put(RequestData.KEY_PART, pdata);
         return new AjaxHtmlResponse(pdata.getNewPartHtml(rdata, data));
     }
