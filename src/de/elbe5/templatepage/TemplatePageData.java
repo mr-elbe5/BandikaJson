@@ -228,7 +228,7 @@ public class TemplatePageData extends PageData {
     }
 
     protected void displayPublishedContent(PageContext context, JspWriter writer, SessionRequestData rdata) throws IOException, ServletException {
-        writer.write(getHtml(rdata));
+        writer.write(getPublishedContent());
     }
 
     // html

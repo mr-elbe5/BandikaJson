@@ -8,7 +8,7 @@
  */
 package de.elbe5.application;
 
-import de.elbe5.response.AjaxResponse;
+import de.elbe5.response.AjaxForwardResponse;
 import de.elbe5.response.CloseDialogResponse;
 import de.elbe5.rights.SystemRights;
 import de.elbe5.servlet.ControllerCache;
@@ -133,11 +133,11 @@ public class AdminController extends Controller {
     }
 
     protected IResponse showSelectBackup(SessionRequestData rdata) {
-        return new AjaxResponse("/WEB-INF/_jsp/administration/selectBackup.ajax.jsp");
+        return new AjaxForwardResponse("/WEB-INF/_jsp/administration/selectBackup.ajax.jsp");
     }
 
     protected IResponse showEditConfiguration(SessionRequestData rdata) {
-        return new AjaxResponse("/WEB-INF/_jsp/administration/editConfiguration.ajax.jsp");
+        return new AjaxForwardResponse("/WEB-INF/_jsp/administration/editConfiguration.ajax.jsp");
     }
 
 }

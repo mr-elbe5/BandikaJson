@@ -12,9 +12,8 @@ import de.elbe5.content.ContentController;
 import de.elbe5.content.ContentData;
 import de.elbe5.file.FileData;
 import de.elbe5.request.SessionRequestData;
-import de.elbe5.response.AjaxResponse;
+import de.elbe5.response.AjaxForwardResponse;
 import de.elbe5.response.IResponse;
-import de.elbe5.response.ForwardResponse;
 import de.elbe5.rights.ContentRights;
 import de.elbe5.servlet.ControllerCache;
 
@@ -46,14 +45,14 @@ public class CkEditorController extends ContentController {
         ContentData data=rdata.getCurrentSessionContent();
         assert(data!=null);
         checkRights(ContentRights.hasUserEditRight(rdata.getCurrentUser(), data.getId()));
-        return new AjaxResponse("/WEB-INF/_jsp/ckeditor/browseLinks.ajax.jsp");
+        return new AjaxForwardResponse("/WEB-INF/_jsp/ckeditor/browseLinks.ajax.jsp");
     }
 
     public IResponse openImageBrowser(SessionRequestData rdata) {
         ContentData data=rdata.getCurrentSessionContent();
         assert(data!=null);
         checkRights(ContentRights.hasUserEditRight(rdata.getCurrentUser(), data.getId()));
-        return new AjaxResponse("/WEB-INF/_jsp/ckeditor/browseImages.ajax.jsp");
+        return new AjaxForwardResponse("/WEB-INF/_jsp/ckeditor/browseImages.ajax.jsp");
     }
 
     public IResponse addImage(SessionRequestData rdata) {
@@ -65,7 +64,7 @@ public class CkEditorController extends ContentController {
         image.readRequestData(rdata);
         contentContainer().addFile(image, rdata.getUserId());
         rdata.put("imageId", Integer.toString(image.getId()));
-        return new AjaxResponse("/WEB-INF/_jsp/ckeditor/addImage.ajax.jsp");
+        return new AjaxForwardResponse("/WEB-INF/_jsp/ckeditor/addImage.ajax.jsp");
     }
 
 

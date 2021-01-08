@@ -12,7 +12,6 @@ import de.elbe5.application.Application;
 import de.elbe5.base.log.Log;
 import de.elbe5.data.DataFactory;
 import de.elbe5.data.IData;
-import de.elbe5.page.PageData;
 import de.elbe5.request.RequestData;
 import de.elbe5.request.SessionRequestData;
 import de.elbe5.response.*;
@@ -279,15 +278,15 @@ public class ContentController extends Controller {
     }
 
     protected IResponse showEditContent(ContentData contentData) {
-        return new AjaxResponse(contentData.getEditDataJsp());
+        return new AjaxForwardResponse(contentData.getEditDataJsp());
     }
 
     protected IResponse showEditRights(ContentData contentData) {
-        return new AjaxResponse("/WEB-INF/_jsp/content/editGroupRights.ajax.jsp");
+        return new AjaxForwardResponse("/WEB-INF/_jsp/content/editGroupRights.ajax.jsp");
     }
 
     protected IResponse showSortChildContents() {
-        return new AjaxResponse("/WEB-INF/_jsp/content/sortChildContents.ajax.jsp");
+        return new AjaxForwardResponse("/WEB-INF/_jsp/content/sortChildContents.ajax.jsp");
     }
 
     protected IResponse showContentAdministration(SessionRequestData rdata, int contentId) {

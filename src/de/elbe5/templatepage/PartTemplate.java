@@ -64,7 +64,7 @@ public class PartTemplate extends Template{
         else{
             sb.append(StringUtil.format(viewPartHtmlStart,
                     partData.getPartWrapperId(),
-                    StringUtil.toHtml(partData.getCssClass())
+                    StringUtil.toHtml(getCss())
             ));
         }
         super.processCode(sb, context);
@@ -169,13 +169,13 @@ public class PartTemplate extends Template{
                 sb.append(StringUtil.format(textLineTag,
                         field.getIdentifier(),
                         field.getIdentifier(),
-                        StringUtil.toHtml(field.getContent())
+                        StringUtil.toHtml(field.getContent().isEmpty() ? content : field.getContent())
                 ));
         } else {
             if (content.length() == 0) {
                 sb.append("&nbsp;");
             } else {
-                sb.append(StringUtil.toHtmlMultiline(content));
+                sb.append(StringUtil.toHtmlMultiline(field.getContent()));
             }
         }
     }
@@ -233,6 +233,16 @@ public class PartTemplate extends Template{
                 ));
             }
         }
+    }
+
+    final String newPartScript = """
+            <script type="text/javascript">
+                updatePartEditors($('#{1}'));
+            </script> 
+            """;
+
+    public String getNewPartScript(TemplatePartData partData){
+        return StringUtil.format(newPartScript, partData.getPartWrapperId());
     }
 
 }

@@ -222,11 +222,17 @@ public class TemplatePartData extends BaseData implements Comparable<TemplatePar
 
     // html
 
-    public String getHtml(RequestData rdata, TemplatePageData pageData){
+    public String getNewPartHtml(RequestData rdata, TemplatePageData pageData){
         StringBuilder sb = new StringBuilder();
         TemplateContext context = new TemplateContext(rdata, pageData);
         context.currentPart = this;
-        appendHtml(sb, context);
+        PartTemplate template = TemplateCache.getPartTemplate(this.template);
+        if (template==null){
+            Log.error("part template not found:" + this.template);
+            return "";
+        }
+        template.processCode(sb, context);
+        sb.append(template.getNewPartScript(this));
         return sb.toString();
     }
 

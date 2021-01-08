@@ -16,7 +16,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class CloseDialogResponse extends AjaxResponse {
+public class CloseDialogResponse extends AjaxForwardResponse {
 
     public CloseDialogResponse(String url) {
         super(url);

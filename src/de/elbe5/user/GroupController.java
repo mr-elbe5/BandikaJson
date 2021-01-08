@@ -104,7 +104,7 @@ public class GroupController extends Controller {
     }
 
     protected IResponse showEditGroup() {
-        return new AjaxResponse("/WEB-INF/_jsp/user/editGroup.ajax.jsp");
+        return new AjaxForwardResponse("/WEB-INF/_jsp/user/editGroup.ajax.jsp");
     }
 
 }

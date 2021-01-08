@@ -11,7 +11,8 @@ package de.elbe5.templatepage;
 import de.elbe5.data.DataFactory;
 import de.elbe5.page.PageController;
 import de.elbe5.request.*;
-import de.elbe5.response.AjaxResponse;
+import de.elbe5.response.AjaxForwardResponse;
+import de.elbe5.response.AjaxHtmlResponse;
 import de.elbe5.response.IResponse;
 import de.elbe5.rights.ContentRights;
 import de.elbe5.servlet.ControllerCache;
@@ -50,7 +51,7 @@ public class TemplatePageController extends PageController {
         pdata.setCreateValues(rdata);
         data.addPart(pdata, fromPartId, true);
         rdata.put(RequestData.KEY_PART, pdata);
-        return new AjaxResponse("/WEB-INF/_jsp/templatepage/newPart.ajax.jsp");
+        return new AjaxHtmlResponse(pdata.getNewPartHtml(rdata, data));
     }
 
 }

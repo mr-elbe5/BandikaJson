@@ -240,11 +240,11 @@ public class UserController extends Controller {
     }
 
     protected IResponse showLogin() {
-        return new AjaxResponse("/WEB-INF/_jsp/user/login.ajax.jsp");
+        return new AjaxForwardResponse("/WEB-INF/_jsp/user/login.ajax.jsp");
     }
 
     protected IResponse showEditUser() {
-        return new AjaxResponse("/WEB-INF/_jsp/user/editUser.ajax.jsp");
+        return new AjaxForwardResponse("/WEB-INF/_jsp/user/editUser.ajax.jsp");
     }
 
     protected IResponse showProfile(SessionRequestData rdata) {
@@ -253,11 +253,11 @@ public class UserController extends Controller {
     }
 
     protected IResponse showChangePassword() {
-        return new AjaxResponse("/WEB-INF/_jsp/user/editPassword.ajax.jsp");
+        return new AjaxForwardResponse("/WEB-INF/_jsp/user/editPassword.ajax.jsp");
     }
 
     protected IResponse showChangeProfile() {
-        return new AjaxResponse("/WEB-INF/_jsp/user/editProfile.ajax.jsp");
+        return new AjaxForwardResponse("/WEB-INF/_jsp/user/editProfile.ajax.jsp");
     }
 
 }

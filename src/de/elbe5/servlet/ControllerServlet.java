@@ -13,7 +13,8 @@ import de.elbe5.application.Application;
 import de.elbe5.base.log.Log;
 import de.elbe5.request.RequestData;
 import de.elbe5.request.RequestType;
-import de.elbe5.response.AjaxResponse;
+import de.elbe5.response.AjaxForwardResponse;
+import de.elbe5.response.IAjaxResponse;
 import de.elbe5.response.IResponse;
 import de.elbe5.request.SessionRequestData;
 import de.elbe5.response.RedirectResponse;
@@ -85,10 +86,10 @@ public class ControllerServlet extends WebServlet {
             Method controllerMethod = controller.getClass().getMethod(methodName, SessionRequestData.class);
             Object result = controllerMethod.invoke(controller, rdata);
             if (result instanceof IResponse) {
-                if (rdata.isAjaxRequest() && !(result instanceof AjaxResponse)){
+                if (rdata.isAjaxRequest() && !(result instanceof IAjaxResponse)){
                     Log.warn("ajax request but no ajax response");
                 }
-                if (rdata.isPageRequest() && (result instanceof AjaxResponse)){
+                if (rdata.isPageRequest() && (result instanceof IAjaxResponse)){
                     Log.warn("page request but ajax response");
                 }
                 return (IResponse) result;

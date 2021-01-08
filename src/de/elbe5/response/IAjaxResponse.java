@@ -8,10 +8,6 @@
  */
 package de.elbe5.response;
 
-public class AjaxResponse extends ForwardResponse {
-
-    public AjaxResponse(String url) {
-        super(url);
-    }
+public interface IAjaxResponse {
 
 }

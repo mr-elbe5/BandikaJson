@@ -20,11 +20,11 @@ import java.text.MessageFormat;
 
 public class HtmlResponse implements IResponse {
 
-    private String text;
+    private String html;
     private boolean noCache=true;
 
-    public HtmlResponse(String text) {
-        this.text = text;
+    public HtmlResponse(String html) {
+        this.html = html;
     }
 
     public void setNoCache(boolean noCache) {
@@ -47,10 +47,10 @@ public class HtmlResponse implements IResponse {
         response.setHeader("Access-Control-Allow-Origin","*");
         try {
             OutputStream out = response.getOutputStream();
-            if (text == null || text.length() == 0) {
+            if (html == null || html.length() == 0) {
                 response.setHeader("Content-Length", "0");
             } else {
-                byte[] bytes = text.getBytes(Application.ENCODING);
+                byte[] bytes = html.getBytes(Application.ENCODING);
                 response.setHeader("Content-Length", Integer.toString(bytes.length));
                 out.write(bytes);
             }

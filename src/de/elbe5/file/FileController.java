@@ -200,7 +200,7 @@ public class FileController extends Controller {
     }
 
     protected IResponse showEditFile() {
-        return new AjaxResponse("/WEB-INF/_jsp/file/editFile.ajax.jsp");
+        return new AjaxForwardResponse("/WEB-INF/_jsp/file/editFile.ajax.jsp");
     }
 
     protected IResponse showContentAdministration(SessionRequestData rdata, int contentId) {

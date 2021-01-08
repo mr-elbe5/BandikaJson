@@ -55,6 +55,7 @@
         function deletePart(id){
             let $partWrapper=$('#part_'+id);
             $partWrapper.remove();
+            //todo last part
             updatePartPositions();
             return false;
         }
