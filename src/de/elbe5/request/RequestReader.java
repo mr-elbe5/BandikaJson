@@ -28,10 +28,10 @@ public abstract class RequestReader {
             String type = request.getContentType();
             if (type != null && type.toLowerCase().startsWith("multipart/form-data")) {
                 getMultiPartParams(request, map);
-            } else if (type != null && type.toLowerCase().equals("application/octet-stream")) {
+            } else if (type != null && type.equalsIgnoreCase("application/octet-stream")) {
                 getSinglePartParams(request, map);
                 getByteStream(request, map);
-            } else if (type != null && type.toLowerCase().equals("application/json")) {
+            } else if (type != null && type.equalsIgnoreCase("application/json")) {
                 getSinglePartParams(request, map);
                 getJsonStream(request, map);
             } else {

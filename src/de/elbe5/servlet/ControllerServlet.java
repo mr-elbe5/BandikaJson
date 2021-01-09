@@ -50,12 +50,12 @@ public class ControllerServlet extends WebServlet {
         String uri = request.getRequestURI();
         // skip "/ctrl/" or "/ajax/"
         StringTokenizer stk = new StringTokenizer(uri.substring(6), "/", false);
-        String methodName = "";
+        String controllerMethodName = "";
         Controller controller = null;
         if (stk.hasMoreTokens()) {
             String controllerName = stk.nextToken();
             if (stk.hasMoreTokens()) {
-                methodName = stk.nextToken();
+                controllerMethodName = stk.nextToken();
                 if (stk.hasMoreTokens()) {
                     rdata.setId(StringUtil.toInt(stk.nextToken()));
                 }
@@ -65,7 +65,7 @@ public class ControllerServlet extends WebServlet {
         RequestReader.readRequestParams(request, rdata, method.equals("POST"));
         rdata.initSession();
         try {
-            IResponse result = getView(controller, methodName, rdata);
+            IResponse result = getView(controller, controllerMethodName, rdata);
             if (rdata.hasCookies())
                 rdata.setCookies(response);
             result.processResponse(getServletContext(), rdata, response);
@@ -76,17 +76,17 @@ public class ControllerServlet extends WebServlet {
         }
     }
 
-    public IResponse getView(Controller controller, String methodName, SessionRequestData rdata) {
+    public IResponse getView(Controller controller, String controllerMethodName, SessionRequestData rdata) {
         if (controller==null)
             throw new ResponseException(HttpServletResponse.SC_BAD_REQUEST);
         try {
-            Method controllerMethod = controller.getClass().getMethod(methodName, SessionRequestData.class);
+            Method controllerMethod = controller.getClass().getMethod(controllerMethodName, SessionRequestData.class);
             Object result = controllerMethod.invoke(controller, rdata);
             if (result instanceof IResponse) {
-                if (rdata.isAjaxRequest() && !(result instanceof IAjaxResponse)){
+                if (rdata.getType().equals(RequestType.ajax) && !(result instanceof IAjaxResponse)){
                     Log.warn("ajax request but no ajax response");
                 }
-                if (rdata.isPageRequest() && (result instanceof IAjaxResponse)){
+                if (rdata.getType().equals(RequestType.page) && (result instanceof IAjaxResponse)){
                     Log.warn("page request but ajax response");
                 }
                 return (IResponse) result;

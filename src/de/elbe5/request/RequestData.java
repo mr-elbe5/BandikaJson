@@ -59,22 +59,6 @@ public abstract class RequestData extends KeyValueMap {
         return type;
     }
 
-    public boolean isFileRequest(){
-        return type.equals(RequestType.file);
-    }
-
-    public boolean isPageRequest(){
-        return type.equals(RequestType.page);
-    }
-
-    public boolean isAjaxRequest(){
-        return type.equals(RequestType.ajax);
-    }
-
-    public boolean isApiRequest(){
-        return type.equals(RequestType.api);
-    }
-
     /*********** message *********/
 
     public boolean hasMessage() {

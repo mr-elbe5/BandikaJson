@@ -8,8 +8,6 @@
  */
 package de.elbe5.request;
 
-import javax.servlet.http.HttpServletRequest;
-
 public abstract class RequestKeys {
 
     public static final String KEY_REQUESTDATA = "$REQUESTDATA";
