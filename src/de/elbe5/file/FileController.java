@@ -50,7 +50,7 @@ public class FileController extends Controller {
         checkRights(ContentRights.hasUserEditRight(rdata.getCurrentUser(), parent));
         FileData data = new FileData();
         data.setCreateValues(parent, rdata.getUserId());
-        rdata.setSessionObject(RequestData.KEY_FILE, data);
+        rdata.setSessionObject(RequestKeys.KEY_FILE, data);
         return showEditFile();
     }
 
@@ -59,13 +59,13 @@ public class FileController extends Controller {
         FileData editData = new FileData();
         editData.setEditValues(data);
         checkRights(ContentRights.hasUserEditRight(rdata.getCurrentUser(), data.getParentId()));
-        rdata.setSessionObject(RequestData.KEY_FILE,data);
+        rdata.setSessionObject(RequestKeys.KEY_FILE,data);
         return showEditFile();
     }
 
     public IResponse saveFile(SessionRequestData rdata) {
         int fileId = rdata.getId();
-        FileData data = rdata.getSessionObject(RequestData.KEY_FILE,FileData.class);
+        FileData data = rdata.getSessionObject(RequestKeys.KEY_FILE,FileData.class);
         assert(data != null && data.getId() == fileId);
         checkRights(ContentRights.hasUserEditRight(rdata.getCurrentUser(), data.getParentId()));
         data.readRequestData(rdata);
@@ -125,7 +125,7 @@ public class FileController extends Controller {
         FileData data = contentContainer().getFile(fileId);
         assert(data!=null);
         checkRights(ContentRights.hasUserEditRight(rdata.getCurrentUser(), data.getParentId()));
-        rdata.setClipboardData(RequestData.KEY_FILE, data);
+        rdata.setClipboardData(RequestKeys.KEY_FILE, data);
         return showContentAdministration(rdata,data.getParentId());
     }
 
@@ -150,7 +150,7 @@ public class FileController extends Controller {
             success &= FileService.copyFile(originalFile,newFile);
         }
         assert success;
-        rdata.setClipboardData(RequestData.KEY_FILE, data);
+        rdata.setClipboardData(RequestKeys.KEY_FILE, data);
         return showContentAdministration(rdata,data.getId());
     }
 
@@ -163,7 +163,7 @@ public class FileController extends Controller {
             setError(rdata,"_actionNotExcecuted");
             return showContentAdministration(rdata);
         }
-        FileData data=rdata.getClipboardData(RequestData.KEY_FILE,FileData.class);
+        FileData data=rdata.getClipboardData(RequestKeys.KEY_FILE,FileData.class);
         if (data==null){
             setError(rdata,"_actionNotExcecuted");
             return showContentAdministration(rdata);
@@ -184,7 +184,7 @@ public class FileController extends Controller {
                 return showContentAdministration(rdata);
             }
         }
-        rdata.removeClipboardData(RequestData.KEY_FILE);
+        rdata.removeClipboardData(RequestKeys.KEY_FILE);
         setSuccess(rdata,"_filePasted");
         return showContentAdministration(rdata,data.getId());
     }

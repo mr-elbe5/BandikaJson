@@ -49,7 +49,7 @@ public class UserController extends Controller {
         checkRights(SystemRights.hasUserSystemRight(rdata.getCurrentUser(),SystemZone.USER));
         UserData data = new UserData();
         data.setCreateValues(rdata.getUserId());
-        rdata.setSessionObject(RequestData.KEY_USER, data);
+        rdata.setSessionObject(RequestKeys.KEY_USER, data);
         return showEditUser();
     }
 
@@ -59,13 +59,13 @@ public class UserController extends Controller {
         UserData data = new UserData();
         UserData original = userContainer().getUser(userId);
         data.setEditValues(original);
-        rdata.setSessionObject(RequestData.KEY_USER, data);
+        rdata.setSessionObject(RequestKeys.KEY_USER, data);
         return showEditUser();
     }
 
     public IResponse saveUser(SessionRequestData rdata) {
         checkRights(SystemRights.hasUserSystemRight(rdata.getCurrentUser(),SystemZone.USER));
-        UserData data = (UserData) rdata.getSessionObject(RequestData.KEY_USER);
+        UserData data = (UserData) rdata.getSessionObject(RequestKeys.KEY_USER);
         assert(data!=null);
         data.readRequestData(rdata);
         if (rdata.hasFormErrors()) {
@@ -84,7 +84,7 @@ public class UserController extends Controller {
         if (rdata.getUserId() == data.getId()) {
             rdata.setSessionUser(data);
         }
-        rdata.removeSessionObject(RequestData.KEY_USER);
+        rdata.removeSessionObject(RequestKeys.KEY_USER);
         setSuccess(rdata,"_userSaved");
         return new CloseDialogResponse("/ctrl/admin/openPersonAdministration?userId=" + data.getId());
     }
@@ -189,7 +189,7 @@ public class UserController extends Controller {
         }
         UserData data = userContainer().getUser(login, pwd);
         if (data == null){
-            Log.info("bad login of "+login);
+            Log.info("bad web login of "+login);
             setError(rdata,"_badLogin");
             return showLogin();
         }
@@ -198,7 +198,6 @@ public class UserController extends Controller {
     }
 
     public IResponse login(ApiRequestData rdata) {
-        Log.log("try login");
         checkRights(rdata.isPostback());
         String login = rdata.getString("login");
         String pwd = rdata.getString("password");
@@ -209,7 +208,7 @@ public class UserController extends Controller {
         }
         UserData data = userContainer().getUser(login, pwd);
         if (data == null) {
-            Log.info("bad login of "+login);
+            Log.info("bad api login of "+login);
             return new StatusResponse(HttpServletResponse.SC_UNAUTHORIZED);
         }
         JSONObject tokenObject = ApiWebToken.getTokenObject(data, loginDuration);

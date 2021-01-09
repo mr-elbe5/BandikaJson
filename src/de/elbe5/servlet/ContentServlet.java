@@ -10,10 +10,7 @@ package de.elbe5.servlet;
 
 import de.elbe5.application.Application;
 import de.elbe5.page.PageController;
-import de.elbe5.request.RequestData;
-import de.elbe5.request.RequestType;
-import de.elbe5.request.SessionRequestData;
-import de.elbe5.response.ForwardResponse;
+import de.elbe5.request.*;
 import de.elbe5.response.IResponse;
 import de.elbe5.response.RedirectResponse;
 
@@ -28,8 +25,8 @@ public class ContentServlet extends WebServlet {
     protected void processRequest(String method, HttpServletRequest request, HttpServletResponse response) throws IOException {
         request.setCharacterEncoding(Application.ENCODING);
         SessionRequestData rdata = new SessionRequestData(method, request, RequestType.page);
-        request.setAttribute(RequestData.KEY_REQUESTDATA, rdata);
-        rdata.readRequestParams();
+        request.setAttribute(RequestKeys.KEY_REQUESTDATA, rdata);
+        RequestReader.readRequestParams(request, rdata, method.equals("POST"));
         rdata.initSession();
         String url=request.getRequestURI().toLowerCase();
         try {

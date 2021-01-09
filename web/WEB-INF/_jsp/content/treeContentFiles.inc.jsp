@@ -15,6 +15,7 @@
 <%@ page import="de.elbe5.file.FileData" %>
 <%@ page import="de.elbe5.request.RequestData" %>
 <%@ page import="de.elbe5.rights.ContentRights" %>
+<%@ page import="de.elbe5.request.RequestKeys" %>
 <%@ taglib uri="/WEB-INF/formtags.tld" prefix="form" %>
 <%
     SessionRequestData rdata = SessionRequestData.getRequestData(request);
@@ -27,7 +28,7 @@
             <span>[<%=$SH("_files", locale)%>]</span>
             <%if (ContentRights.hasUserEditRight(rdata.getCurrentUser(), contentData)) {%>
             <div class="icons">
-                <% if (rdata.hasClipboardData(RequestData.KEY_FILE)) {%>
+                <% if (rdata.hasClipboardData(RequestKeys.KEY_FILE)) {%>
                 <a class="icon fa fa-paste" href="/ctrl/file/pasteFile?parentId=<%=contentData.getId()%>&parentVersion=<%=contentData.getVersion()%>" title="<%=$SH("_pasteFile",locale)%>"> </a>
                 <%}%>
                 <a class="icon fa fa-plus" onclick="return openModalDialog('/ajax/file/openCreateFile?parentId=<%=contentData.getId()%>');">

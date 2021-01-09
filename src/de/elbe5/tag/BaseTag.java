@@ -9,7 +9,7 @@
 package de.elbe5.tag;
 
 import de.elbe5.base.data.StringUtil;
-import de.elbe5.request.RequestData;
+import de.elbe5.request.RequestKeys;
 import de.elbe5.request.SessionRequestData;
 
 import javax.servlet.http.HttpServletRequest;
@@ -73,7 +73,7 @@ public class BaseTag implements Tag {
     }
 
     protected SessionRequestData getRequestData() {
-        return (SessionRequestData) getRequest().getAttribute(RequestData.KEY_REQUESTDATA);
+        return (SessionRequestData) getRequest().getAttribute(RequestKeys.KEY_REQUESTDATA);
     }
 
 }

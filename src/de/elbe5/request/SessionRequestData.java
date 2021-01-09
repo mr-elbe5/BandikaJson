@@ -20,7 +20,7 @@ import java.util.*;
 public class SessionRequestData extends RequestData {
 
     public static SessionRequestData getRequestData(HttpServletRequest request) {
-        return (SessionRequestData) request.getAttribute(RequestData.KEY_REQUESTDATA);
+        return (SessionRequestData) request.getAttribute(RequestKeys.KEY_REQUESTDATA);
     }
 
     public SessionRequestData(String method, HttpServletRequest request, RequestType type) {
@@ -115,10 +115,10 @@ public class SessionRequestData extends RequestData {
     }
 
     public ClipboardData getClipboard() {
-        ClipboardData data = getSessionObject(RequestData.KEY_CLIPBOARD,ClipboardData.class);
+        ClipboardData data = getSessionObject(RequestKeys.KEY_CLIPBOARD,ClipboardData.class);
         if (data==null){
             data=new ClipboardData();
-            setSessionObject(RequestData.KEY_CLIPBOARD,data);
+            setSessionObject(RequestKeys.KEY_CLIPBOARD,data);
         }
         return data;
     }
@@ -145,11 +145,11 @@ public class SessionRequestData extends RequestData {
     }
 
     public void setSessionUser(UserData data) {
-        setSessionObject(RequestData.KEY_LOGIN, data);
+        setSessionObject(RequestKeys.KEY_LOGIN, data);
     }
 
     public UserData getSessionUser() {
-        return (UserData) getSessionObject(RequestData.KEY_LOGIN);
+        return (UserData) getSessionObject(RequestKeys.KEY_LOGIN);
     }
 
     public ContentData getCurrentContent() {
@@ -158,9 +158,9 @@ public class SessionRequestData extends RequestData {
 
     public <T extends ContentData> T getCurrentContent(Class<T> cls) {
         try {
-            Object obj=getRequestObject(RequestData.KEY_CONTENT);
+            Object obj=getRequestObject(RequestKeys.KEY_CONTENT);
             if (obj==null)
-                obj=getSessionObject(RequestData.KEY_CONTENT);
+                obj=getSessionObject(RequestKeys.KEY_CONTENT);
             assert(obj!=null);
             //Log.log("current request content is: " + obj.getClass().getSimpleName());
             return cls.cast(obj);
@@ -172,11 +172,11 @@ public class SessionRequestData extends RequestData {
 
     public void setCurrentSessionContent(ContentData data) {
         //Log.log("set current session content: " + data.getClass().getSimpleName());
-        setSessionObject(RequestData.KEY_CONTENT, data);
+        setSessionObject(RequestKeys.KEY_CONTENT, data);
     }
 
     public void removeCurrentSessionContent() {
-        removeSessionObject(RequestData.KEY_CONTENT);
+        removeSessionObject(RequestKeys.KEY_CONTENT);
     }
 
     public ContentData getCurrentSessionContent() {
@@ -185,7 +185,7 @@ public class SessionRequestData extends RequestData {
 
     public <T extends ContentData> T getCurrentSessionContent(Class<T> cls) {
         try {
-            Object obj=getSessionObject(RequestData.KEY_CONTENT);
+            Object obj=getSessionObject(RequestKeys.KEY_CONTENT);
             //Log.log("current session content is: " + obj.getClass().getSimpleName());
             return cls.cast(obj);
         }
@@ -199,7 +199,7 @@ public class SessionRequestData extends RequestData {
     }
 
     public Locale getSessionLocale() {
-        Locale locale = getSessionObject(RequestData.KEY_LOCALE,Locale.class);
+        Locale locale = getSessionObject(RequestKeys.KEY_LOCALE,Locale.class);
         if (locale == null) {
             return Application.getDefaultLocale();
         }
@@ -208,18 +208,18 @@ public class SessionRequestData extends RequestData {
 
     public void setSessionLocale(Locale locale) {
         if (Application.hasLanguage(locale)) {
-            setSessionObject(RequestData.KEY_LOCALE, locale);
+            setSessionObject(RequestKeys.KEY_LOCALE, locale);
         } else {
-            setSessionObject(RequestData.KEY_LOCALE, Application.getDefaultLocale());
+            setSessionObject(RequestKeys.KEY_LOCALE, Application.getDefaultLocale());
         }
     }
 
     public void setSessionHost(String host) {
-        setSessionObject(RequestData.KEY_HOST, host);
+        setSessionObject(RequestKeys.KEY_HOST, host);
     }
 
     public String getSessionHost() {
-        return getSessionObject(RequestData.KEY_HOST,String.class);
+        return getSessionObject(RequestKeys.KEY_HOST,String.class);
     }
 
     public void resetSession() {

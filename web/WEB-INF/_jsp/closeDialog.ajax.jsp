@@ -11,18 +11,19 @@
 <%@include file="/WEB-INF/_jsp/_include/functions.inc.jsp" %>
 <%@ page import="de.elbe5.request.SessionRequestData" %>
 <%@ page import="de.elbe5.request.RequestData" %>
+<%@ page import="de.elbe5.request.RequestKeys" %>
 <%@ taglib uri="/WEB-INF/formtags.tld" prefix="form" %>
 <%
     SessionRequestData rdata = SessionRequestData.getRequestData(request);
-    String url = rdata.getString(RequestData.KEY_URL);
-    String msg = rdata.getString(RequestData.KEY_MESSAGE);
-    String msgType = rdata.getString(RequestData.KEY_MESSAGETYPE);
+    String url = rdata.getString(RequestKeys.KEY_URL);
+    String msg = rdata.getString(RequestKeys.KEY_MESSAGE);
+    String msgType = rdata.getString(RequestKeys.KEY_MESSAGETYPE);
     %>
 <div id="pageContent">
     <form action="<%=url%>" method="POST" id="forwardform" accept-charset="UTF-8">
         <%if (!msg.isEmpty()) {%>
-        <input type="hidden" name="<%=RequestData.KEY_MESSAGE%>" value="<%=$H(msg)%>"/>
-        <input type="hidden" name="<%=RequestData.KEY_MESSAGETYPE%>" value="<%=$H(msgType)%>"/>
+        <input type="hidden" name="<%=RequestKeys.KEY_MESSAGE%>" value="<%=$H(msg)%>"/>
+        <input type="hidden" name="<%=RequestKeys.KEY_MESSAGETYPE%>" value="<%=$H(msgType)%>"/>
         <%}%>
     </form>
 </div>

@@ -29,7 +29,7 @@ public class ApiRequestData extends RequestData implements DataAccessor {
     private UserData user=null;
 
     public static ApiRequestData getRequestData(HttpServletRequest request) {
-        return (ApiRequestData) request.getAttribute(RequestData.KEY_REQUESTDATA);
+        return (ApiRequestData) request.getAttribute(RequestKeys.KEY_REQUESTDATA);
     }
 
     public ApiRequestData(String method, HttpServletRequest request) {

@@ -12,7 +12,7 @@ import de.elbe5.application.Application;
 import de.elbe5.base.log.Log;
 import de.elbe5.data.DataFactory;
 import de.elbe5.data.IData;
-import de.elbe5.request.RequestData;
+import de.elbe5.request.RequestKeys;
 import de.elbe5.request.SessionRequestData;
 import de.elbe5.response.*;
 import de.elbe5.rights.ContentRights;
@@ -63,7 +63,7 @@ public class ContentController extends Controller {
         ContentData data = DataFactory.createObject(type, ContentData.class);
         assert(data!=null);
         data.setCreateValues(parentData, rdata.getUserId());
-        rdata.setSessionObject(RequestData.KEY_CONTENT, data);
+        rdata.setSessionObject(RequestKeys.KEY_CONTENT, data);
         return showEditContent(data);
     }
 
@@ -80,7 +80,7 @@ public class ContentController extends Controller {
 
     public IResponse saveContentData(SessionRequestData rdata) {
         int contentId = rdata.getId();
-        ContentData data = rdata.getSessionObject(RequestData.KEY_CONTENT,ContentData.class);
+        ContentData data = rdata.getSessionObject(RequestKeys.KEY_CONTENT,ContentData.class);
         assert(data != null && data.getId() == contentId);
         if (rdata.hasFormErrors()) {
             return showEditContent(data);
@@ -166,7 +166,7 @@ public class ContentController extends Controller {
         ContentData data = contentContainer().getContent(contentId);
         assert(data!=null);
         checkRights(ContentRights.hasUserEditRight(rdata.getCurrentUser(), data));
-        rdata.setClipboardData(RequestData.KEY_CONTENT, data);
+        rdata.setClipboardData(RequestKeys.KEY_CONTENT, data);
         return showContentAdministration(rdata,data.getId());
     }
 
@@ -186,14 +186,14 @@ public class ContentController extends Controller {
         //marking as copy
         data.setParentId(0);
         data.setParentVersion(0);
-        rdata.setClipboardData(RequestData.KEY_CONTENT, data);
+        rdata.setClipboardData(RequestKeys.KEY_CONTENT, data);
         return showContentAdministration(rdata,data.getId());
     }
 
     public IResponse pasteContent(SessionRequestData rdata) {
         int parentId = rdata.getInt("parentId");
         int parentVersion = rdata.getInt("parentVersion");
-        ContentData data=rdata.getClipboardData(RequestData.KEY_CONTENT,ContentData.class);
+        ContentData data=rdata.getClipboardData(RequestKeys.KEY_CONTENT,ContentData.class);
         if (data==null){
             setError(rdata,"_actionNotExcecuted");
             return showContentAdministration(rdata);
@@ -220,7 +220,7 @@ public class ContentController extends Controller {
                 return showContentAdministration(rdata);
             }
         }
-        rdata.removeClipboardData(RequestData.KEY_CONTENT);
+        rdata.removeClipboardData(RequestKeys.KEY_CONTENT);
         setSuccess(rdata,"_contentPasted");
         return showContentAdministration(rdata,data.getId());
     }
@@ -272,8 +272,8 @@ public class ContentController extends Controller {
     }
 
     public IResponse clearClipboard(SessionRequestData rdata) {
-        rdata.removeClipboardData(RequestData.KEY_CONTENT);
-        rdata.removeClipboardData(RequestData.KEY_FILE);
+        rdata.removeClipboardData(RequestKeys.KEY_CONTENT);
+        rdata.removeClipboardData(RequestKeys.KEY_FILE);
         return showContentAdministration(rdata);
     }
 

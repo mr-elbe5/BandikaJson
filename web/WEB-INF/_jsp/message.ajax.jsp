@@ -12,21 +12,22 @@
 <%@ page import="de.elbe5.request.SessionRequestData" %>
 <%@ page import="java.util.Locale" %>
 <%@ page import="de.elbe5.request.RequestData" %>
+<%@ page import="de.elbe5.request.RequestKeys" %>
 <%@ taglib uri="/WEB-INF/formtags.tld" prefix="form" %>
 <%
     SessionRequestData rdata = SessionRequestData.getRequestData(request);
     Locale locale = rdata.getLocale();
-    String msg = rdata.getString(RequestData.KEY_MESSAGE);
-    String msgType = rdata.getString(RequestData.KEY_MESSAGETYPE);
+    String msg = rdata.getString(RequestKeys.KEY_MESSAGE);
+    String msgType = rdata.getString(RequestKeys.KEY_MESSAGETYPE);
     String msgKey="";
     switch (msgType) {
-        case RequestData.MESSAGE_TYPE_INFO:
+        case RequestKeys.MESSAGE_TYPE_INFO:
             msgKey="_info";
             break;
-        case RequestData.MESSAGE_TYPE_SUCCESS:
+        case RequestKeys.MESSAGE_TYPE_SUCCESS:
             msgKey="_success";
             break;
-        case RequestData.MESSAGE_TYPE_ERROR:
+        case RequestKeys.MESSAGE_TYPE_ERROR:
             msgKey="_error";
             break;
     }

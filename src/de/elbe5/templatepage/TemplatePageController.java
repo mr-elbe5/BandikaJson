@@ -11,7 +11,6 @@ package de.elbe5.templatepage;
 import de.elbe5.data.DataFactory;
 import de.elbe5.page.PageController;
 import de.elbe5.request.*;
-import de.elbe5.response.AjaxForwardResponse;
 import de.elbe5.response.AjaxHtmlResponse;
 import de.elbe5.response.IResponse;
 import de.elbe5.rights.ContentRights;
@@ -50,7 +49,7 @@ public class TemplatePageController extends PageController {
         assert(pdata != null);
         pdata.setCreateValues(rdata);
         data.addPart(pdata, fromPartId);
-        rdata.put(RequestData.KEY_PART, pdata);
+        rdata.put(RequestKeys.KEY_PART, pdata);
         return new AjaxHtmlResponse(pdata.getNewPartHtml(rdata, data));
     }
 

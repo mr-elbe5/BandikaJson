@@ -17,6 +17,7 @@
 <%@ page import="de.elbe5.rights.SystemZone" %>
 <%@ page import="de.elbe5.rights.SystemRights" %>
 <%@ page import="de.elbe5.rights.ContentRights" %>
+<%@ page import="de.elbe5.request.RequestKeys" %>
 <%@ taglib uri="/WEB-INF/formtags.tld" prefix="form" %>
 <%
     SessionRequestData rdata = SessionRequestData.getRequestData(request);
@@ -43,7 +44,7 @@
                             <%if (contentRoot.hasChildren()){%>
                             <a class="icon fa fa-sort" href="" onclick="return openModalDialog('/ajax/<%=contentRoot.getTypeKey()%>/openSortChildPages/<%=contentRoot.getId()%>');" title="<%=$SH("_sortChildPages",locale)%>"> </a>
                             <%}%>
-                            <% if (rdata.hasClipboardData(RequestData.KEY_CONTENT)) {%>
+                            <% if (rdata.hasClipboardData(RequestKeys.KEY_CONTENT)) {%>
                             <a class="icon fa fa-paste" href="/ctrl/<%=contentRoot.getTypeKey()%>/pasteContent?parentId=<%=ContentData.ID_ROOT%>" title="<%=$SH("_pasteContent",locale)%>"> </a>
                             <%
                                 }

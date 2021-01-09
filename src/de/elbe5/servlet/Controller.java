@@ -24,16 +24,16 @@ public abstract class Controller implements DataAccessor {
     }
 
     protected void setSuccess(SessionRequestData rdata, String key) {
-        rdata.setMessage(Strings.string(key,rdata.getLocale()), RequestData.MESSAGE_TYPE_SUCCESS);
+        rdata.setMessage(Strings.string(key,rdata.getLocale()), RequestKeys.MESSAGE_TYPE_SUCCESS);
     }
 
     protected void setError(SessionRequestData rdata, String key) {
-        rdata.setMessage(Strings.string(key,rdata.getLocale()), RequestData.MESSAGE_TYPE_ERROR);
+        rdata.setMessage(Strings.string(key,rdata.getLocale()), RequestKeys.MESSAGE_TYPE_ERROR);
     }
 
     protected IResponse openAdminPage(SessionRequestData rdata, String jsp, String title) {
-        rdata.put(RequestData.KEY_JSP, jsp);
-        rdata.put(RequestData.KEY_TITLE, title);
+        rdata.put(RequestKeys.KEY_JSP, jsp);
+        rdata.put(RequestKeys.KEY_TITLE, title);
         return new ForwardResponse("/WEB-INF/_jsp/administration/adminMaster.jsp");
     }
 

@@ -13,11 +13,12 @@
 <%@ page import="java.util.Locale" %>
 <%@ page import="de.elbe5.request.RequestData" %>
 <%@ page import="de.elbe5.file.FileData" %>
+<%@ page import="de.elbe5.request.RequestKeys" %>
 <%@ taglib uri="/WEB-INF/formtags.tld" prefix="form" %>
 <%
     SessionRequestData rdata = SessionRequestData.getRequestData(request);
     Locale locale = rdata.getLocale();
-    FileData fileData = rdata.getSessionObject(RequestData.KEY_FILE,FileData.class);
+    FileData fileData = rdata.getSessionObject(RequestKeys.KEY_FILE,FileData.class);
     assert (fileData != null);
     String url = "/ajax/file/saveFile/" + fileData.getId();
     boolean fileRequired= fileData.isNew();

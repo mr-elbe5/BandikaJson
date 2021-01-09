@@ -14,7 +14,7 @@ import de.elbe5.application.Strings;
 import de.elbe5.base.log.Log;
 import de.elbe5.content.ContentData;
 import de.elbe5.content.JspContentData;
-import de.elbe5.request.RequestData;
+import de.elbe5.request.RequestKeys;
 import de.elbe5.response.ContentResponse;
 import de.elbe5.response.IResponse;
 import de.elbe5.response.ForwardResponse;
@@ -87,7 +87,7 @@ public class SearchController extends Controller {
     public IResponse indexAllContent(SessionRequestData rdata) {
         checkRights(SystemRights.hasUserSystemRight(rdata.getCurrentUser(),SystemZone.SYSTEM));
         SearchController.getInstance().indexPages();
-        rdata.setMessage(Strings.string("_indexingContentQueued",rdata.getLocale()), RequestData.MESSAGE_TYPE_SUCCESS);
+        rdata.setMessage(Strings.string("_indexingContentQueued",rdata.getLocale()), RequestKeys.MESSAGE_TYPE_SUCCESS);
         return new ForwardResponse("/ctrl/admin/openSystemAdministration");
     }
 

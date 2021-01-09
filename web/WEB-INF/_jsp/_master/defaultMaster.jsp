@@ -12,6 +12,7 @@
 <%@ page import="de.elbe5.request.SessionRequestData" %>
 <%@ page import="de.elbe5.content.ContentData" %>
 <%@ page import="de.elbe5.request.RequestData" %>
+<%@ page import="de.elbe5.request.RequestKeys" %>
 <%
     SessionRequestData rdata = SessionRequestData.getRequestData(request);
     Locale locale = rdata.getLocale();
@@ -19,7 +20,7 @@
     ContentData currentContent = rdata.getCurrentContent();
     if (currentContent == null)
         currentContent = home;
-    String title = rdata.getString(RequestData.KEY_TITLE, Application.getConfiguration().getApplicationName()) + (currentContent != null ? " | " + currentContent.getDisplayName() : "");
+    String title = rdata.getString(RequestKeys.KEY_TITLE, Application.getConfiguration().getApplicationName()) + (currentContent != null ? " | " + currentContent.getDisplayName() : "");
     String keywords = currentContent != null ? currentContent.getKeywords() : title;
     String description = currentContent != null ? currentContent.getDescription() : "";
 %>

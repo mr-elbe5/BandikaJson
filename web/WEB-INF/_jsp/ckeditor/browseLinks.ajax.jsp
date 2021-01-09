@@ -14,6 +14,7 @@
 <%@ page import="de.elbe5.request.RequestData" %>
 <%@ page import="de.elbe5.rights.SystemRights" %>
 <%@ page import="de.elbe5.rights.SystemZone" %>
+<%@ page import="de.elbe5.request.RequestKeys" %>
 <%@ taglib uri="/WEB-INF/formtags.tld" prefix="form" %>
 <%
     SessionRequestData rdata = SessionRequestData.getRequestData(request);
@@ -56,10 +57,10 @@
                     <section class="treeSection">
                         <% if (SystemRights.hasUserSystemRight(rdata.getCurrentUser(), SystemZone.CONTENTEDIT)) { %>
                         <ul class="tree filetree">
-                            <%rdata.setRequestObject(RequestData.KEY_CONTENT, contentContainer().getContentRoot());%>
+                            <%rdata.setRequestObject(RequestKeys.KEY_CONTENT, contentContainer().getContentRoot());%>
                             <jsp:include page="/WEB-INF/_jsp/ckeditor/fileLinkBrowserFolder.inc.jsp" flush="true"/>
                         </ul>
-                        <%rdata.removeRequestObject(RequestData.KEY_CONTENT); }%>
+                        <%rdata.removeRequestObject(RequestKeys.KEY_CONTENT); }%>
                     </section>
                 </div>
             </div>

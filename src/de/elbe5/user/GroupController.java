@@ -10,7 +10,7 @@ package de.elbe5.user;
 
 import de.elbe5.application.Application;
 import de.elbe5.base.log.Log;
-import de.elbe5.request.RequestData;
+import de.elbe5.request.RequestKeys;
 import de.elbe5.request.SessionRequestData;
 import de.elbe5.response.*;
 import de.elbe5.rights.SystemRights;
@@ -46,7 +46,7 @@ public class GroupController extends Controller {
         GroupData data = new GroupData();
         GroupData original = userContainer().getGroup(groupId);
         data.setEditValues(original);
-        rdata.setSessionObject(RequestData.KEY_GROUP, data);
+        rdata.setSessionObject(RequestKeys.KEY_GROUP, data);
         return showEditGroup();
     }
 
@@ -55,13 +55,13 @@ public class GroupController extends Controller {
         GroupData data = new GroupData();
         data.setNew(true);
         data.setId(Application.getNextId());
-        rdata.setSessionObject(RequestData.KEY_GROUP, data);
+        rdata.setSessionObject(RequestKeys.KEY_GROUP, data);
         return showEditGroup();
     }
 
     public IResponse saveGroup(SessionRequestData rdata) {
         checkRights(SystemRights.hasUserSystemRight(rdata.getCurrentUser(),SystemZone.USER));
-        GroupData data = (GroupData) rdata.getSessionObject(RequestData.KEY_GROUP);
+        GroupData data = (GroupData) rdata.getSessionObject(RequestKeys.KEY_GROUP);
         assert(data!=null);
         data.readRequestData(rdata);
         if (rdata.hasFormErrors()) {
@@ -77,7 +77,7 @@ public class GroupController extends Controller {
                 return showEditGroup();
             }
         }
-        rdata.removeSessionObject(RequestData.KEY_GROUP);
+        rdata.removeSessionObject(RequestKeys.KEY_GROUP);
         setSuccess(rdata,"_groupSaved");
         return new CloseDialogResponse("/ctrl/admin/openPersonAdministration?groupId=" + data.getId());
     }

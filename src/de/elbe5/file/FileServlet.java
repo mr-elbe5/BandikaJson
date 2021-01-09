@@ -11,9 +11,7 @@ package de.elbe5.file;
 import de.elbe5.application.Application;
 import de.elbe5.application.Configuration;
 import de.elbe5.base.log.Log;
-import de.elbe5.request.RequestData;
-import de.elbe5.request.RequestType;
-import de.elbe5.request.SessionRequestData;
+import de.elbe5.request.*;
 import de.elbe5.response.IResponse;
 import de.elbe5.rights.ContentRights;
 import de.elbe5.servlet.WebServlet;
@@ -35,8 +33,8 @@ public class FileServlet extends WebServlet {
     protected void processRequest(String method, HttpServletRequest request, HttpServletResponse response) throws IOException {
         request.setCharacterEncoding(Application.ENCODING);
         SessionRequestData rdata = new SessionRequestData(method, request, RequestType.file);
-        request.setAttribute(RequestData.KEY_REQUESTDATA, rdata);
-        rdata.readRequestParams();
+        request.setAttribute(RequestKeys.KEY_REQUESTDATA, rdata);
+        RequestReader.readRequestParams(request, rdata, method.equals("POST"));
         rdata.initSession();
         String fileName = request.getPathInfo();
         boolean isPreview = false;

@@ -16,11 +16,12 @@
 <%@ page import="de.elbe5.rights.ContentRights" %>
 <%@ page import="de.elbe5.file.FileData" %>
 <%@ page import="de.elbe5.request.RequestData" %>
+<%@ page import="de.elbe5.request.RequestKeys" %>
 <%@ taglib uri="/WEB-INF/formtags.tld" prefix="form" %>
 <%
     SessionRequestData rdata = SessionRequestData.getRequestData(request);
     Locale locale = rdata.getLocale();
-    ContentData contentData = rdata.getRequestObject(RequestData.KEY_CONTENT,ContentData.class);
+    ContentData contentData = rdata.getRequestObject(RequestKeys.KEY_CONTENT,ContentData.class);
     assert contentData != null;
     List<Integer> parentIds=(List<Integer>) rdata.getRequestObject("parentIds");
     assert(parentIds!=null);
@@ -47,10 +48,10 @@
         <%}}
         }
         for (ContentData subPage : contentData.getChildren()) {
-            rdata.setRequestObject(RequestData.KEY_CONTENT, subPage);
+            rdata.setRequestObject(RequestKeys.KEY_CONTENT, subPage);
         %>
         <jsp:include page="/WEB-INF/_jsp/ckeditor/imageBrowserFolder.inc.jsp" flush="true"/>
         <%}
-        rdata.setRequestObject(RequestData.KEY_CONTENT, contentData);%>
+        rdata.setRequestObject(RequestKeys.KEY_CONTENT, contentData);%>
     </ul>
 </li>

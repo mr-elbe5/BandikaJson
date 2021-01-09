@@ -11,12 +11,9 @@ package de.elbe5.servlet;
 import de.elbe5.base.data.StringUtil;
 import de.elbe5.application.Application;
 import de.elbe5.base.log.Log;
-import de.elbe5.request.RequestData;
-import de.elbe5.request.RequestType;
-import de.elbe5.response.AjaxForwardResponse;
+import de.elbe5.request.*;
 import de.elbe5.response.IAjaxResponse;
 import de.elbe5.response.IResponse;
-import de.elbe5.request.SessionRequestData;
 import de.elbe5.response.RedirectResponse;
 
 import javax.servlet.RequestDispatcher;
@@ -49,7 +46,7 @@ public class ControllerServlet extends WebServlet {
     protected void processControllerRequest(String method, HttpServletRequest request, HttpServletResponse response, RequestType type) throws IOException {
         request.setCharacterEncoding(Application.ENCODING);
         SessionRequestData rdata = new SessionRequestData(method, request, type);
-        request.setAttribute(RequestData.KEY_REQUESTDATA, rdata);
+        request.setAttribute(RequestKeys.KEY_REQUESTDATA, rdata);
         String uri = request.getRequestURI();
         // skip "/ctrl/" or "/ajax/"
         StringTokenizer stk = new StringTokenizer(uri.substring(6), "/", false);
@@ -65,7 +62,7 @@ public class ControllerServlet extends WebServlet {
             }
             controller = ControllerCache.getController(controllerName);
         }
-        rdata.readRequestParams();
+        RequestReader.readRequestParams(request, rdata, method.equals("POST"));
         rdata.initSession();
         try {
             IResponse result = getView(controller, methodName, rdata);
@@ -105,7 +102,7 @@ public class ControllerServlet extends WebServlet {
 
     protected void processDefaultRequest(String method, HttpServletRequest request, HttpServletResponse response) {
         SessionRequestData rdata = new SessionRequestData(method, request, RequestType.page);
-        request.setAttribute(RequestData.KEY_REQUESTDATA, rdata);
+        request.setAttribute(RequestKeys.KEY_REQUESTDATA, rdata);
         try {
             IResponse result = new RedirectResponse(getDefaultRoute(rdata));
             if (rdata.hasCookies())

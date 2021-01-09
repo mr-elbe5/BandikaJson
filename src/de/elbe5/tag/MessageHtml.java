@@ -2,7 +2,7 @@ package de.elbe5.tag;
 
 import de.elbe5.base.data.StringUtil;
 import de.elbe5.request.RequestData;
-import de.elbe5.request.SessionRequestData;
+import de.elbe5.request.RequestKeys;
 
 public class MessageHtml {
 
@@ -18,8 +18,8 @@ public class MessageHtml {
     public static String getHtml(RequestData rdata) {
         if (!rdata.hasMessage())
             return "";
-        String msg = rdata.getString(RequestData.KEY_MESSAGE);
-        String msgType = rdata.getString(RequestData.KEY_MESSAGETYPE);
+        String msg = rdata.getString(RequestKeys.KEY_MESSAGE);
+        String msgType = rdata.getString(RequestKeys.KEY_MESSAGETYPE);
         return(StringUtil.format(messageHtml, msgType, StringUtil.toHtml(msg)));
     }
 

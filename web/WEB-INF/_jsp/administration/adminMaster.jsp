@@ -14,12 +14,13 @@
 <%@ page import="de.elbe5.rights.SystemZone" %>
 <%@ page import="de.elbe5.request.RequestData" %>
 <%@ page import="de.elbe5.rights.SystemRights" %>
+<%@ page import="de.elbe5.request.RequestKeys" %>
 <%@ taglib uri="/WEB-INF/formtags.tld" prefix="form" %>
 <%
     SessionRequestData rdata = SessionRequestData.getRequestData(request);
     Locale locale = rdata.getLocale();
-    String title = rdata.getString(RequestData.KEY_TITLE);
-    String includeUrl = rdata.getString(RequestData.KEY_JSP);
+    String title = rdata.getString(RequestKeys.KEY_TITLE);
+    String includeUrl = rdata.getString(RequestKeys.KEY_JSP);
 %>
 <!DOCTYPE html>
 <html lang="en">

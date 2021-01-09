@@ -16,11 +16,12 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Locale" %>
 <%@ page import="de.elbe5.request.RequestData" %>
+<%@ page import="de.elbe5.request.RequestKeys" %>
 <%@ taglib uri="/WEB-INF/formtags.tld" prefix="form" %>
 <%
     SessionRequestData rdata = SessionRequestData.getRequestData(request);
     Locale locale = rdata.getLocale();
-    GroupData group = rdata.getSessionObject(RequestData.KEY_GROUP,GroupData.class);
+    GroupData group = rdata.getSessionObject(RequestKeys.KEY_GROUP,GroupData.class);
     assert group != null;
     List<UserData> users = userContainer().getUsers();
     String name, label;

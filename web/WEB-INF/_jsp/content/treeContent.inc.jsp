@@ -15,6 +15,7 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="de.elbe5.request.RequestData" %>
 <%@ page import="de.elbe5.rights.ContentRights" %>
+<%@ page import="de.elbe5.request.RequestKeys" %>
 <%@ taglib uri="/WEB-INF/formtags.tld" prefix="form" %>
 <%
     SessionRequestData rdata = SessionRequestData.getRequestData(request);
@@ -43,7 +44,7 @@
         <% if (contentData.getId()!=ContentData.ID_ROOT){%>
         <a class="icon fa fa-trash-o" href="" onclick="if (confirmDelete()) return linkTo('/ctrl/<%=contentData.getTypeKey()%>/deleteContent/<%=contentData.getId()%>');" title="<%=$SH("_delete",locale)%>"> </a>
         <%}%>
-        <% if (rdata.hasClipboardData(RequestData.KEY_CONTENT)) {%>
+        <% if (rdata.hasClipboardData(RequestKeys.KEY_CONTENT)) {%>
         <a class="icon fa fa-paste" href="/ctrl/<%=contentData.getTypeKey()%>/pasteContent?parentId=<%=contentData.getId()%>&parentVersion=<%=contentData.getVersion()%>" title="<%=$SH("_pasteContent",locale)%>"> </a>
         <%
         }
