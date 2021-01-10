@@ -18,7 +18,6 @@ public abstract class RequestKeys {
     public static final String KEY_MESSAGE = "$MESSAGE";
     public static final String KEY_MESSAGETYPE = "$MESSAGETYPE";
     public static final String KEY_CLIPBOARD = "$CLIPBOARD";
-    public static final String KEY_TITLE = "$TITLE";
     public static final String KEY_LOGIN = "$LOGIN";
 
     public static final String KEY_CONTENT_CONTEXT = "contentContext";

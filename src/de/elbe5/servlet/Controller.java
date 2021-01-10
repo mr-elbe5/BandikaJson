@@ -31,22 +31,21 @@ public abstract class Controller implements DataAccessor {
         rdata.setMessage(Strings.string(key,rdata.getLocale()), RequestKeys.MESSAGE_TYPE_ERROR);
     }
 
-    protected IResponse openAdminPage(SessionRequestData rdata, String jsp, String title) {
+    protected IResponse openAdminPage(SessionRequestData rdata, String jsp) {
         rdata.put(RequestKeys.KEY_JSP, jsp);
-        rdata.put(RequestKeys.KEY_TITLE, title);
         return new ForwardResponse("/WEB-INF/_jsp/administration/adminMaster.jsp");
     }
 
     protected IResponse showSystemAdministration(SessionRequestData rdata) {
-        return openAdminPage(rdata, "/WEB-INF/_jsp/administration/systemAdministration.jsp", Strings.string("_systemAdministration",rdata.getLocale()));
+        return openAdminPage(rdata, "/WEB-INF/_jsp/administration/systemAdministration.jsp");
     }
 
     protected IResponse showPersonAdministration(SessionRequestData rdata) {
-        return openAdminPage(rdata, "/WEB-INF/_jsp/administration/personAdministration.jsp", Strings.string("_personAdministration",rdata.getLocale()));
+        return openAdminPage(rdata, "/WEB-INF/_jsp/administration/personAdministration.jsp");
     }
 
     protected IResponse showContentAdministration(SessionRequestData rdata) {
-        return openAdminPage(rdata, "/WEB-INF/_jsp/administration/contentAdministration.jsp", Strings.string("_contentAdministration",rdata.getLocale()));
+        return openAdminPage(rdata, "/WEB-INF/_jsp/administration/contentAdministration.jsp");
     }
 
     protected IResponse openJspPage(String jsp) {

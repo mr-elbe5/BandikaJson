@@ -12,14 +12,12 @@
 <%@ page import="java.util.Locale" %>
 <%@ page import="de.elbe5.request.SessionRequestData" %>
 <%@ page import="de.elbe5.rights.SystemZone" %>
-<%@ page import="de.elbe5.request.RequestData" %>
 <%@ page import="de.elbe5.rights.SystemRights" %>
 <%@ page import="de.elbe5.request.RequestKeys" %>
 <%@ taglib uri="/WEB-INF/formtags.tld" prefix="form" %>
 <%
     SessionRequestData rdata = SessionRequestData.getRequestData(request);
     Locale locale = rdata.getLocale();
-    String title = rdata.getString(RequestKeys.KEY_TITLE);
     String includeUrl = rdata.getString(RequestKeys.KEY_JSP);
 %>
 <!DOCTYPE html>
@@ -27,7 +25,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-    <title><%=title%>
+    <title><%=Application.getConfiguration().getApplicationName()%>
     </title>
     <link rel="shortcut icon" href="/favicon.ico"/>
     <link rel="stylesheet" href="<%=Application.getConfiguration().getStyle()%>"/>
@@ -87,16 +85,6 @@
                     </nav>
                 </section>
             </div>
-            <div class="bc row">
-                <section class="col-12">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="/"><%=$SH("_home",locale)%>
-                        </a></li>
-                        <li class="breadcrumb-item"><a><%=$H(title)%>
-                        </a></li>
-                    </ol>
-                </section>
-            </div>
         </header>
         <main id="main" role="main">
             <div id="pageContainer">
@@ -108,7 +96,7 @@
         <footer>
             <div class="container">
                 <ul class="nav">
-                    <%=$SH("_copyright",locale)%>
+                    &copy; <%=$H(Application.getConfiguration().getCopyright())%>
                 </ul>
             </div>
         </footer>

@@ -10,7 +10,6 @@
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@include file="/WEB-INF/_jsp/_include/functions.inc.jsp" %>
 <%@ page import="de.elbe5.request.SessionRequestData" %>
-<%@ page import="de.elbe5.request.RequestKeys" %>
 <%@ page import="de.elbe5.content.*" %>
 <%@ page import="de.elbe5.user.UserData" %>
 <%
@@ -21,7 +20,7 @@
     if (currentContent == null)
         currentContent = home;
     UserData currentUser = rdata.getCurrentUser();
-    String title = rdata.getString(RequestKeys.KEY_TITLE, Application.getConfiguration().getApplicationName()) + (currentContent != null ? " | " + currentContent.getDisplayName() : "");
+    String title = Application.getConfiguration().getApplicationName() + (currentContent != null ? " | " + currentContent.getDisplayName() : "");
     String keywords = currentContent != null ? currentContent.getKeywords() : title;
     String description = currentContent != null ? currentContent.getDescription() : "";
 %>
