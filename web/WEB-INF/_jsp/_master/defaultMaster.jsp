@@ -10,9 +10,9 @@
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@include file="/WEB-INF/_jsp/_include/functions.inc.jsp" %>
 <%@ page import="de.elbe5.request.SessionRequestData" %>
-<%@ page import="de.elbe5.content.ContentData" %>
-<%@ page import="de.elbe5.request.RequestData" %>
 <%@ page import="de.elbe5.request.RequestKeys" %>
+<%@ page import="de.elbe5.content.*" %>
+<%@ page import="de.elbe5.user.UserData" %>
 <%
     SessionRequestData rdata = SessionRequestData.getRequestData(request);
     Locale locale = rdata.getLocale();
@@ -20,6 +20,7 @@
     ContentData currentContent = rdata.getCurrentContent();
     if (currentContent == null)
         currentContent = home;
+    UserData currentUser = rdata.getCurrentUser();
     String title = rdata.getString(RequestKeys.KEY_TITLE, Application.getConfiguration().getApplicationName()) + (currentContent != null ? " | " + currentContent.getDisplayName() : "");
     String keywords = currentContent != null ? currentContent.getKeywords() : title;
     String description = currentContent != null ? currentContent.getDescription() : "";
@@ -46,13 +47,13 @@
 <div class="container">
     <header>
         <section class="sysnav">
-            <jsp:include page="/WEB-INF/_jsp/_include/sysnav.inc.jsp" flush="true"/>
+            <%=SysNav.getHtml(currentContent, currentUser, rdata.isLoggedIn(), locale, false)%>
         </section>
         <div class="menu row">
-            <jsp:include page="/WEB-INF/_jsp/_include/mainnav.inc.jsp" flush="true"/>
+            <%=MainNav.getHtml(currentContent, currentUser)%>
         </div>
         <div class="bc row">
-            <jsp:include page="/WEB-INF/_jsp/_include/breadcrumb.inc.jsp" flush="true"/>
+            <%=Breadcrumb.getHtml(currentContent)%>
         </div>
     </header>
     <main id="main" role="main">
@@ -68,7 +69,7 @@
 </div>
 <div class="container fixed-bottom">
     <footer class="footer">
-        <jsp:include page="/WEB-INF/_jsp/_include/footer.inc.jsp" flush="true"/>
+        <%=Footer.getHtml(currentContent, currentUser)%>
     </footer>
 </div>
 <div class="modal" id="modalDialog" tabindex="-1" role="dialog"></div>

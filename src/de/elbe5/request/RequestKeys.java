@@ -21,6 +21,7 @@ public abstract class RequestKeys {
     public static final String KEY_TITLE = "$TITLE";
     public static final String KEY_LOGIN = "$LOGIN";
 
+    public static final String KEY_CONTENT_CONTEXT = "contentContext";
     public static final String KEY_CONTENT = "contentData";
     public static final String KEY_FILE = "fileData";
     public static final String KEY_GROUP = "groupData";
