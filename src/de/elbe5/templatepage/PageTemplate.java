@@ -41,24 +41,20 @@ public class PageTemplate extends Template{
     }
 
     final String editSectionHtmlStart = """
-            <div class="section {1}" id="{2}" title="Section {3}">
-                        """;
-    final String addPartButtonsStart = """
-                <div class="addPartButtons">
-                    <div class="btn-group btn-group-sm editheader">
-                        <button class="btn  btn-primary dropdown-toggle fa fa-plus" data-toggle="dropdown"  title="{4}"></button>
-                        <div class="dropdown-menu">
-                        """;
+        <div class="section {1}" id="{2}" title="Section {3}">
+            <div class="addPartButtons">
+                <div class="btn-group btn-group-sm editheader">
+                    <button class="btn  btn-primary dropdown-toggle fa fa-plus" data-toggle="dropdown"  title="{4}"></button>
+                    <div class="dropdown-menu">
+                    """;
     final String partTypeLink = """
-                            <a class="dropdown-item" href="" onclick="return addPart(-1,'{1}','{2}','{3}');">
-                                {4}
-                            </a>
-                            """;
+                        <a class="dropdown-item" href="" onclick="return addPart(-1,'{1}','{2}','{3}');">
+                            {4}
+                        </a>
+                        """;
     final String editSectionHtmlDropdownEnd = """
-                        </div>
-                     </div>
-                """;
-    final String addPartButtonsEnd = """
+                    </div>
+                 </div>
                </div>
                 """;
     final String sectionEnd = """
@@ -71,26 +67,22 @@ public class PageTemplate extends Template{
         Locale locale = context.requestData.getLocale();
         boolean showPartButtons = sectionData.getParts().isEmpty();
         sb.append(StringUtil.format(editSectionHtmlStart,
-                attributes.get("css"),
-                sectionData.getSectionId(),
-                StringUtil.toHtml(sectionData.getName()),
-                Strings.html("_newPart",locale)
+            attributes.get("css"),
+            sectionData.getSectionId(),
+            StringUtil.toHtml(sectionData.getName()),
+            Strings.html("_newPart",locale)
+            ));
+        for (String partType : partTypes) {
+            for (PartTemplate template : TemplateCache.getPartTemplates().values()) {
+                sb.append(StringUtil.format(partTypeLink,
+                        StringUtil.toHtml(sectionData.getName()),
+                        partType,
+                        StringUtil.toHtml(template.getName()),
+                        StringUtil.toHtml(template.getDisplayName())
                 ));
-        if (showPartButtons) {
-            sb.append(addPartButtonsStart);
-            for (String partType : partTypes) {
-                for (PartTemplate template : TemplateCache.getPartTemplates().values()) {
-                    sb.append(StringUtil.format(partTypeLink,
-                            StringUtil.toHtml(sectionData.getName()),
-                            partType,
-                            StringUtil.toHtml(template.getName()),
-                            StringUtil.toHtml(template.getDisplayName())
-                    ));
-                }
             }
-            sb.append(editSectionHtmlDropdownEnd);
-            sb.append(addPartButtonsEnd);
         }
+        sb.append(editSectionHtmlDropdownEnd);
         for (TemplatePartData partData : sectionData.getParts()) {
             context.currentPart = partData;
             partData.appendHtml(sb, context);

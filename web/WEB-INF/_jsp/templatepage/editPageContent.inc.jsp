@@ -30,6 +30,20 @@
             return confirm('<%=$SJ("_confirmDelete",locale)%>');
         }
 
+        function updatePartButtonsVisible(){
+            $(".section").each(function () {
+                let $this = $(this);
+                let $buttonDiv = $this.find('div.addPartButtons');
+                let partCount = $this.find('div.partWrapper').length;
+                if (partCount === 0){
+                    $buttonDiv.show();
+                }
+                else{
+                    $buttonDiv.hide();
+                }
+            });
+        }
+
         function movePart(id,direction){
             let $partWrapper=$('#part_'+id);
             if (direction===1){
@@ -55,8 +69,8 @@
         function deletePart(id){
             let $partWrapper=$('#part_'+id);
             $partWrapper.remove();
-            //todo last part
             updatePartPositions();
+            updatePartButtonsVisible();
             return false;
         }
 
@@ -84,6 +98,7 @@
                     }
                 }
                 updatePartPositions();
+                updatePartButtonsVisible();
             });
             return false;
         }
@@ -121,6 +136,7 @@
         }
 
         updatePartPositions();
+        updatePartButtonsVisible();
 
     </script>
 
