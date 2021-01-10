@@ -9,11 +9,16 @@
 package de.elbe5.base.log;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.TimeZone;
 import java.util.logging.Formatter;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 
 public class LogFormatter extends Formatter {
+
+    ZoneId timeZone = TimeZone.getDefault().toZoneId();
 
     @Override
     public String format(LogRecord record) {
@@ -27,7 +32,7 @@ public class LogFormatter extends Formatter {
         } else if (record.getLevel() == Level.SEVERE) {
             sb.append(" ERROR   ");
         }
-        sb.append(Instant.ofEpochMilli(record.getMillis()).toString());
+        sb.append(LocalDateTime.ofInstant(Instant.ofEpochMilli(record.getMillis()), timeZone).toString());
         if (srcClass.length() > 0) {
             sb.append('\n');
             sb.append(srcClass);
