@@ -12,6 +12,10 @@ import de.elbe5.application.Strings;
 import de.elbe5.base.data.StringUtil;
 import de.elbe5.base.log.Log;
 import de.elbe5.content.ContentData;
+import de.elbe5.template.Template;
+import de.elbe5.template.TemplateCache;
+import de.elbe5.template.TemplateContext;
+import de.elbe5.template.TemplateException;
 import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
@@ -19,7 +23,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-public class PartTemplate extends Template{
+public class PartTemplate extends Template {
 
     protected String css = "";
 

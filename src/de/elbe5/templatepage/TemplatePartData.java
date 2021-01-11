@@ -15,6 +15,8 @@ import de.elbe5.data.DataFactory;
 import de.elbe5.data.IData;
 import de.elbe5.request.RequestData;
 import de.elbe5.request.SessionRequestData;
+import de.elbe5.template.TemplateCache;
+import de.elbe5.template.TemplateContext;
 import org.json.JSONException;
 import org.json.JSONObject;
 

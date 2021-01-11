@@ -14,10 +14,10 @@
         </section>
         <div class="row">
             <section class="col-lg-8 contentSection" id="content">
-                <tpl type="section" name="main"></tpl>
+                <tpl type="section" name="main" css="row"></tpl>
             </section>
             <aside class="col-lg-4 asideSection" id="aside">
-                <tpl type="section" name="aside"></tpl>
+                <tpl type="section" name="aside" css="row"></tpl>
             </aside>
         </div>
     </template>

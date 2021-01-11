@@ -16,6 +16,8 @@ import de.elbe5.page.PageData;
 import de.elbe5.page.PageTypes;
 import de.elbe5.request.RequestData;
 import de.elbe5.request.SessionRequestData;
+import de.elbe5.template.TemplateCache;
+import de.elbe5.template.TemplateContext;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;

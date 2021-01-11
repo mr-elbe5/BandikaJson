@@ -12,6 +12,10 @@
 <%@ page import="de.elbe5.request.SessionRequestData" %>
 <%@ page import="de.elbe5.content.*" %>
 <%@ page import="de.elbe5.user.UserData" %>
+<%@ page import="de.elbe5.contentcontrol.Breadcrumb" %>
+<%@ page import="de.elbe5.contentcontrol.Footer" %>
+<%@ page import="de.elbe5.contentcontrol.MainNav" %>
+<%@ page import="de.elbe5.contentcontrol.SysNav" %>
 <%
     SessionRequestData rdata = SessionRequestData.getRequestData(request);
     Locale locale = rdata.getLocale();

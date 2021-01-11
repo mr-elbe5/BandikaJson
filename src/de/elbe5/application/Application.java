@@ -19,7 +19,7 @@ import de.elbe5.content.ContentContainer;
 import de.elbe5.fullpage.FullPageController;
 import de.elbe5.fullpage.FullPageData;
 import de.elbe5.templatepage.*;
-import de.elbe5.templatepage.TemplateCache;
+import de.elbe5.template.TemplateCache;
 import de.elbe5.user.UserContainer;
 import de.elbe5.file.FileController;
 import de.elbe5.file.FileData;

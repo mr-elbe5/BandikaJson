@@ -6,21 +6,11 @@
  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  You should have received a copy of the GNU General Public License along with this program; if not, see <http://www.gnu.org/licenses/>.
  */
-package de.elbe5.templatepage;
+package de.elbe5.template;
 
-import de.elbe5.request.RequestData;
+public class TemplateException extends RuntimeException{
 
-public class TemplateContext {
-
-    public final RequestData requestData;
-    public final TemplatePageData pageData;
-
-    public SectionData currentSection = null;
-    public TemplatePartData currentPart = null;
-
-    public TemplateContext(RequestData requestData, TemplatePageData pageData){
-        this.requestData = requestData;
-        this.pageData = pageData;
+    public TemplateException(String reason){
+        super(reason);
     }
-
 }

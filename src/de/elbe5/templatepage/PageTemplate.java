@@ -11,13 +11,16 @@ package de.elbe5.templatepage;
 import de.elbe5.application.Strings;
 import de.elbe5.base.data.StringUtil;
 import de.elbe5.tag.MessageHtml;
+import de.elbe5.template.Template;
+import de.elbe5.template.TemplateCache;
+import de.elbe5.template.TemplateContext;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-public class PageTemplate extends Template{
+public class PageTemplate extends Template {
 
     public void processTag(StringBuilder sb, String type, Map<String,String> attributes, String content, TemplateContext context){
         switch(type){
@@ -65,7 +68,6 @@ public class PageTemplate extends Template{
         List<String> partTypes = new ArrayList<>();
         context.pageData.collectPartTypes(partTypes);
         Locale locale = context.requestData.getLocale();
-        boolean showPartButtons = sectionData.getParts().isEmpty();
         sb.append(StringUtil.format(editSectionHtmlStart,
             attributes.get("css"),
             sectionData.getSectionId(),

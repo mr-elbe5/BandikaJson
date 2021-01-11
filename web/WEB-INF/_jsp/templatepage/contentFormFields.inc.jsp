@@ -12,7 +12,7 @@
 <%@ page import="de.elbe5.request.SessionRequestData" %>
 <%@ page import="java.util.Locale" %>
 <%@ page import="de.elbe5.templatepage.TemplatePageData" %>
-<%@ page import="de.elbe5.templatepage.TemplateCache" %>
+<%@ page import="de.elbe5.template.TemplateCache" %>
 <%@ page import="de.elbe5.templatepage.PageTemplate" %>
 <%@ taglib uri="/WEB-INF/formtags.tld" prefix="form" %>
 <%

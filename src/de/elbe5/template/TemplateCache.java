@@ -6,10 +6,12 @@
  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  You should have received a copy of the GNU General Public License along with this program; if not, see <http://www.gnu.org/licenses/>.
  */
-package de.elbe5.templatepage;
+package de.elbe5.template;
 
 import de.elbe5.application.ApplicationPath;
 import de.elbe5.base.log.Log;
+import de.elbe5.templatepage.PageTemplate;
+import de.elbe5.templatepage.PartTemplate;
 import org.apache.commons.io.FileUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -19,12 +21,11 @@ import org.jsoup.select.Elements;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 public class TemplateCache {
 
-    private static final Map<String,PageTemplate> pageTemplates = new HashMap<>();
-    private static final Map<String,PartTemplate> partTemplates = new HashMap<>();
+    private static final Map<String, PageTemplate> pageTemplates = new HashMap<>();
+    private static final Map<String, PartTemplate> partTemplates = new HashMap<>();
 
     public static void loadTemplates(){
         File[] files = ApplicationPath.getTemplateDirectory().listFiles();
@@ -56,8 +57,8 @@ public class TemplateCache {
                 Log.error("could not read template", e);
             }
         }
-        Log.log(pageTemplates.size() + " page templates loaded");
-        Log.log(partTemplates.size() + " part templates loaded");
+        Log.log(pageTemplates.size() + " page template(s) loaded");
+        Log.log(partTemplates.size() + " part template(s) loaded");
     }
 
     public static Map<String, PageTemplate> getPageTemplates() {

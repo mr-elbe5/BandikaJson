@@ -1,7 +1,8 @@
-package de.elbe5.content;
+package de.elbe5.contentcontrol;
 
 import de.elbe5.application.Strings;
 import de.elbe5.base.data.StringUtil;
+import de.elbe5.content.ContentData;
 import de.elbe5.page.PageData;
 import de.elbe5.rights.ContentRights;
 import de.elbe5.rights.SystemRights;
