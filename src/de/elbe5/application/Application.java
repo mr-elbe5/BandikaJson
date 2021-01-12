@@ -24,8 +24,7 @@ import de.elbe5.user.UserContainer;
 import de.elbe5.file.FileController;
 import de.elbe5.file.FileData;
 import de.elbe5.file.FileService;
-import de.elbe5.page.MasterPage;
-import de.elbe5.page.*;
+import de.elbe5.content.MasterPage;
 import de.elbe5.search.SearchController;
 import de.elbe5.actionqueue.*;
 import de.elbe5.user.GroupController;
@@ -128,7 +127,6 @@ public class Application {
     private static void registerControllers(){
         AdminController.register(new AdminController());
         ContentController.register(new ContentController());
-        PageController.register(new PageController());
         CkEditorController.register(new CkEditorController());
         FullPageController.register(new FullPageController());
         TemplatePageController.register(new TemplatePageController());
@@ -143,7 +141,6 @@ public class Application {
         ContentData.childTypes.add(FullPageData.TYPE_KEY);
         ContentData.childTypes.add(TemplatePageData.TYPE_KEY);
         FileData.register();
-        PageData.register();
         FullPageData.register();
         SectionData.register();
         TemplatePageData.register();

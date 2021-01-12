@@ -12,13 +12,13 @@
 <%@ page import="de.elbe5.request.SessionRequestData" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Locale" %>
-<%@ page import="de.elbe5.page.PageData" %>
-<%@ page import="de.elbe5.page.MasterPage" %>
+<%@ page import="de.elbe5.content.MasterPage" %>
+<%@ page import="de.elbe5.content.ContentData" %>
 <%@ taglib uri="/WEB-INF/formtags.tld" prefix="form" %>
 <%
     SessionRequestData rdata = SessionRequestData.getRequestData(request);
     Locale locale = rdata.getLocale();
-    PageData contentData = rdata.getCurrentContent(PageData.class);
+    ContentData contentData = rdata.getCurrentContent();
     assert (contentData != null);
     List<String> masterNames = MasterPage.getMasterPageNames();
     %>

@@ -10,13 +10,13 @@ package de.elbe5.templatepage;
 
 import de.elbe5.application.Application;
 import de.elbe5.base.log.Log;
+import de.elbe5.content.ViewType;
 import de.elbe5.data.BaseData;
 import de.elbe5.data.DataFactory;
 import de.elbe5.data.IData;
 import de.elbe5.request.RequestData;
 import de.elbe5.request.SessionRequestData;
 import de.elbe5.template.TemplateCache;
-import de.elbe5.template.TemplateContext;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -226,25 +226,26 @@ public class TemplatePartData extends BaseData implements Comparable<TemplatePar
 
     public String getNewPartHtml(RequestData rdata, TemplatePageData pageData){
         StringBuilder sb = new StringBuilder();
-        TemplateContext context = new TemplateContext(rdata, pageData);
+        TemplatePageContext context = new TemplatePageContext(pageData, ViewType.edit);
         context.currentPart = this;
+        rdata.setViewContext(context);
         PartTemplate template = TemplateCache.getPartTemplate(this.template);
         if (template==null){
             Log.error("part template not found:" + this.template);
             return "";
         }
-        template.processCode(sb, context);
+        template.processTemplate(sb, rdata);
         sb.append(template.getNewPartScript(this));
         return sb.toString();
     }
 
-    public void appendHtml(StringBuilder sb, TemplateContext context){
+    public void appendHtml(StringBuilder sb, RequestData rdata){
         PartTemplate template = TemplateCache.getPartTemplate(this.template);
         if (template==null){
             Log.error("part template not found:" + this.template);
             return;
         }
-        template.processCode(sb, context);
+        template.processTemplate(sb, rdata);
     }
 
 }

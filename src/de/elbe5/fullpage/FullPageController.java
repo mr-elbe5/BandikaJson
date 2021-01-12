@@ -8,10 +8,10 @@
  */
 package de.elbe5.fullpage;
 
-import de.elbe5.page.PageController;
+import de.elbe5.content.ContentController;
 import de.elbe5.servlet.ControllerCache;
 
-public class FullPageController extends PageController {
+public class FullPageController extends ContentController {
 
     private static FullPageController instance = null;
 

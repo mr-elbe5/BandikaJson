@@ -14,14 +14,16 @@ import de.elbe5.data.DataFactory;
 import de.elbe5.data.IData;
 import de.elbe5.file.FileData;
 import de.elbe5.request.RequestData;
-import de.elbe5.request.SessionRequestData;
+import de.elbe5.response.MasterResponse;
+import de.elbe5.rights.ContentRights;
 import de.elbe5.rights.Right;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.parser.Parser;
 
-import javax.servlet.ServletException;
-import javax.servlet.jsp.PageContext;
-import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.*;
 
 public abstract class ContentData extends BaseData implements Comparable<ContentData> {
@@ -36,10 +38,6 @@ public abstract class ContentData extends BaseData implements Comparable<Content
     public static final String NAV_TYPE_HEADER = "HEADER";
     public static final String NAV_TYPE_FOOTER = "FOOTER";
 
-    public static final String VIEW_TYPE_SHOW = "SHOW";
-    public static final String VIEW_TYPE_SHOWPUBLISHED = "PUBLISHED";
-    public static final String VIEW_TYPE_EDIT = "EDIT";
-
     public static final int ID_ROOT = 1;
 
     public static void register(){
@@ -52,6 +50,10 @@ public abstract class ContentData extends BaseData implements Comparable<Content
         name,
         displayName,
         description,
+        keywords,
+        master,
+        publishDate,
+        publishedContent,
         accessType,
         navType,
         active,
@@ -64,6 +66,10 @@ public abstract class ContentData extends BaseData implements Comparable<Content
     private String name = "";
     private String displayName = "";
     private String description = "";
+    private String keywords = "";
+    private String master = MasterResponse.DEFAULT_MASTER;
+    private LocalDateTime publishDate = null;
+    private String publishedContent="";
     private String accessType = ACCESS_TYPE_OPEN;
     private String navType = NAV_TYPE_NONE;
     private boolean active = true;
@@ -76,7 +82,6 @@ public abstract class ContentData extends BaseData implements Comparable<Content
     protected int ranking = 0;
 
     protected boolean openAccess = true;
-    protected String viewType = VIEW_TYPE_SHOW;
 
     // runtime
 
@@ -115,11 +120,18 @@ public abstract class ContentData extends BaseData implements Comparable<Content
         setName(data.getName());
         setDisplayName(data.getDisplayName());
         setDescription(data.getDescription());
+        setKeywords(data.getKeywords());
+        setMaster(data.getMaster());
+        setPublishDate(data.getPublishDate());
+        setPublishedContent(data.getPublishedContent());
         setAccessType(data.getAccessType());
         setNavType(data.getNavType());
         setActive(data.isActive());
         groupRights.clear();
         groupRights.putAll(data.getGroupRights());
+    }
+
+    public void copyPageAttributes(ContentData data){
     }
 
     // json methods
@@ -130,6 +142,10 @@ public abstract class ContentData extends BaseData implements Comparable<Content
         obj.put(keys.name.name(), name);
         obj.put(keys.displayName.name(), displayName);
         obj.put(keys.description.name(), description);
+        obj.put(keys.keywords.name(), keywords);
+        obj.put(keys.master.name(), master);
+        obj.put(keys.publishDate.name(), jsonString(publishDate));
+        obj.put(keys.publishedContent.name(), publishedContent);
         obj.put(keys.accessType.name(), accessType);
         obj.put(keys.navType.name(), navType);
         obj.put(keys.active.name(), active);
@@ -148,6 +164,10 @@ public abstract class ContentData extends BaseData implements Comparable<Content
         name = obj.optString(keys.name.name());
         displayName = obj.optString(keys.displayName.name());
         description = obj.optString(keys.description.name());
+        keywords = obj.optString(keys.keywords.name());
+        master = obj.optString(keys.master.name());
+        publishDate = getLocalDateTime(obj.optString(keys.publishDate.name()));
+        publishedContent = obj.optString(keys.publishedContent.name());
         accessType = obj.optString(keys.accessType.name());
         navType = obj.optString(keys.navType.name());
         active = obj.optBoolean(keys.active.name());
@@ -170,12 +190,17 @@ public abstract class ContentData extends BaseData implements Comparable<Content
         setDisplayName(rdata.getString("displayName").trim());
         setName(StringUtil.toSafeWebName(getDisplayName()));
         setDescription(rdata.getString("description"));
+        setKeywords(rdata.getString("keywords"));
+        setMaster(rdata.getString("master"));
         if (getName().isEmpty()) {
             rdata.addIncompleteField("name");
         }
         setAccessType(rdata.getString("accessType"));
         setNavType((rdata.getString("navType")));
         setActive(rdata.getBoolean("active"));
+    }
+
+    public void readPageRequestData(RequestData rdata) {
     }
 
     // interface implementation and defaults
@@ -185,24 +210,35 @@ public abstract class ContentData extends BaseData implements Comparable<Content
         return getDisplayName().compareTo(data.getDisplayName());
     }
 
-    public String getKeywords(){
-        return "";
-    }
-
     public String getEditDataJsp() {
         return "/WEB-INF/_jsp/content/editContentData.ajax.jsp";
     }
 
-    public boolean isPublished() {
-        return true;
+    protected void displayEditContent(StringBuilder sb, RequestData rdata)  {
+    }
+
+    protected void displayDraftContent(StringBuilder sb, RequestData rdata)  {
+    }
+
+    protected void displayPublishedContent(StringBuilder sb, RequestData rdata)  {
+        sb.append(publishedContent);
     }
 
     public boolean hasUnpublishedDraft() {
-        return false;
+        return publishDate == null || publishDate.isBefore(getChangeDate());
+    }
+
+    public boolean isPublished() {
+        return getPublishDate() != null;
+    }
+
+    public void collectChildTypes(List<String> list){
+        list.addAll(childTypes);
     }
 
     public String getSearchContent(){
-        return "";
+        Document doc = Jsoup.parse(getPublishedContent(), "", Parser.htmlParser());
+        return doc.text();
     }
 
     // getter and setter
@@ -249,6 +285,41 @@ public abstract class ContentData extends BaseData implements Comparable<Content
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getKeywords() {
+        return keywords;
+    }
+
+    public void setKeywords(String keywords) {
+        this.keywords = keywords;
+    }
+
+    public String getMaster() {
+        return master;
+    }
+
+    public void setMaster(String master) {
+        this.master = master;
+    }
+
+    public LocalDateTime getPublishDate() {
+        return publishDate;
+    }
+
+    public void setPublishDate(LocalDateTime publishDate) {
+        this.publishDate=publishDate;
+    }
+
+    public String getPublishedContent() {
+        return publishedContent;
+    }
+
+    public void setPublishedContent(String publishedContent) {
+        this.publishedContent = publishedContent;
+    }
+
+    public void createPublishedContent(RequestData rdata){
     }
 
     public String getAccessType() {
@@ -377,10 +448,6 @@ public abstract class ContentData extends BaseData implements Comparable<Content
         children.add(data);
     }
 
-    public void collectChildTypes(List<String> list){
-        list.addAll(childTypes);
-    }
-
     public List<FileData> getFiles() {
         return files;
     }
@@ -417,36 +484,45 @@ public abstract class ContentData extends BaseData implements Comparable<Content
 
     // view
 
-    public void displayContent(PageContext context, SessionRequestData rdata) throws IOException, ServletException {
-
+    public ContentViewContext createViewContext(ViewType viewType){
+        return new ContentViewContext(this, viewType);
     }
 
-    public String getViewType() {
-        return viewType;
-    }
-
-    public void setViewType(String viewType) {
-        this.viewType = viewType;
-    }
-
-    public boolean isEditing(){
-        return viewType.equals(VIEW_TYPE_EDIT);
-    }
-
-    public void stopEditing(){
-        this.viewType=VIEW_TYPE_SHOW;
-    }
-
-    public void startEditing(){
-        this.viewType=VIEW_TYPE_EDIT;
-    }
-
-    public boolean isPublishedView(){
-        return viewType.equals(VIEW_TYPE_SHOWPUBLISHED);
-    }
-
-    public boolean isStandardView(){
-        return viewType.equals(VIEW_TYPE_SHOW);
+    public String getContent(RequestData rdata) {
+        StringBuilder sb = new StringBuilder();
+        switch (rdata.getViewContext().getViewType()) {
+            case edit -> {
+                sb.append("<div id=\"pageContent\" class=\"editArea\">");
+                displayEditContent(sb, rdata);
+                sb.append("</div>");
+            }
+            case showPublished -> {
+                sb.append("<div id=\"pageContent\" class=\"viewArea\">");
+                if (isPublished())
+                    displayPublishedContent(sb, rdata);
+                sb.append("</div>");
+            }
+            case showDraft -> {
+                sb.append("<div id=\"pageContent\" class=\"viewArea\">");
+                if (ContentRights.hasUserEditRight(rdata.getCurrentUser(), getId()))
+                    displayDraftContent(sb, rdata);
+                sb.append("</div>");
+            }
+            case show -> {
+                sb.append("<div id=\"pageContent\" class=\"viewArea\">");
+                if (isPublished() && !ContentRights.hasUserEditRight(rdata.getCurrentUser(), getId()))
+                    displayPublishedContent(sb, rdata);
+                else
+                    displayDraftContent(sb, rdata);
+                sb.append("</div>");
+            }
+        }
+        String html = sb.toString();
+        Document doc = Jsoup.parse(html, "", Parser.xmlParser());
+        doc.outputSettings().indentAmount(2);
+        html = "\n" + doc.toString() + "\n";
+        //Log.log(html);
+        return html;
     }
 
 }

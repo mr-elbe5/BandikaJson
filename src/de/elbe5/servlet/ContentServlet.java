@@ -9,7 +9,7 @@
 package de.elbe5.servlet;
 
 import de.elbe5.application.Application;
-import de.elbe5.page.PageController;
+import de.elbe5.content.ContentController;
 import de.elbe5.request.*;
 import de.elbe5.response.IResponse;
 import de.elbe5.response.RedirectResponse;
@@ -32,7 +32,7 @@ public class ContentServlet extends WebServlet {
         try {
             IResponse result;
             if (url.endsWith(".html")) {
-                result = PageController.getInstance().show(request.getRequestURI(), rdata);
+                result = ContentController.getInstance().show(request.getRequestURI(), rdata);
             }
             else{
                 result = new RedirectResponse(getDefaultRoute(rdata));

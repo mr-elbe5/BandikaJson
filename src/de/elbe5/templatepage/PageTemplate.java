@@ -10,10 +10,12 @@ package de.elbe5.templatepage;
 
 import de.elbe5.application.Strings;
 import de.elbe5.base.data.StringUtil;
+import de.elbe5.content.ViewType;
+import de.elbe5.request.RequestData;
 import de.elbe5.tag.MessageHtml;
 import de.elbe5.template.Template;
 import de.elbe5.template.TemplateCache;
-import de.elbe5.template.TemplateContext;
+import de.elbe5.template.TemplateException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,20 +24,21 @@ import java.util.Map;
 
 public class PageTemplate extends Template {
 
-    public void processTag(StringBuilder sb, String type, Map<String,String> attributes, String content, TemplateContext context){
+    public void processTag(StringBuilder sb, String type, Map<String,String> attributes, String content, RequestData rdata) throws TemplateException{
+        TemplatePageContext context = rdata.getViewContext(TemplatePageContext.class);
         switch(type){
             case "message" -> {
-                sb.append(MessageHtml.getHtml(context.requestData));
+                sb.append(MessageHtml.getHtml(rdata));
             }
             case "section" -> {
-                SectionData sectionData = context.pageData.ensureSection(attributes.get("name"));
+                SectionData sectionData = context.getPage().ensureSection(attributes.get("name"));
                 if (sectionData != null) {
                     sectionData.setCssClass(attributes.get("css"));
                     context.currentSection = sectionData;
-                    if (context.pageData.isEditing()) {
-                        getEditSectionHtml(sb, sectionData, attributes, context);
+                    if (context.getViewType() == ViewType.edit) {
+                        getEditSectionHtml(sb, sectionData, attributes, context, rdata);
                     } else {
-                        getSectionHtml(sb, sectionData, context);
+                        getSectionHtml(sb, sectionData, context, rdata);
                     }
                     context.currentSection = null;
                 }
@@ -64,10 +67,10 @@ public class PageTemplate extends Template {
           </div>
           """;
 
-    private void getEditSectionHtml(StringBuilder sb, SectionData sectionData, Map<String,String> attributes, TemplateContext context){
+    private void getEditSectionHtml(StringBuilder sb, SectionData sectionData, Map<String,String> attributes, TemplatePageContext context, RequestData rdata){
         List<String> partTypes = new ArrayList<>();
-        context.pageData.collectPartTypes(partTypes);
-        Locale locale = context.requestData.getLocale();
+        context.getPage().collectPartTypes(partTypes);
+        Locale locale = rdata.getLocale();
         sb.append(StringUtil.format(editSectionHtmlStart,
             attributes.get("css"),
             sectionData.getSectionId(),
@@ -87,7 +90,7 @@ public class PageTemplate extends Template {
         sb.append(editSectionHtmlDropdownEnd);
         for (TemplatePartData partData : sectionData.getParts()) {
             context.currentPart = partData;
-            partData.appendHtml(sb, context);
+            partData.appendHtml(sb, rdata);
             context.currentPart = null;
         }
         sb.append(sectionEnd);
@@ -97,13 +100,13 @@ public class PageTemplate extends Template {
             <div class="section {1}">
             """;
 
-    private void getSectionHtml(StringBuilder sb, SectionData sectionData, TemplateContext context){
+    private void getSectionHtml(StringBuilder sb, SectionData sectionData, TemplatePageContext context, RequestData rdata){
         sb.append(StringUtil.format(sectionStart,
                 sectionData.getCssClass()
                 ));
         for (TemplatePartData partData : sectionData.getParts()) {
             context.currentPart = partData;
-            partData.appendHtml(sb, context);
+            partData.appendHtml(sb, rdata);
             context.currentPart = null;
         }
         sb.append(sectionEnd);

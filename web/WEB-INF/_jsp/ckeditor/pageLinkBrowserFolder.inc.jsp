@@ -11,7 +11,6 @@
 <%@include file="/WEB-INF/_jsp/_include/functions.inc.jsp" %>
 <%@ page import="de.elbe5.content.ContentData" %>
 <%@ page import="de.elbe5.request.SessionRequestData" %>
-<%@ page import="de.elbe5.page.PageData" %>
 <%@ page import="java.util.List" %>
 <%@ taglib uri="/WEB-INF/formtags.tld" prefix="form" %>
 <%
@@ -24,7 +23,7 @@
     </a>
     <ul>
         <% if (!contentData.getChildren().isEmpty()) {
-            List<PageData> children = contentData.getChildren(PageData.class);
+            List<ContentData> children = contentData.getChildren();
             for (ContentData subPage : children) {
                 rdata.setRequestObject("treePage", subPage); %>
                 <jsp:include page="/WEB-INF/_jsp/ckeditor/pageLinkBrowserFolder.inc.jsp" flush="true"/>

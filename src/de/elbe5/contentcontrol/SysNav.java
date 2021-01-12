@@ -3,7 +3,7 @@ package de.elbe5.contentcontrol;
 import de.elbe5.application.Strings;
 import de.elbe5.base.data.StringUtil;
 import de.elbe5.content.ContentData;
-import de.elbe5.page.PageData;
+import de.elbe5.content.ViewType;
 import de.elbe5.rights.ContentRights;
 import de.elbe5.rights.SystemRights;
 import de.elbe5.user.UserData;
@@ -69,7 +69,7 @@ public class SysNav {
             </ul>
             """;
 
-    public static String getHtml(ContentData currentContent, UserData currentUser, boolean isLoggedIn, Locale locale, boolean useSearch){
+    public static String getHtml(ContentData currentContent, ViewType viewType, UserData currentUser, boolean isLoggedIn, Locale locale, boolean useSearch){
         StringBuilder sb = new StringBuilder();
         sb.append(sysNavStart);
         if (isLoggedIn){
@@ -79,7 +79,7 @@ public class SysNav {
 
                 ));
             }
-            if (currentContent instanceof PageData && !currentContent.isEditing() && ContentRights.hasUserEditRight(currentUser, currentContent)) {
+            if (!viewType.equals(ViewType.edit) && ContentRights.hasUserEditRight(currentUser, currentContent)) {
                         sb.append(StringUtil.format(editLink,
                                 currentContent.getTypeKey(),
                                 Integer.toString(currentContent.getId()),
@@ -87,7 +87,7 @@ public class SysNav {
                         ));
                 if (currentContent.hasUnpublishedDraft()) {
                     if (currentContent.isPublished()){
-                        if (currentContent.isPublishedView()){
+                        if (viewType.equals(ViewType.showPublished)){
                             sb.append(StringUtil.format(draftLink,
                                     currentContent.getTypeKey(),
                                     Integer.toString(currentContent.getId()),

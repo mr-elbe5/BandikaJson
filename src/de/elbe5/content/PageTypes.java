@@ -8,27 +8,11 @@
  */
 package de.elbe5.content;
 
-import de.elbe5.request.RequestData;
+import java.util.ArrayList;
+import java.util.List;
 
-public class ContentContext {
+public class PageTypes {
 
-    private ContentData content = null;
-
-    public ContentContext(RequestData rdata, ContentData content){
-        this.content = content;
-    }
-
-    public ContentData getContent() {
-        return content;
-    }
-
-    public <T extends ContentData> T getContent(Class<T> cls) {
-        try {
-            return cls.cast(content);
-        }
-        catch (ClassCastException | NullPointerException e){
-            return null;
-        }
-    }
+    public static final List<String> typeNames = new ArrayList<>();
 
 }

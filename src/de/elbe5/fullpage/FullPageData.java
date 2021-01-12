@@ -9,10 +9,11 @@
 package de.elbe5.fullpage;
 
 import de.elbe5.application.Application;
+import de.elbe5.content.ContentData;
+import de.elbe5.content.ContentViewContext;
 import de.elbe5.data.DataFactory;
 import de.elbe5.data.IData;
-import de.elbe5.page.PageData;
-import de.elbe5.page.PageTypes;
+import de.elbe5.content.PageTypes;
 import de.elbe5.request.RequestData;
 import de.elbe5.request.SessionRequestData;
 import de.elbe5.templatepage.SectionData;
@@ -28,7 +29,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class FullPageData extends PageData {
+public class FullPageData extends ContentData {
 
     public static final String TYPE_KEY = "fullpage";
 
@@ -69,7 +70,7 @@ public class FullPageData extends PageData {
         setCssClass(data.getCssClass());
     }
 
-    public void copyPageAttributes(PageData pdata){
+    public void copyPageAttributes(ContentData pdata){
         super.copyPageAttributes(pdata);
         assert pdata instanceof FullPageData;
         FullPageData data = (FullPageData) pdata;
@@ -136,16 +137,14 @@ public class FullPageData extends PageData {
         return "/WEB-INF/_jsp/fullpage/editContentData.ajax.jsp";
     }
 
-    //used in jsp
     @Override
-    protected void displayEditContent(PageContext context, JspWriter writer, SessionRequestData rdata) throws IOException, ServletException {
-        context.include("/WEB-INF/_jsp/fullpage/editPageContent.inc.jsp");
+    protected void displayEditContent(StringBuilder sb, RequestData rdata) {
+        //todo
     }
 
-    //used in jsp
     @Override
-    protected void displayDraftContent(PageContext context, JspWriter writer, SessionRequestData rdata) throws IOException, ServletException {
-        context.include("/WEB-INF/_jsp/fullpage/pageContent.inc.jsp");
+    protected void displayDraftContent(StringBuilder sb, RequestData rdata) {
+        //todo
     }
 
 }

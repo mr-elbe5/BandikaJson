@@ -9,6 +9,7 @@
 package de.elbe5.request;
 
 import de.elbe5.content.ContentData;
+import de.elbe5.content.ContentViewContext;
 import de.elbe5.user.UserData;
 
 import javax.servlet.http.*;
@@ -23,12 +24,10 @@ public abstract class RequestData extends KeyValueMap {
     protected HttpServletRequest request;
 
     private int id = 0;
-
     private final String method;
-
     protected RequestType type = RequestType.none;
-
     protected FormError formError = null;
+    protected ContentViewContext viewContext = null;
 
     protected final Map<String, Cookie> cookies = new HashMap<>();
 
@@ -167,6 +166,24 @@ public abstract class RequestData extends KeyValueMap {
         }
     }
 
+    /*************** view context ***************/
+
+    public ContentViewContext getViewContext() {
+        return viewContext;
+    }
+
+    public <T extends ContentViewContext> T getViewContext(Class<T> cls) {
+        try {
+            return cls.cast(viewContext);
+        }
+        catch (ClassCastException | AssertionError e){
+            return null;
+        }
+    }
+
+    public void setViewContext(ContentViewContext viewContext) {
+        this.viewContext = viewContext;
+    }
 }
 
 

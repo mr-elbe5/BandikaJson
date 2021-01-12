@@ -12,9 +12,11 @@ import de.elbe5.application.Strings;
 import de.elbe5.base.data.StringUtil;
 import de.elbe5.base.log.Log;
 import de.elbe5.content.ContentData;
+import de.elbe5.content.ViewType;
+import de.elbe5.request.RequestData;
+import de.elbe5.request.SessionRequestData;
 import de.elbe5.template.Template;
 import de.elbe5.template.TemplateCache;
-import de.elbe5.template.TemplateContext;
 import de.elbe5.template.TemplateException;
 import org.jsoup.select.Elements;
 
@@ -55,15 +57,16 @@ public class PartTemplate extends Template {
     }
 
     @Override
-    public void processCode(StringBuilder sb, TemplateContext context) throws TemplateException {
+    public void processTemplate(StringBuilder sb, RequestData rdata) throws TemplateException {
+        TemplatePageContext context = rdata.getViewContext(TemplatePageContext.class);
         TemplatePartData partData = context.currentPart;
-        if (context.pageData.isEditing()) {
+        if (context.getViewType() == ViewType.edit) {
             sb.append(StringUtil.format(editPartHtmlStart,
                     context.currentPart.getPartWrapperId(),
                     StringUtil.toHtml(getCss()),
-                    StringUtil.toHtml(partData.getEditTitle(context.requestData.getLocale()))
+                    StringUtil.toHtml(partData.getEditTitle(rdata.getLocale()))
             ));
-            appendEditPartHeader(sb, context);
+            appendEditPartHeader(sb, context, rdata);
         }
         else{
             sb.append(StringUtil.format(viewPartHtmlStart,
@@ -71,11 +74,13 @@ public class PartTemplate extends Template {
                     StringUtil.toHtml(getCss())
             ));
         }
-        super.processCode(sb, context);
+        super.processTemplate(sb, rdata);
         sb.append(htmlEnd);
     }
 
-    public void processTag(StringBuilder sb, String type, Map<String,String> attributes, String content, TemplateContext context) throws TemplateException{
+    @Override
+    public void processTag(StringBuilder sb, String type, Map<String,String> attributes, String content, RequestData rdata) throws TemplateException{
+        TemplatePageContext context = rdata.getViewContext(TemplatePageContext.class);
         switch(type){
             case TextField.TYPE_KEY -> processTextField(sb, context.currentPart, attributes, content, context);
             case HtmlField.TYPE_KEY -> processHtmlField(sb, context.currentPart, attributes, content, context);
@@ -118,10 +123,10 @@ public class PartTemplate extends Template {
             """;
 
 
-    private void appendEditPartHeader(StringBuilder sb, TemplateContext context){
+    private void appendEditPartHeader(StringBuilder sb, TemplatePageContext context, RequestData rdata){
         List<String> partTypes = new ArrayList<>();
-        context.pageData.collectPartTypes(partTypes);
-        Locale locale = context.requestData.getLocale();
+        context.getPage().collectPartTypes(partTypes);
+        Locale locale = rdata.getLocale();
         int partId = context.currentPart.getId();
         sb.append(StringUtil.format(editPartHeaderStartHtml,
                 context.currentPart.getPartPositionName(),
@@ -157,9 +162,9 @@ public class PartTemplate extends Template {
             <input type="text" class="editField" name="{1}" placeholder="{2}" value="{3}" />
             """;
 
-    private void processTextField(StringBuilder sb, TemplatePartData partData, Map<String,String> attributes, String content, TemplateContext context){
+    private void processTextField(StringBuilder sb, TemplatePartData partData, Map<String,String> attributes, String content, TemplatePageContext context){
         TextField field = partData.ensureTextField(attributes.get("name"));
-        boolean editMode = context.pageData.getViewType().equals(ContentData.VIEW_TYPE_EDIT);
+        boolean editMode = context.getViewType().equals(ViewType.edit);
         if (editMode) {
             int rows = 1;
             try{ rows = Integer.parseInt(attributes.get("rows"));}catch (Exception ignore){}
@@ -192,9 +197,9 @@ public class PartTemplate extends Template {
                   </script>
             """;
 
-    private void processHtmlField(StringBuilder sb, TemplatePartData partData, Map<String,String> attributes, String content, TemplateContext context){
+    private void processHtmlField(StringBuilder sb, TemplatePartData partData, Map<String,String> attributes, String content, TemplatePageContext context){
         HtmlField field = partData.ensureHtmlField(attributes.get("name"));
-        boolean editMode = context.pageData.getViewType().equals(ContentData.VIEW_TYPE_EDIT);
+        boolean editMode = context.getViewType().equals(ViewType.edit);
         if (editMode) {
             sb.append(StringUtil.format(htmlTagScript,
                     field.getIdentifier(),
@@ -202,8 +207,8 @@ public class PartTemplate extends Template {
                     field.getIdentifier(),
                     StringUtil.toHtml(field.getContent()),
                     field.getIdentifier(),
-                    Integer.toString(context.pageData.getId()),
-                    Integer.toString(context.pageData.getId())
+                    Integer.toString(context.getPage().getId()),
+                    Integer.toString(context.getPage().getId())
             ));
         } else {
             try {
@@ -222,9 +227,9 @@ public class PartTemplate extends Template {
             <script type="text/javascript">{1}</script>
             """;
 
-    private void processScriptField(StringBuilder sb, TemplatePartData partData, Map<String,String> attributes, String content, TemplateContext context){
+    private void processScriptField(StringBuilder sb, TemplatePartData partData, Map<String,String> attributes, String content, TemplatePageContext context){
         ScriptField field = partData.ensureScriptField(attributes.get("name"));
-        boolean editMode = context.pageData.getViewType().equals(ContentData.VIEW_TYPE_EDIT);
+        boolean editMode = context.getViewType().equals(ViewType.edit);
         if (editMode) {
             sb.append(StringUtil.format(scriptEditTag,
                     field.getIdentifier(),

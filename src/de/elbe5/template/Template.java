@@ -10,6 +10,7 @@ package de.elbe5.template;
 
 import de.elbe5.application.ApplicationPath;
 import de.elbe5.base.log.Log;
+import de.elbe5.request.RequestData;
 import org.apache.commons.io.FileUtils;
 import org.jsoup.select.Elements;
 
@@ -105,25 +106,17 @@ abstract public class Template {
         }
     }
 
-    public String processTemplate(TemplateContext context){
+    public void processTemplate(StringBuilder sb, RequestData rdata){
         //Log.log("template process template");
-        StringBuilder sb = new StringBuilder();
         try {
-            processCode(sb, context);
-            return sb.toString();
+            processString(code, sb, rdata);
         }
         catch (TemplateException e){
             Log.error("could not process template", e);
         }
-        return "";
     }
 
-    public void processCode(StringBuilder sb, TemplateContext context) throws TemplateException {
-        //Log.log("template process code");
-        processString(code, sb, context);
-    }
-
-    public void processString(String src, StringBuilder sb, TemplateContext context) throws TemplateException {
+    public void processString(String src, StringBuilder sb, RequestData rdata) throws TemplateException {
         int pos1;
         int pos2 = 0;
         boolean shortTag;
@@ -150,7 +143,7 @@ abstract public class Template {
             attributes.remove("type");
             //no content
             if (shortTag) {
-                processTag(sb, type, attributes, null, context);
+                processTag(sb, type, attributes, null, rdata);
                 pos2++;
                 continue;
             }
@@ -160,11 +153,11 @@ abstract public class Template {
                 throw new TemplateException("no end tag ");
             String content = src.substring(pos2, pos1).trim();
             pos2 = pos1 + END_TAG.length();
-            processTag(sb, type, attributes, content, context);
+            processTag(sb, type, attributes, content, rdata);
         }
     }
 
-    public abstract void processTag(StringBuilder sb, String type, Map<String,String> attributes, String content, TemplateContext context) throws TemplateException;
+    public abstract void processTag(StringBuilder sb, String type, Map<String,String> attributes, String content, RequestData rdata) throws TemplateException;
     
     protected Map<String, String> getAttributes(String src){
         //Log.log("template get attributes");

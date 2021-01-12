@@ -54,6 +54,14 @@ public class ContentController extends Controller {
         return new ContentResponse(data);
     }
 
+    public IResponse show(String url, SessionRequestData rdata) {
+        ContentData data = contentContainer().getContent(url);
+        assert(data!=null);
+        checkRights(ContentRights.hasUserReadRight(rdata.getCurrentUser(), data.getId()));
+        //Log.log("show: "+data.getClass().getSimpleName());
+        return new ContentResponse(data);
+    }
+
     public IResponse openCreateContentData(SessionRequestData rdata) {
         int parentId = rdata.getInt("parentId");
         ContentData parentData = contentContainer().getContent(parentId);
@@ -291,6 +299,77 @@ public class ContentController extends Controller {
 
     protected IResponse showContentAdministration(SessionRequestData rdata, int contentId) {
         return new ForwardResponse("/ctrl/admin/openContentAdministration?contentId=" + contentId);
+    }
+
+    public IResponse openEditPage(SessionRequestData rdata) {
+        int contentId = rdata.getId();
+        ContentData original = contentContainer().getContent(contentId);
+        assert(original!=null);
+        checkRights(ContentRights.hasUserEditRight(rdata.getCurrentUser(), original.getId()));
+        ContentData data = IData.getEditableCopy(original);
+        assert data!=null;
+        data.setEditValues(original);
+        data.copyPageAttributes(original);
+        rdata.setCurrentSessionContent(data);
+        return new ContentResponse(data, ViewType.edit);
+    }
+
+    public IResponse showEditPage(SessionRequestData rdata) {
+        ContentData data = rdata.getCurrentSessionContent();
+        assert(data!=null);
+        checkRights(ContentRights.hasUserEditRight(rdata.getCurrentUser(), data.getId()));
+        return new ContentResponse(data);
+    }
+
+    public IResponse savePage(SessionRequestData rdata) {
+        int contentId = rdata.getId();
+        ContentData data = rdata.getCurrentSessionContent();
+        assert(data != null && data.getId() == contentId);
+        checkRights(ContentRights.hasUserEditRight(rdata.getCurrentUser(), data.getId()));
+        data.readPageRequestData(rdata);
+        if (rdata.hasFormErrors()) {
+            return new ContentResponse(data, ViewType.edit);
+        }
+        if (!contentContainer().updateContent(data, rdata.getUserId())){
+            Log.warn("original data not found for update");
+            setError(rdata, "_versionError");
+            return new ContentResponse(data, ViewType.edit);
+        }
+        rdata.removeCurrentSessionContent();
+        return show(rdata);
+    }
+
+    public IResponse cancelEditPage(SessionRequestData rdata) {
+        ContentData data = rdata.getCurrentSessionContent();
+        assert(data!=null);
+        checkRights(ContentRights.hasUserEditRight(rdata.getCurrentUser(), data.getId()));
+        return new ContentResponse(data);
+    }
+
+    public IResponse showDraft(SessionRequestData rdata){
+        int contentId = rdata.getId();
+        ContentData data = contentContainer().getContent(contentId);
+        assert(data!=null);
+        checkRights(ContentRights.hasUserReadRight(rdata.getCurrentUser(), data.getId()));
+        return new ContentResponse(data, ViewType.showDraft);
+    }
+
+    public IResponse showPublished(SessionRequestData rdata){
+        int contentId = rdata.getId();
+        ContentData data = contentContainer().getContent(contentId);
+        assert(data!=null);
+        checkRights(ContentRights.hasUserReadRight(rdata.getCurrentUser(), data.getId()));
+        return new ContentResponse(data, ViewType.showPublished);
+    }
+
+    public IResponse publishPage(SessionRequestData rdata){
+        int contentId = rdata.getId();
+        ContentData data = contentContainer().getContent(contentId);
+        assert(data != null);
+        checkRights(ContentRights.hasUserApproveRight(rdata.getCurrentUser(), data.getId()));
+        data.createPublishedContent(rdata);
+        Application.getContent().publishContent(data);
+        return new ContentResponse(data);
     }
 
 }

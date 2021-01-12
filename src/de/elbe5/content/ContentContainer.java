@@ -13,7 +13,6 @@ import de.elbe5.application.ApplicationPath;
 import de.elbe5.base.log.Log;
 import de.elbe5.data.*;
 import de.elbe5.file.FileData;
-import de.elbe5.page.PageData;
 import de.elbe5.rights.Right;
 import de.elbe5.servlet.ResponseException;
 import org.json.JSONException;
@@ -224,27 +223,6 @@ public class ContentContainer extends DataContainer {
             ContentData original = getContent(data.getId(), data.getVersion());
             if (original != null) {
                 original.copyEditableAttributes(data);
-                original.increaseVersion();
-                original.setChangerId(userId);
-                original.setChangeDate(Application.getCurrentTime());
-                setHasChanged();
-                success = true;
-            }
-            else{
-                Log.warn("updating content - content not found: " + data.getId());
-            }
-        } finally {
-            dataLock.unlock();
-        }
-        return success;
-    }
-
-    public boolean updatePage(PageData data, int userId) {
-        boolean success = false;
-        try {
-            dataLock.lock();
-            PageData original = getContent(data.getId(), data.getVersion(), PageData.class);
-            if (original != null) {
                 original.copyPageAttributes(data);
                 original.increaseVersion();
                 original.setChangerId(userId);
@@ -261,7 +239,7 @@ public class ContentContainer extends DataContainer {
         return success;
     }
 
-    public boolean publishPage(PageData data) {
+    public boolean publishContent(ContentData data) {
         try {
             dataLock.lock();
             data.setPublishDate(Application.getCurrentTime());

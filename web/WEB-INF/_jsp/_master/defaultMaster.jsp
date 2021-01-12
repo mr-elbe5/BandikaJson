@@ -19,14 +19,20 @@
 <%
     SessionRequestData rdata = SessionRequestData.getRequestData(request);
     Locale locale = rdata.getLocale();
-    ContentData home = contentContainer().getContentRoot();
-    ContentData currentContent = rdata.getCurrentContent();
-    if (currentContent == null)
-        currentContent = home;
+    ContentViewContext context = rdata.getViewContext();
+    ContentData contentData;
+    ViewType viewType = ViewType.show;
+    if (context!=null){
+        contentData = context.getContentData();
+        viewType = context.getViewType();
+    }
+    else {
+        contentData = contentContainer().getContentRoot();
+    }
     UserData currentUser = rdata.getCurrentUser();
-    String title = Application.getConfiguration().getApplicationName() + (currentContent != null ? " | " + currentContent.getDisplayName() : "");
-    String keywords = currentContent != null ? currentContent.getKeywords() : title;
-    String description = currentContent != null ? currentContent.getDescription() : "";
+    String title = Application.getConfiguration().getApplicationName() + (contentData != null ? " | " + contentData.getDisplayName() : "");
+    String keywords = contentData != null ? contentData.getKeywords() : title;
+    String description = contentData != null ? contentData.getDescription() : "";
 %>
 <!DOCTYPE html>
 <html lang="<%=locale.getLanguage()%>">
@@ -50,20 +56,20 @@
 <div class="container">
     <header>
         <section class="sysnav">
-            <%=SysNav.getHtml(currentContent, currentUser, rdata.isLoggedIn(), locale, false)%>
+            <%=SysNav.getHtml(contentData, viewType, currentUser, rdata.isLoggedIn(), locale, false)%>
         </section>
         <div class="menu row">
-            <%=MainNav.getHtml(currentContent, currentUser)%>
+            <%=MainNav.getHtml(contentData, currentUser)%>
         </div>
         <div class="bc row">
-            <%=Breadcrumb.getHtml(currentContent)%>
+            <%=Breadcrumb.getHtml(contentData)%>
         </div>
     </header>
     <main id="main" role="main">
         <div id="pageContainer">
-            <% if (currentContent != null) {
+            <% if (contentData != null) {
                 try {
-                    currentContent.displayContent(pageContext, rdata);
+                    out.write(contentData.getContent(rdata));
                 } catch (Exception ignore) {
                 }
             }%>
@@ -72,7 +78,7 @@
 </div>
 <div class="container fixed-bottom">
     <footer class="footer">
-        <%=Footer.getHtml(currentContent, currentUser)%>
+        <%=Footer.getHtml(contentData, currentUser)%>
     </footer>
 </div>
 <div class="modal" id="modalDialog" tabindex="-1" role="dialog"></div>

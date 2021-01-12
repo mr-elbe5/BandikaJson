@@ -8,15 +8,15 @@
  */
 package de.elbe5.templatepage;
 
+import de.elbe5.content.ContentController;
 import de.elbe5.data.DataFactory;
-import de.elbe5.page.PageController;
 import de.elbe5.request.*;
 import de.elbe5.response.AjaxHtmlResponse;
 import de.elbe5.response.IResponse;
 import de.elbe5.rights.ContentRights;
 import de.elbe5.servlet.ControllerCache;
 
-public class TemplatePageController extends PageController {
+public class TemplatePageController extends ContentController {
 
     private static TemplatePageController instance = null;
 

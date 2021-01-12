@@ -9,31 +9,26 @@
 package de.elbe5.templatepage;
 
 import de.elbe5.application.Application;
+import de.elbe5.application.Strings;
+import de.elbe5.base.data.StringUtil;
 import de.elbe5.base.log.Log;
+import de.elbe5.content.ContentData;
+import de.elbe5.content.ContentViewContext;
+import de.elbe5.content.ViewType;
 import de.elbe5.data.DataFactory;
 import de.elbe5.data.IData;
-import de.elbe5.page.PageData;
-import de.elbe5.page.PageTypes;
+import de.elbe5.content.PageTypes;
 import de.elbe5.request.RequestData;
-import de.elbe5.request.SessionRequestData;
 import de.elbe5.template.TemplateCache;
-import de.elbe5.template.TemplateContext;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.parser.Parser;
 
-import javax.servlet.ServletException;
-import javax.servlet.jsp.JspWriter;
-import javax.servlet.jsp.PageContext;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-public class TemplatePageData extends PageData {
+public class TemplatePageData extends ContentData {
 
     public static final String TYPE_KEY = "templatepage";
 
@@ -75,7 +70,7 @@ public class TemplatePageData extends PageData {
         setTemplate(data.getTemplate());
     }
 
-    public void copyPageAttributes(PageData pdata){
+    public void copyPageAttributes(ContentData pdata){
         super.copyPageAttributes(pdata);
         assert pdata instanceof TemplatePageData;
         TemplatePageData data = (TemplatePageData) pdata;
@@ -136,7 +131,14 @@ public class TemplatePageData extends PageData {
     }
 
     public void createPublishedContent(RequestData rdata){
-        setPublishedContent(getHtml(rdata));
+        rdata.setViewContext(new TemplatePageContext(this, ViewType.show));
+        StringBuilder sb = new StringBuilder();
+        appendContent(sb, rdata);
+        String html = sb.toString();
+        Document doc = Jsoup.parse(html, "", Parser.xmlParser());
+        doc.outputSettings().indentAmount(2);
+        html = "\n" + doc.toString() + "\n";
+        setPublishedContent(html);
         setPublishDate(Application.getCurrentTime());
     }
 
@@ -189,35 +191,164 @@ public class TemplatePageData extends PageData {
         return "/WEB-INF/_jsp/templatepage/editContentData.ajax.jsp";
     }
 
+    final String editContentStart = """
+            <form action="/ctrl/{1}/savePage/{2}" method="post" id="pageform" name="pageform" accept-charset="UTF-8">
+                    <div class="btn-group btn-group-sm pageEditButtons">
+                        <button type="submit" class="btn btn-sm btn-success" onclick="updateEditors();">{3}</button>
+                        <button class="btn btn-sm btn-secondary" onclick="return linkTo('/ctrl/{4}/cancelEditPage/{5}');">{6}</button>
+                    </div>
+            """;
+
+    final String editContentEnd = """
+                </form>
+            """;
+
     @Override
-    protected void displayEditContent(PageContext context, JspWriter writer, SessionRequestData rdata) throws IOException, ServletException {
-        context.include("/WEB-INF/_jsp/templatepage/editPageContent.inc.jsp");
+    protected void displayEditContent(StringBuilder sb, RequestData rdata)  {
+        sb.append(StringUtil.format(editContentStart,
+                getTypeKey(),
+                Integer.toString(getId()),
+                Strings.html("_savePage", rdata.getLocale()),
+                getTypeKey(),
+                Integer.toString(getId()),
+                Strings.html("_cancel", rdata.getLocale())
+        ));
+        appendContent(sb, rdata);
+        sb.append(editContentEnd);
+        sb.append(StringUtil.format(editScripts,
+                Strings.js("_confirmDelete",rdata.getLocale()),
+                getTypeKey(),
+                Integer.toString(getId())
+
+        ));
     }
 
     @Override
-    protected void displayDraftContent(PageContext context, JspWriter writer, SessionRequestData rdata) throws IOException, ServletException {
-        writer.write(getHtml(rdata));
-    }
-
-    protected void displayPublishedContent(PageContext context, JspWriter writer, SessionRequestData rdata) throws IOException, ServletException {
-        writer.write(getPublishedContent());
+    protected void displayDraftContent(StringBuilder sb, RequestData rdata)  {
+        appendContent(sb, rdata);
     }
 
     // html
 
-    public String getHtml(RequestData rdata){
-        TemplateContext context = new TemplateContext(rdata, this);
+    public ContentViewContext createViewContext(ViewType viewType) {
+        return new TemplatePageContext(this, viewType);
+    }
+
+    public void appendContent(StringBuilder sb, RequestData rdata){
         PageTemplate template = TemplateCache.getPageTemplate(this.template);
         if (template==null){
             Log.error("page template not found:" + this.template);
-            return "";
+            return;
         }
-        String html = template.processTemplate(context);
-        Document doc = Jsoup.parse(html, "", Parser.xmlParser());
-        doc.outputSettings().indentAmount(2);
-        html = "\n" + doc.toString() + "\n";
-        //Log.log(html);
-        return html;
+        template.processTemplate(sb, rdata);
     }
+
+    final String editScripts = """
+            <script type="text/javascript">
+                    function confirmDelete() {
+                        return confirm('{1}');
+                    }
+                    function updatePartButtonsVisible(){
+                        $(".section").each(function () {
+                            let $this = $(this);
+                            let $buttonDiv = $this.find('div.addPartButtons');
+                            let partCount = $this.find('div.partWrapper').length;
+                            if (partCount === 0){
+                                $buttonDiv.show();
+                            }
+                            else{
+                                $buttonDiv.hide();
+                            }
+                        });
+                    }
+                    function movePart(id,direction){
+                        let $partWrapper=$('#part_'+id);
+                        if (direction===1){
+                            let $nextPart=$partWrapper.next();
+                            if (!$nextPart || $nextPart.length===0){
+                                return false;
+                            }
+                            $partWrapper.detach();
+                            $nextPart.after($partWrapper);
+                        }
+                        else{
+                            let $prevPart=$partWrapper.prev();
+                            if (!$prevPart || $prevPart.length===0){
+                                return false;
+                            }
+                            $partWrapper.detach();
+                            $prevPart.before($partWrapper);
+                        }
+                        updatePartPositions();
+                        return false;
+                    }
+                    function deletePart(id){
+                        let $partWrapper=$('#part_'+id);
+                        $partWrapper.remove();
+                        updatePartPositions();
+                        updatePartButtonsVisible();
+                        return false;
+                    }
+                    function addPart(fromId, section, type, layout){
+                        let data = {
+                            fromPartId: fromId,
+                            sectionName: section,
+                            partType: type,
+                            layout: layout
+                        };
+                        $.ajax({
+                            url: '/ajax/{2}/addPart/' + {3},
+                            type: 'POST',
+                            data: data,
+                            dataType: 'html'
+                        }).success(function (html, textStatus) {
+                            if (fromId === -1) {
+                                let $section=$('#pageform').find('#section_'+section);
+                                $section.append(html);
+                            }
+                            else{
+                                let $fromPartWrapper = $('#part_' + fromId);
+                                if ($fromPartWrapper) {
+                                    $fromPartWrapper.after(html);
+                                }
+                            }
+                            updatePartPositions();
+                            updatePartButtonsVisible();
+                        });
+                        return false;
+                    }
+                    function updateEditors(){
+                        if (CKEDITOR) {
+                            $(".ckeditField").each(function () {
+                                let id = $(this).attr('id');
+                                $('input[name="' + id + '"]').val(CKEDITOR.instances[id].getData());
+                            });
+                        }
+                    }
+                    function updatePartEditors($part){
+                        if (CKEDITOR) {
+                            $(".ckeditField",$part).each(function () {
+                                let id = $(this).attr('id');
+                                $('input[name="' + id + '"]').val(CKEDITOR.instances[id].getData());
+                            });
+                        }
+                    }
+                    function updatePartPositions(){
+                        let $sections=$('#pageform').find('.section');
+                        $sections.each(function(){
+                            updateSectionPartPositions($(this));
+                        });
+                    }
+                    function updateSectionPartPositions($section){
+                        let $inputs = $section.find('input.partPos');
+                        $inputs.each(function (index) {
+                            $(this).attr('value', index);
+                        });
+                    }
+                    updatePartPositions();
+                    updatePartButtonsVisible();
+                </script>
+                        
+            """;
 
 }

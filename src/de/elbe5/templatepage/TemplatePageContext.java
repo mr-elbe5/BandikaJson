@@ -6,13 +6,22 @@
  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  You should have received a copy of the GNU General Public License along with this program; if not, see <http://www.gnu.org/licenses/>.
  */
-package de.elbe5.page;
+package de.elbe5.templatepage;
 
-import java.util.ArrayList;
-import java.util.List;
+import de.elbe5.content.ContentViewContext;
+import de.elbe5.content.ViewType;
 
-public class PageTypes {
+public class TemplatePageContext extends ContentViewContext {
 
-    public static final List<String> typeNames = new ArrayList<>();
+    public SectionData currentSection = null;
+    public TemplatePartData currentPart = null;
+
+    public TemplatePageContext(TemplatePageData content, ViewType viewType){
+        super(content, viewType);
+    }
+
+    public TemplatePageData getPage() {
+        return getContentData(TemplatePageData.class);
+    }
 
 }
