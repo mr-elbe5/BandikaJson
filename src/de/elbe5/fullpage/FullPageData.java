@@ -9,21 +9,19 @@
 package de.elbe5.fullpage;
 
 import de.elbe5.application.Application;
+import de.elbe5.application.Strings;
+import de.elbe5.base.data.StringUtil;
 import de.elbe5.content.ContentData;
 import de.elbe5.content.ContentViewContext;
+import de.elbe5.content.ViewType;
 import de.elbe5.data.DataFactory;
 import de.elbe5.data.IData;
 import de.elbe5.content.PageTypes;
 import de.elbe5.request.RequestData;
-import de.elbe5.request.SessionRequestData;
 import de.elbe5.templatepage.SectionData;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import javax.servlet.ServletException;
-import javax.servlet.jsp.JspWriter;
-import javax.servlet.jsp.PageContext;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -45,7 +43,7 @@ public class FullPageData extends ContentData {
         content
     }
 
-    protected String cssClass = "";
+    protected String cssClass = "paragraph";
     protected String content = "";
 
     protected Map<String, SectionData> sections = new HashMap<>();
@@ -108,7 +106,9 @@ public class FullPageData extends ContentData {
     }
 
     public void createPublishedContent(RequestData rdata){
-        setPublishedContent(getContent());
+        setPublishedContent(StringUtil.format(viewContent,
+                getCssClass(),
+                getContent()));
         setPublishDate(Application.getCurrentTime());
     }
 
@@ -137,14 +137,66 @@ public class FullPageData extends ContentData {
         return "/WEB-INF/_jsp/fullpage/editContentData.ajax.jsp";
     }
 
+    final String editContent = """
+        <form action="/ctrl/{1}/savePage/{2}" method="post" id="pageform" name="pageform" accept-charset="UTF-8">
+            <div class="btn-group btn-group-sm pageEditButtons">
+              <button type="submit" class="btn btn-sm btn-success" onclick="updateEditor();">{3}</button>
+              <button class="btn btn-sm btn-secondary" onclick="return linkTo('/ctrl/{4}/cancelEditPage/{5}');">{6}</button>
+            </div>
+            <div class="{7}">
+              <div class="ckeditField" id="content" contenteditable="true">{8}</div>
+            </div>
+            <input type="hidden" name="content" value="{9}" />
+        </form>
+        """;
+
+    final String viewContent = """
+        <div class="{1}">
+            {2}
+        </div>
+    """;
+
     @Override
-    protected void displayEditContent(StringBuilder sb, RequestData rdata) {
-        //todo
+    protected void displayEditContent(StringBuilder sb, RequestData rdata)  {
+        sb.append(StringUtil.format(editContent,
+                getTypeKey(),
+                Integer.toString(getId()),
+                Strings.html("_savePage", rdata.getLocale()),
+                getTypeKey(),
+                Integer.toString(getId()),
+                Strings.html("_cancel", rdata.getLocale()),
+                getCssClass(),
+                getContent(),
+                getContent()
+        ));
+        sb.append(StringUtil.format(editScripts,
+                Integer.toString(getId()),
+                Integer.toString(getId())
+        ));
     }
+
 
     @Override
     protected void displayDraftContent(StringBuilder sb, RequestData rdata) {
-        //todo
+        sb.append(StringUtil.format(viewContent,
+                getCssClass(),
+                getContent()));
     }
+
+    public ContentViewContext createViewContext(ViewType viewType) {
+        return new FullPageContext(this, viewType);
+    }
+
+    final String editScripts = """
+        <script type="text/javascript">
+            $('#content').ckeditor({toolbar : 'Full',filebrowserBrowseUrl : '/ajax/ckeditor/openLinkBrowser?contentId={1}',filebrowserImageBrowseUrl : '/ajax/ckeditor/openImageBrowser?contentId={2}'});
+                    
+            function updateEditor(){
+             if (CKEDITOR) {
+                 $('input[name="content"]').val(CKEDITOR.instances['content'].getData());
+             }
+            }
+        </script>
+            """;
 
 }

@@ -14,11 +14,10 @@
 <%@ taglib uri="/WEB-INF/formtags.tld" prefix="form" %>
 <%
     SessionRequestData rdata = SessionRequestData.getRequestData(request);
-    FullPageData contentData = rdata.getCurrentContent(FullPageData.class);
+    FullPageData contentData = rdata.getCurrentSessionContent(FullPageData.class);
     assert (contentData != null);
     %>
-    <div class="paragraph">
-        <%=contentData.getContent()%>
-    </div>
+                <form:text name="cssClass" label="_cssClass" required="false" value="<%=$H(contentData.getCssClass())%>"/>
+
 
 

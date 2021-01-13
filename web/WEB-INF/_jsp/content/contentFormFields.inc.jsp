@@ -12,12 +12,15 @@
 <%@ page import="de.elbe5.request.SessionRequestData" %>
 <%@ page import="java.util.Locale" %>
 <%@ page import="de.elbe5.content.ContentData" %>
+<%@ page import="de.elbe5.content.MasterPage" %>
+<%@ page import="java.util.List" %>
 <%@ taglib uri="/WEB-INF/formtags.tld" prefix="form" %>
 <%
     SessionRequestData rdata = SessionRequestData.getRequestData(request);
     Locale locale = rdata.getLocale();
     ContentData contentData = rdata.getCurrentSessionContent();
     assert (contentData != null);
+    List<String> masterNames = MasterPage.getMasterPageNames();
     %>
                 <form:formerror/>
                 <h3><%=$SH("_settings", locale)%>
@@ -51,6 +54,14 @@
                 <form:line label="_active" padded="true">
                     <form:check name="active" value="true" checked="<%=contentData.isActive()%>"/>
                 </form:line>
+                <form:select name="master" label="_masterLayout" required="true">
+                    <option value="" <%=contentData.getMaster().isEmpty() ? "selected" : ""%>><%=$SH("_pleaseSelect", locale)%>
+                    </option>
+                    <% for (String master : masterNames) {%>
+                    <option value="<%=$H(master)%>" <%=master.equals(contentData.getMaster()) ? "selected" : ""%>><%=master%>
+                    </option>
+                    <%}%>
+                </form:select>
 
 
 

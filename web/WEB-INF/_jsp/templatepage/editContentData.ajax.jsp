@@ -32,7 +32,6 @@
         <form:form url="<%=url%>" name="pageform" ajax="true" multi="true">
             <div class="modal-body">
                 <jsp:include page = "/WEB-INF/_jsp/content/contentFormFields.inc.jsp" flush="true" />
-                <jsp:include page = "/WEB-INF/_jsp/page/contentFormFields.inc.jsp" flush="true" />
                 <jsp:include page = "/WEB-INF/_jsp/templatepage/contentFormFields.inc.jsp" flush="true" />
             </div>
             <div class="modal-footer">
