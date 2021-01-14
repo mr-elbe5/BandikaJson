@@ -9,6 +9,7 @@
 package de.elbe5.content;
 
 import de.elbe5.base.data.StringUtil;
+import de.elbe5.base.log.Log;
 import de.elbe5.data.BaseData;
 import de.elbe5.data.DataFactory;
 import de.elbe5.data.IData;
@@ -510,10 +511,14 @@ public abstract class ContentData extends BaseData implements Comparable<Content
             }
             case show -> {
                 sb.append("<div id=\"pageContent\" class=\"viewArea\">");
-                if (isPublished() && !ContentRights.hasUserEditRight(rdata.getCurrentUser(), getId()))
-                    displayPublishedContent(sb, rdata);
-                else
+                if (ContentRights.hasUserEditRight(rdata.getCurrentUser(), getId())) {
+                    //Log.log("display draft");
                     displayDraftContent(sb, rdata);
+                }
+                else if (isPublished()){
+                    //Log.log("display published");
+                    displayPublishedContent(sb, rdata);
+                }
                 sb.append("</div>");
             }
         }

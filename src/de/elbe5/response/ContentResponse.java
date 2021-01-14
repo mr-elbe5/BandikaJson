@@ -1,5 +1,6 @@
 package de.elbe5.response;
 
+import de.elbe5.base.log.Log;
 import de.elbe5.content.ContentData;
 import de.elbe5.content.ViewType;
 import de.elbe5.request.RequestData;
@@ -26,8 +27,9 @@ public class ContentResponse implements IResponse {
 
     @Override
     public void processResponse(ServletContext context, RequestData rdata, HttpServletResponse response)  {
-        //Log.log("process view");
+        //Log.log("process response");
         rdata.setViewContext(contentData.createViewContext(viewType));
+        //Log.log("view type = " + viewType.name());
         RequestDispatcher rd = context.getRequestDispatcher("/WEB-INF/_jsp/_master/"+contentData.getMaster()+".jsp");
         try {
             rd.forward(rdata.getRequest(), response);

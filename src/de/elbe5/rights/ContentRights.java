@@ -19,12 +19,16 @@ public class ContentRights {
         if (data==null){
             return false;
         }
+        if (data.isOpenAccess() ){
+            return true;
+        }
         return hasUserReadRight(user, data);
     }
 
     public static boolean hasUserReadRight(UserData user, ContentData data) {
         return SystemRights.hasUserSystemRight(user,SystemZone.CONTENTREAD) ||
-                hasUserRight(user, data, Right.READ);
+                data.isOpenAccess() ||
+                hasUserGroupRight(user, data, Right.READ);
     }
 
     public static boolean hasUserEditRight(UserData user, int contentId) {
@@ -37,7 +41,7 @@ public class ContentRights {
 
     public static boolean hasUserEditRight(UserData user, ContentData data) {
         return SystemRights.hasUserSystemRight(user,SystemZone.CONTENTEDIT) ||
-                hasUserRight(user, data, Right.EDIT);
+                hasUserGroupRight(user, data, Right.EDIT);
     }
 
     public static boolean hasUserApproveRight(UserData user, int contentId) {
@@ -50,17 +54,11 @@ public class ContentRights {
 
     public static boolean hasUserApproveRight(UserData user, ContentData data) {
         return SystemRights.hasUserSystemRight(user,SystemZone.CONTENTAPPROVE) ||
-                hasUserRight(user, data, Right.APPROVE);
+                hasUserGroupRight(user, data, Right.APPROVE);
     }
 
-    private static boolean hasUserRight(UserData user, ContentData data, Right right){
-        if (data==null){
-            return false;
-        }
-        if (data.isOpenAccess()){
-            return true;
-        }
-        if (user==null) {
+    private static boolean hasUserGroupRight(UserData user, ContentData data, Right right){
+        if (data==null || user==null){
             return false;
         }
         for (int groupId : data.getGroupRights().keySet()){

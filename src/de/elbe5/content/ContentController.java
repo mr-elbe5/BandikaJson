@@ -314,13 +314,6 @@ public class ContentController extends Controller {
         return new ContentResponse(data, ViewType.edit);
     }
 
-    public IResponse showEditPage(SessionRequestData rdata) {
-        ContentData data = rdata.getCurrentSessionContent();
-        assert(data!=null);
-        checkRights(ContentRights.hasUserEditRight(rdata.getCurrentUser(), data.getId()));
-        return new ContentResponse(data);
-    }
-
     public IResponse savePage(SessionRequestData rdata) {
         int contentId = rdata.getId();
         ContentData data = rdata.getCurrentSessionContent();
@@ -344,6 +337,13 @@ public class ContentController extends Controller {
         assert(data!=null);
         checkRights(ContentRights.hasUserEditRight(rdata.getCurrentUser(), data.getId()));
         return new ContentResponse(data);
+    }
+
+    public IResponse showEditPage(SessionRequestData rdata) {
+        ContentData data = rdata.getCurrentSessionContent();
+        assert(data!=null);
+        checkRights(ContentRights.hasUserEditRight(rdata.getCurrentUser(), data.getId()));
+        return new ContentResponse(data, ViewType.showDraft);
     }
 
     public IResponse showDraft(SessionRequestData rdata){
