@@ -11,12 +11,9 @@ package de.elbe5.fullpage;
 import de.elbe5.application.Application;
 import de.elbe5.application.Strings;
 import de.elbe5.base.data.StringUtil;
-import de.elbe5.content.ContentData;
-import de.elbe5.content.ContentViewContext;
-import de.elbe5.content.ViewType;
+import de.elbe5.content.*;
 import de.elbe5.data.DataFactory;
 import de.elbe5.data.IData;
-import de.elbe5.content.PageTypes;
 import de.elbe5.request.RequestData;
 import de.elbe5.templatepage.SectionData;
 import org.json.JSONException;
@@ -27,7 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class FullPageData extends ContentData {
+public class FullPageData extends EditableContentData {
 
     public static final String TYPE_KEY = "fullpage";
 
@@ -68,7 +65,7 @@ public class FullPageData extends ContentData {
         setCssClass(data.getCssClass());
     }
 
-    public void copyPageAttributes(ContentData pdata){
+    public void copyPageAttributes(EditableContentData pdata){
         super.copyPageAttributes(pdata);
         assert pdata instanceof FullPageData;
         FullPageData data = (FullPageData) pdata;

@@ -20,11 +20,9 @@
 %>
 <div id="pageContent">
     <form:message/>
-    <section class="contentTop">
-        <h1>
-            <%=$SH("_profile",locale)%>
-        </h1>
-    </section>
+    <h1 class="title">
+        <%=$SH("_profile",locale)%>
+    </h1>
     <div class="row">
         <section class="col-md-8 contentSection">
             <div class="paragraph form">

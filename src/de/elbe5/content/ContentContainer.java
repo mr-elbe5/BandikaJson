@@ -216,11 +216,11 @@ public class ContentContainer extends DataContainer {
         return success;
     }
 
-    public boolean updateContent(ContentData data, int userId) {
+    public boolean updateContent(EditableContentData data, int userId) {
         boolean success = false;
         try {
             dataLock.lock();
-            ContentData original = getContent(data.getId(), data.getVersion());
+            EditableContentData original = getContent(data.getId(), data.getVersion(), EditableContentData.class);
             if (original != null) {
                 original.copyEditableAttributes(data);
                 original.copyPageAttributes(data);
@@ -239,7 +239,7 @@ public class ContentContainer extends DataContainer {
         return success;
     }
 
-    public boolean publishContent(ContentData data) {
+    public boolean publishContent(EditableContentData data) {
         try {
             dataLock.lock();
             data.setPublishDate(Application.getCurrentTime());

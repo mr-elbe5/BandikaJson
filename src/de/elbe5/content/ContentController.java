@@ -88,7 +88,7 @@ public class ContentController extends Controller {
 
     public IResponse saveContentData(SessionRequestData rdata) {
         int contentId = rdata.getId();
-        ContentData data = rdata.getSessionObject(RequestKeys.KEY_CONTENT,ContentData.class);
+        EditableContentData data = rdata.getSessionObject(RequestKeys.KEY_CONTENT,EditableContentData.class);
         assert(data != null && data.getId() == contentId);
         if (rdata.hasFormErrors()) {
             return showEditContent(data);
@@ -303,10 +303,10 @@ public class ContentController extends Controller {
 
     public IResponse openEditPage(SessionRequestData rdata) {
         int contentId = rdata.getId();
-        ContentData original = contentContainer().getContent(contentId);
+        EditableContentData original = contentContainer().getContent(contentId, EditableContentData.class);
         assert(original!=null);
         checkRights(ContentRights.hasUserEditRight(rdata.getCurrentUser(), original.getId()));
-        ContentData data = IData.getEditableCopy(original);
+        EditableContentData data = IData.getEditableCopy(original);
         assert data!=null;
         data.setEditValues(original);
         data.copyPageAttributes(original);
@@ -316,7 +316,7 @@ public class ContentController extends Controller {
 
     public IResponse savePage(SessionRequestData rdata) {
         int contentId = rdata.getId();
-        ContentData data = rdata.getCurrentSessionContent();
+        EditableContentData data = rdata.getCurrentSessionContent(EditableContentData.class);
         assert(data != null && data.getId() == contentId);
         checkRights(ContentRights.hasUserEditRight(rdata.getCurrentUser(), data.getId()));
         data.readPageRequestData(rdata);
@@ -364,7 +364,7 @@ public class ContentController extends Controller {
 
     public IResponse publishPage(SessionRequestData rdata){
         int contentId = rdata.getId();
-        ContentData data = contentContainer().getContent(contentId);
+        EditableContentData data = contentContainer().getContent(contentId, EditableContentData.class);
         assert(data != null);
         checkRights(ContentRights.hasUserApproveRight(rdata.getCurrentUser(), data.getId()));
         data.createPublishedContent(rdata);

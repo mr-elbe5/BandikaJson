@@ -69,7 +69,7 @@
         <div id="pageContainer">
             <% if (contentData != null) {
                 try {
-                    out.write(contentData.getContent(rdata));
+                    contentData.displayContent(pageContext, rdata);
                 } catch (Exception ignore) {
                 }
             }%>

@@ -8,9 +8,12 @@
  */
 package de.elbe5.content;
 
+import de.elbe5.request.RequestData;
 import de.elbe5.request.SessionRequestData;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 import java.io.IOException;
 
@@ -35,9 +38,19 @@ public class JspContentData extends ContentData {
         this.jsp = jsp;
     }
 
+    @Override
+    public String getSearchContent() {
+        return "";
+    }
+
+    @Override
+    public ContentViewContext createViewContext(ViewType viewType) {
+        return new ContentViewContext(this, viewType);
+    }
+
     // view
 
-    public void displayContent(PageContext context, SessionRequestData rdata) throws IOException, ServletException {
+    public void displayContent(PageContext context, RequestData rdata) throws ServletException, IOException {
         context.include(jsp);
     }
 

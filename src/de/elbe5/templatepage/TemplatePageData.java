@@ -12,12 +12,9 @@ import de.elbe5.application.Application;
 import de.elbe5.application.Strings;
 import de.elbe5.base.data.StringUtil;
 import de.elbe5.base.log.Log;
-import de.elbe5.content.ContentData;
-import de.elbe5.content.ContentViewContext;
-import de.elbe5.content.ViewType;
+import de.elbe5.content.*;
 import de.elbe5.data.DataFactory;
 import de.elbe5.data.IData;
-import de.elbe5.content.PageTypes;
 import de.elbe5.request.RequestData;
 import de.elbe5.template.TemplateCache;
 import org.json.JSONException;
@@ -28,7 +25,7 @@ import org.jsoup.parser.Parser;
 
 import java.util.*;
 
-public class TemplatePageData extends ContentData {
+public class TemplatePageData extends EditableContentData {
 
     public static final String TYPE_KEY = "templatepage";
 
@@ -70,7 +67,7 @@ public class TemplatePageData extends ContentData {
         setTemplate(data.getTemplate());
     }
 
-    public void copyPageAttributes(ContentData pdata){
+    public void copyPageAttributes(EditableContentData pdata){
         super.copyPageAttributes(pdata);
         assert pdata instanceof TemplatePageData;
         TemplatePageData data = (TemplatePageData) pdata;
