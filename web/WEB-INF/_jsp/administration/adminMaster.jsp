@@ -28,7 +28,8 @@
     <title><%=Application.getConfiguration().getApplicationName()%>
     </title>
     <link rel="shortcut icon" href="/favicon.ico"/>
-    <link rel="stylesheet" href="<%=Application.getConfiguration().getStyle()%>"/>
+    <link rel="stylesheet" href="/static-content/css/bandika.css"/>
+    <link rel="stylesheet" href="/static-content/css/admin.css"/>
     <script type="text/javascript" src="/static-content/js/jquery-1.12.4.min.js"></script>
     <script type="text/javascript" src="/static-content/js/bootstrap.bundle.min.js"></script>
     <script type="text/javascript" src="/static-content/js/bootstrap.tree.js"></script>
@@ -37,7 +38,7 @@
     <script type="text/javascript" src="/static-content/js/bandika.js"></script>
 </head>
 
-<body class="admin">
+<body>
     <div class="container">
         <header>
             <div class="top row">

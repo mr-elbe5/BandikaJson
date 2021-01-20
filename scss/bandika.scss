@@ -31,10 +31,9 @@ $theme-footer-background: $theme-background;
 $theme-footer-color: $light;
 $theme-footer-link-color: $light;
 
-@import "bandika/themeDefaults";
 @import "bootstrap/bootstrap";
 @import "bandika/font-awesome";
 @import "bandika/datepicker3";
 @import "bandika/bandika";
-@import "bandika/paragraphTheme";
+
 

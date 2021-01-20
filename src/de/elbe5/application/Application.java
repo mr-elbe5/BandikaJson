@@ -24,7 +24,7 @@ import de.elbe5.user.UserContainer;
 import de.elbe5.file.FileController;
 import de.elbe5.file.FileData;
 import de.elbe5.file.FileService;
-import de.elbe5.content.MasterPage;
+import de.elbe5.content.MasterPages;
 import de.elbe5.search.SearchController;
 import de.elbe5.actionqueue.*;
 import de.elbe5.user.GroupController;
@@ -121,7 +121,7 @@ public class Application {
     }
 
     private static void registerMasterPages() {
-        MasterPage.loadNames();
+        MasterPages.loadNames();
     }
 
     private static void registerControllers(){

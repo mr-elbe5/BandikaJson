@@ -2,8 +2,8 @@ package de.elbe5.content;
 
 public class ContentViewContext {
 
-    private ContentData contentData;
-    private ViewType viewType = ViewType.show;
+    private final ContentData contentData;
+    private final ViewType viewType;
 
     public ContentViewContext(ContentData contentData, ViewType viewType){
         this.contentData = contentData;

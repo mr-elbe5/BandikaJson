@@ -10,9 +10,6 @@ package de.elbe5.fullpage;
 
 import de.elbe5.content.ContentViewContext;
 import de.elbe5.content.ViewType;
-import de.elbe5.templatepage.SectionData;
-import de.elbe5.templatepage.TemplatePageData;
-import de.elbe5.templatepage.TemplatePartData;
 
 public class FullPageContext extends ContentViewContext {
 

@@ -12,7 +12,7 @@
 <%@ page import="de.elbe5.request.SessionRequestData" %>
 <%@ page import="java.util.Locale" %>
 <%@ page import="de.elbe5.content.ContentData" %>
-<%@ page import="de.elbe5.content.MasterPage" %>
+<%@ page import="de.elbe5.content.MasterPages" %>
 <%@ page import="java.util.List" %>
 <%@ taglib uri="/WEB-INF/formtags.tld" prefix="form" %>
 <%
@@ -20,7 +20,7 @@
     Locale locale = rdata.getLocale();
     ContentData contentData = rdata.getCurrentSessionContent();
     assert (contentData != null);
-    List<String> masterNames = MasterPage.getMasterPageNames();
+    List<String> masterNames = MasterPages.getMasterPageNames();
     %>
                 <form:formerror/>
                 <h3><%=$SH("_settings", locale)%>

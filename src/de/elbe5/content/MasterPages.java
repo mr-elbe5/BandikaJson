@@ -14,7 +14,7 @@ import de.elbe5.base.log.Log;
 import java.io.File;
 import java.util.*;
 
-public class MasterPage {
+public class MasterPages {
 
     private static final List<String> masterPageNames = new ArrayList<>();
 

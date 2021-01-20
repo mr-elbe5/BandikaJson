@@ -196,10 +196,6 @@ public class Configuration extends DataContainer {
         return theme;
     }
 
-    public String getStyle(){
-        return "/static-content/css/"+theme+"Theme.css";
-    }
-
     public void setTheme(String theme) {
         this.theme = theme;
     }

@@ -12,10 +12,7 @@
 <%@ page import="de.elbe5.request.SessionRequestData" %>
 <%@ page import="de.elbe5.content.*" %>
 <%@ page import="de.elbe5.user.UserData" %>
-<%@ page import="de.elbe5.contentcontrol.Breadcrumb" %>
-<%@ page import="de.elbe5.contentcontrol.Footer" %>
-<%@ page import="de.elbe5.contentcontrol.MainNav" %>
-<%@ page import="de.elbe5.contentcontrol.SysNav" %>
+<%@ page import="de.elbe5.contentcontrol.*" %>
 <%
     SessionRequestData rdata = SessionRequestData.getRequestData(request);
     Locale locale = rdata.getLocale();
@@ -30,27 +27,11 @@
         contentData = contentContainer().getContentRoot();
     }
     UserData currentUser = rdata.getCurrentUser();
-    String title = Application.getConfiguration().getApplicationName() + (contentData != null ? " | " + contentData.getDisplayName() : "");
-    String keywords = contentData != null ? contentData.getKeywords() : title;
-    String description = contentData != null ? contentData.getDescription() : "";
 %>
 <!DOCTYPE html>
 <html lang="<%=locale.getLanguage()%>">
 <head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-    <title><%=$H(title)%>
-    </title>
-    <meta name="keywords" content="<%=$H(keywords)%>">
-    <meta name="description" content="<%=$H(description)%>">
-    <link rel="shortcut icon" href="/favicon.ico"/>
-    <link rel="stylesheet" href="<%=Application.getConfiguration().getStyle()%>"/>
-    <script type="text/javascript" src="/static-content/js/jquery-1.12.4.min.js"></script>
-    <script type="text/javascript" src="/static-content/js/bootstrap.bundle.min.js"></script>
-    <script type="text/javascript" src="/static-content/js/bootstrap.tree.js"></script>
-    <script type="text/javascript" src="/static-content/ckeditor/ckeditor.js"></script>
-    <script type="text/javascript" src="/static-content/ckeditor/adapters/jquery.js"></script>
-    <script type="text/javascript" src="/static-content/js/bandika.js"></script>
+    <%= Head.getHtml(contentData)%>
 </head>
 <body>
 <div class="container">

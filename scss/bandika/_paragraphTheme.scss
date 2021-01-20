@@ -1,5 +1,8 @@
 @import "themeDefaults";
 
+// $font-size-sm : 0.875rem
+// $font-size-xsm : 0.8rem
+
 body {
   height: 100%;
   background: $theme-background;
@@ -36,7 +39,7 @@ header{
 
   section.sysnav{
     background: $theme-header-background;
-    font-size: $font-size-sm;
+    font-size: 0.875rem;
 
     a.nav-link {
       padding: 0;
@@ -112,7 +115,7 @@ header{
 
           .dropdown-item.subitem {
             padding-left: 3rem;
-            font-size: $font-size-sm;
+            font-size: 0.875rem;
           }
 
         }
