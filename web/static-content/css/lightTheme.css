@@ -13214,7 +13214,7 @@ body.admin div#pageContainer a, body.admin div#pageContainer a:active, body.admi
 
 body {
   height: 100%;
-  background: #f8f8f8 url("../img/theme/light-raster.png");
+  background: #f8f8f8;
   color: #343a40;
 }
 
@@ -13389,7 +13389,7 @@ main div#pageContent .asideSection .paragraph {
 }
 
 .container.fixed-bottom {
-  background: #f8f8f8 url("../img/theme/light-raster.png");
+  background: #f8f8f8;
   border-top: 1px solid #343a40;
   height: 2.25rem;
 }
