@@ -9,7 +9,6 @@
 package de.elbe5.file;
 
 import de.elbe5.application.Application;
-import de.elbe5.application.Configuration;
 import de.elbe5.base.log.Log;
 import de.elbe5.request.*;
 import de.elbe5.response.IResponse;
@@ -45,30 +44,25 @@ public class FileServlet extends WebServlet {
         }
         fileName = URLDecoder.decode(fileName, StandardCharsets.UTF_8).substring(1);
         File file;
-        if (fileName.equals("logo.png")){
-            file = Configuration.getLogoFile();
+        String name = FileService.getFileNameWithoutExtension(fileName);
+        if (name.startsWith("preview")){
+            isPreview = true;
+            name=name.substring(7);
+        }
+        int id = Integer.parseInt(name);
+        FileData data = Application.getContent().getFile(id);
+        assert(data!=null);
+        if (!ContentRights.hasUserReadRight(rdata.getCurrentUser(),data.getParentId())) {
+            response.sendError(HttpServletResponse.SC_FORBIDDEN);
+            return;
+        }
+        if (isPreview){
+            file = data.getViewablePreviewFile(rdata);
         }
         else{
-            String name = FileService.getFileNameWithoutExtension(fileName);
-            if (name.startsWith("preview")){
-                isPreview = true;
-                name=name.substring(7);
-            }
-            int id = Integer.parseInt(name);
-            FileData data = Application.getContent().getFile(id);
-            assert(data!=null);
-            if (!ContentRights.hasUserReadRight(rdata.getCurrentUser(),data.getParentId())) {
-                response.sendError(HttpServletResponse.SC_FORBIDDEN);
-                return;
-            }
-            if (isPreview){
-                file = data.getViewablePreviewFile(rdata);
-            }
-            else{
-                file = data.getViewableFile(rdata);
-            }
-            fileName = data.getDisplayFileName();
+            file = data.getViewableFile(rdata);
         }
+        fileName = data.getDisplayFileName();
         // if not exists, create from database
         RangeInfo rangeInfo = null;
         String rangeHeader = request.getHeader("Range");

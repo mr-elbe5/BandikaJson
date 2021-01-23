@@ -22,7 +22,7 @@ public class Head {
             <meta name="description" content="{3}">
             <link rel="shortcut icon" href="/favicon.ico"/>
             <link rel="stylesheet" href="/static-content/css/bandika.css"/>
-            <link rel="stylesheet" href="/static-content/theme/{4}Theme.css"/>
+            <link rel="stylesheet" href="/static-content/theme/theme.css"/>
             <script type="text/javascript" src="/static-content/js/jquery-1.12.4.min.js"></script>
             <script type="text/javascript" src="/static-content/js/bootstrap.bundle.min.js"></script>
             <script type="text/javascript" src="/static-content/js/bootstrap.tree.js"></script>
@@ -38,8 +38,7 @@ public class Head {
         return StringUtil.format(head,
                 StringUtil.toHtml(title),
                 StringUtil.toHtml(keywords),
-                StringUtil.toHtml(description),
-                Application.getConfiguration().getTheme()
+                StringUtil.toHtml(description)
         );
     }
 

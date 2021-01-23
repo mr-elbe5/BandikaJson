@@ -36,10 +36,8 @@
                 <form:text name="applicationName" label="_applicationName" value="<%=configuration.getApplicationName()%>">
                 </form:text>
                 <form:select name="theme" label="_theme">
-                    <% for (String themeName : Configuration.THEME_NAMES){
-                        String key = "theme." + themeName;
-                    %>
-                    <option value="<%=themeName%>" <%=configuration.getTheme().equals(themeName) ? "selected" : ""%>><%=$SH(key, locale)%>
+                    <% for (String themeName : Application.getConfiguration().getThemeNames()){%>
+                    <option value="<%=themeName%>" <%=configuration.getTheme().equals(themeName) ? "selected" : ""%>><%=$H(themeName)%>
                     </option>
                     <%}%>
                 </form:select>

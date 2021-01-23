@@ -23,7 +23,7 @@ public class MainNav {
     final static String mainNavStart = """
             <section class="col-12 menu">
                             <nav class="navbar navbar-expand-lg navbar-light">
-                                <a class="navbar-brand" href="/"><img src="/files/logo.png"
+                                <a class="navbar-brand" href="/"><img src="/static-content/theme/logo.png"
                                                                       alt="{1}"/></a>
                                 <button class="navbar-toggler" type="button" data-toggle="collapse"
                                         data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"

@@ -125,6 +125,7 @@ public class AdminController extends Controller {
             return showEditConfiguration(rdata);
         }
         Application.getConfiguration().copyEditableAttributesLocked(config);
+        Application.getConfiguration().copyThemeFiles();
         Application.getConfiguration().setChangerId(rdata.getCurrentUser().getId());
         Application.getConfiguration().setHasChanged();
         rdata.removeSessionObject( "config");

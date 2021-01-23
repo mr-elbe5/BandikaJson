@@ -17,25 +17,26 @@ public class ApplicationPath {
 
     private static String appPath = "";
     private static String jspPath = "";
+    private static String themePath = "";
+    private static String defaultThemesPath = "";
     private static String masterPath = "";
     private static String appBasePath = "";
     private static String appDataPath = "";
     private static String appStaticsFilePath = "";
     private static String nextIdFilePath = "";
     private static String appConfigFilePath = "";
-    private static String appThemeFilePath = "";
     private static String appContentFilePath = "";
     private static String appUsersFilePath = "";
     private static String appTemplatePath = "";
     private static String appFilePath = "";
     private static String appTempFilePath = "";
+    private static String appThemeFilePath = "";
     private static String appBackupPath = "";
     private static String appSearchIndexPath = "";
 
     private static DiskFile staticsFile;
     private static DiskFile nextIdFile;
     private static DiskFile configFile;
-    private static DiskFile themeFile;
     private static DiskFile contentFile;
     private static DiskFile usersFile;
 
@@ -44,8 +45,11 @@ public class ApplicationPath {
     private static DiskDirectory templateDirectory;
     private static DiskDirectory fileDirectory;
     private static DiskDirectory tempFileDirectory;
+    private static DiskDirectory themesDirectory;
     private static DiskDirectory backupDirectory;
     private static DiskDirectory indexDirectory;
+
+    private static DiskDirectory themeDirectory;
 
     public static String getAppPath() {
         return appPath;
@@ -53,6 +57,14 @@ public class ApplicationPath {
 
     public static String getJspPath() {
         return jspPath;
+    }
+
+    public static String getThemePath() {
+        return themePath;
+    }
+
+    public static String getDefaultThemesPath() {
+        return defaultThemesPath;
     }
 
     public static String getMasterPath() {
@@ -87,10 +99,6 @@ public class ApplicationPath {
         return appConfigFilePath;
     }
 
-    public static String getAppThemeFilePath() {
-        return appThemeFilePath;
-    }
-
     public static String getAppContentFilePath() {
         return appContentFilePath;
     }
@@ -111,6 +119,10 @@ public class ApplicationPath {
         return appTempFilePath;
     }
 
+    public static String getAppThemeFilePath() {
+        return appThemeFilePath;
+    }
+
     public static DiskFile getStaticsFile() {
         return staticsFile;
     }
@@ -121,10 +133,6 @@ public class ApplicationPath {
 
     public static DiskFile getConfigFile() {
         return configFile;
-    }
-
-    public static DiskFile getThemeFile() {
-        return themeFile;
     }
 
     public static DiskFile getContentFile() {
@@ -155,12 +163,20 @@ public class ApplicationPath {
         return tempFileDirectory;
     }
 
+    public static DiskDirectory getThemesDirectory() {
+        return themesDirectory;
+    }
+
     public static DiskDirectory getBackupDirectory() {
         return backupDirectory;
     }
 
     public static DiskDirectory getIndexDirectory() {
         return indexDirectory;
+    }
+
+    public static DiskDirectory getThemeDirectory() {
+        return themeDirectory;
     }
 
     public static void initializePath(File baseDir, File appDir) {
@@ -171,24 +187,25 @@ public class ApplicationPath {
         System.out.println("application base path is: " + getAppBasePath());
         appPath = appDir.getAbsolutePath().replace('\\', '/');
         jspPath = appPath + "/WEB-INF/_jsp";
+        themePath = appPath + "/static-content/theme";
+        defaultThemesPath = appPath + "/WEB-INF/_defaultThemes";
         masterPath = jspPath + "/_master";
         appDataPath = appBasePath + "_data";
         appStaticsFilePath = appDataPath + "/statics.json";
         nextIdFilePath = appDataPath + "/next.id";
         appConfigFilePath = appDataPath + "/config.json";
-        appThemeFilePath = appDataPath + "/theme.json";
         appContentFilePath = appDataPath + "/content.json";
         appUsersFilePath = appDataPath + "/users.json";
         appTemplatePath = appDataPath + "/templates";
         appFilePath = appDataPath + "/files";
         appTempFilePath = appFilePath + "/tmp";
+        appThemeFilePath = appDataPath + "/themes";
         appSearchIndexPath = appDataPath + "/index";
         appBackupPath = appBasePath + "_backups";
 
         staticsFile = new DiskFile(getAppStaticsFilePath());
         nextIdFile = new DiskFile(getNextIdFilePath());
         configFile = new DiskFile(getAppConfigFilePath());
-        themeFile = new DiskFile(getAppThemeFilePath());
         contentFile = new DiskFile(getAppContentFilePath());
         usersFile = new DiskFile(getAppUsersFilePath());
 
@@ -197,13 +214,17 @@ public class ApplicationPath {
         templateDirectory = new DiskDirectory(appTemplatePath);
         fileDirectory = new DiskDirectory(appFilePath);
         tempFileDirectory = new DiskDirectory(appTempFilePath);
+        themesDirectory = new DiskDirectory(getAppThemeFilePath());
         backupDirectory = new DiskDirectory(appBackupPath);
         indexDirectory = new DiskDirectory(appSearchIndexPath);
+
+        themeDirectory = new DiskDirectory(themePath);
 
         boolean success = dataDirectory.ensureExists();
         success &= templateDirectory.ensureExists();
         success &= fileDirectory.ensureExists();
         success &= tempFileDirectory.ensureExists();
+        success &= themesDirectory.ensureExists();
         success &= indexDirectory.ensureExists();
         success &= backupDirectory.ensureExists();
         assert success;

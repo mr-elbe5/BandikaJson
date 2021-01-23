@@ -1,35 +1,46 @@
-@import "bandika/themeStatics";
+@function img-path($name) {
+  @return '../img/'+$name;
+}
+
+$headings-font-weight:        400;
+
+$enable-prefers-reduced-motion-media-query:   false;
+
+// for ckeditor
+$zindex-modal-backdrop: 11040;
+$zindex-modal: 11050;
+$zindex-popover: 11060;
+$zindex-tooltip: 11070;
+
+$modal-dialog-margin-wide: 3rem;
+$modal-content-border-radius: 0.75rem;
+
+$font-size-base:              1rem;
+
+$link-decoration:             none;
+
+$font-size-xsm:               ($font-size-base * .8);
+$font-size-xxsm:              ($font-size-base * .7);
+
+$h1-font-size:                $font-size-base * 2;
+$h2-font-size:                $font-size-base * 1.5;
+$h3-font-size:                $font-size-base * 1.125;
+$h4-font-size:                $font-size-base;
+$h5-font-size:                $font-size-base;
+$h6-font-size:                $font-size-base;
+
+$light:         #f8f9fa !default; //gray-100
+$dark:          #343a40 !default; //gray-800
+
+$yellow:        #f0f010 !default;
+
+$white-20:      rgba(255,255,255,0.2);
+$black-20:      rgba(0,0,0,0.2);
+$white-90:      rgba(255,255,255,0.9);
+$black-90:      rgba(0,0,0,0.9);
 
 $blue:    #27446a;
 $primary: $blue;
-
-$theme-bg-color: $blue;
-$theme-background: $blue url(img-path('theme/blue-raster.png'));
-$theme-color: $dark;
-$theme-link-color: $dark;
-
-$theme-dropdown-background: $light;
-$theme-dropdown-border: 1px solid $dark;
-$theme-dropdown-color: $dark;
-$theme-dropdown-link-color: $dark;
-
-$theme-dropdown-transparency: $white-20;
-
-$theme-header-color: $light;
-$theme-header-link-color: $light;
-
-$theme-paragraph-bg-color: #ffffff;
-$theme-paragraph-background: rgba(255, 255, 255, 0.95);
-$theme-paragraph-border: 1px solid $dark;
-$theme-paragraph-color: $dark;
-$theme-paragraph-link-color: $dark;
-
-$theme-aside-background: $white-90;
-
-$theme-footer-bg-color: $theme-bg-color;
-$theme-footer-background: $theme-background;
-$theme-footer-color: $light;
-$theme-footer-link-color: $light;
 
 @import "bootstrap/bootstrap";
 @import "bandika/font-awesome";

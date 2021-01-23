@@ -8,8 +8,7 @@
  */
 package de.elbe5.application;
 
-import de.elbe5.base.file.DiskFile;
-import de.elbe5.base.file.MemoryFile;
+import de.elbe5.base.file.DiskDirectory;
 import de.elbe5.base.log.Log;
 import de.elbe5.base.mail.MailSender;
 import de.elbe5.data.DataContainer;
@@ -18,9 +17,11 @@ import de.elbe5.request.SessionRequestData;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Configuration extends DataContainer {
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-    public static final String[] THEME_NAMES = {"blue", "carbon", "light", "paper"};
+public class Configuration extends DataContainer {
 
     enum keys{
         changerId,
@@ -56,7 +57,7 @@ public class Configuration extends DataContainer {
     private int cleanupInterval = 10; // in minutes
     private int indexInterval = 15; // in minutes
 
-    private static final DiskFile logoFile = new DiskFile(ApplicationPath.getAppFilePath(), "logo.png");
+    private List<String> themeNames = new ArrayList<>();
 
     // constructors
 
@@ -141,6 +142,7 @@ public class Configuration extends DataContainer {
         catch (Exception e){
             Log.error("unable to read data", e);
         }
+        copyThemeFiles();
     }
 
     // request
@@ -160,17 +162,6 @@ public class Configuration extends DataContainer {
         setServiceInterval(rdata.getInt("serviceInterval"));
         setCleanupInterval(rdata.getInt("cleanupInterval"));
         setIndexInterval(rdata.getInt("indexInterval"));
-        MemoryFile memoryFile = rdata.getFile("logo");
-        if (memoryFile!=null){
-            if (memoryFile.getFileName().endsWith(".png")) {
-                if (!logoFile.writeToDisk(memoryFile)) {
-                    rdata.addFormError("could not create file");
-                }
-            }
-            else{
-                Log.warn("wrong logo format - must be .png");
-            }
-        }
     }
 
     // getter and setter
@@ -198,10 +189,6 @@ public class Configuration extends DataContainer {
 
     public void setTheme(String theme) {
         this.theme = theme;
-    }
-
-    public static DiskFile getLogoFile() {
-        return logoFile;
     }
 
     public String getCopyright() {
@@ -300,6 +287,10 @@ public class Configuration extends DataContainer {
         this.indexInterval = indexInterval;
     }
 
+    public List<String> getThemeNames() {
+        return themeNames;
+    }
+
     public MailSender getMailSender() {
         MailSender mailer = new MailSender();
         mailer.setSmtpHost(getSmtpHost());
@@ -328,6 +319,7 @@ public class Configuration extends DataContainer {
             save();
             changed = false;
         }
+        initializeThemes();
         Log.log("initializing configuration");
         String json = ApplicationPath.getConfigFile().readAsText();
         try {
@@ -337,11 +329,35 @@ public class Configuration extends DataContainer {
         } catch (JSONException e) {
             return false;
         }
-        if (!logoFile.exists()){
-            DiskFile defaultLogo = new DiskFile(ApplicationPath.getAppPath() + "/static-content/img/logo.png");
-            FileService.copyFile(defaultLogo, logoFile);
-        }
         return true;
+    }
+
+    public void initializeThemes(){
+        String[] themes = ApplicationPath.getThemesDirectory().list();
+        if (themes==null || themes.length==0){
+            FileService.copyDir(new DiskDirectory(ApplicationPath.getDefaultThemesPath()),ApplicationPath.getThemesDirectory());
+            themes = ApplicationPath.getThemesDirectory().list();
+        }
+        if (themes==null) {
+            Log.error("no themes found");
+            return;
+        }
+        themeNames.addAll(Arrays.asList(themes));
+    }
+
+    public void copyThemeFiles(){
+        Log.info("copying theme files for " + theme);
+        if (!themeNames.contains(theme)){
+            Log.error("theme not found: " + theme);
+            return;
+        }
+        DiskDirectory dir = new DiskDirectory(ApplicationPath.getAppThemeFilePath()+ "/" + theme);
+        if (!dir.exists()){
+            Log.error("theme folder not found for: " + theme);
+            return;
+        }
+        ApplicationPath.getThemeDirectory().clearDirectory();
+        FileService.copyDir(dir, ApplicationPath.getThemeDirectory());
     }
 
 }

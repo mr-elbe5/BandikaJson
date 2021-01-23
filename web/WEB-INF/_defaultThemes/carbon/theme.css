@@ -1,6 +1,6 @@
 body {
   height: 100%;
-  background: #343a40 url("carbon-raster.png");
+  background: #343a40 url("raster.png");
   color: #343a40; }
 
 a, a:visited {
@@ -131,7 +131,7 @@ main {
     border-color: 1px solid #343a40; }
 
 .container.fixed-bottom {
-  background: #343a40 url("carbon-raster.png");
+  background: #343a40 url("raster.png");
   border-top: 1px solid #343a40;
   height: 2.25rem; }
 
