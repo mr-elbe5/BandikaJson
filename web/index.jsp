@@ -1,7 +1,6 @@
 <%@ page import="de.elbe5.content.ContentData" %>
 <%@ page import="de.elbe5.request.RequestData" %>
 <%@ page import="de.elbe5.application.Application" %>
-<%@ page import="de.elbe5.request.RequestKeys" %>
 <<%@ page contentType="text/html;charset=UTF-8" %>
 <%
     RequestData rdata = RequestData.getRequestData(request);
@@ -12,7 +11,7 @@
     url = url.substring(0, idx);
     if (contentData!=null)
         url += contentData.getUrl();
-    else if (rdata.isLoggedIn())
+    else if (rdata!=null && rdata.isLoggedIn())
         url +="/ctrl/admin/openSystemAdministration";
     else
         url +="/blank.jsp";
