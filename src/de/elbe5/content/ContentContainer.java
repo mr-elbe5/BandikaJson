@@ -406,7 +406,7 @@ public class ContentContainer extends DataContainer {
                 if (data.getTempFile() != null) {
                     original.setTempFile(data.getTempFile());
                     original.setFileTypeFromContentType();
-                    original.setPreviewFile(data.getPreviewFile());
+                    original.setTempPreviewFile(data.getTempPreviewFile());
                 }
                 setHasChanged();
                 success = true;

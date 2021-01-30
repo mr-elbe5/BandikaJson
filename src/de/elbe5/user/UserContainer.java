@@ -286,20 +286,14 @@ public class UserContainer extends DataContainer {
     }
 
     private boolean setUserToGroups(UserData data){
-        try {
-            dataLock.lock();
-            for (int groupId : data.getGroupIds()){
-                GroupData group = getGroup(groupId);
-                if (group!=null) {
-                    group.getUserIds().add(data.getId());
-                }
-                else{
-                    Log.warn("adding user to group: group not found: " + groupId);
-                }
+        for (int groupId : data.getGroupIds()){
+            GroupData group = getGroup(groupId);
+            if (group!=null) {
+                group.getUserIds().add(data.getId());
             }
-
-        } finally {
-            dataLock.unlock();
+            else{
+                Log.warn("adding user to group: group not found: " + groupId);
+            }
         }
         return true;
 

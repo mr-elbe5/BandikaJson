@@ -81,9 +81,9 @@ public abstract class DataContainer implements JsonData {
         try {
             dataLock.lock();
             if (changed) {
-                Log.log(("data has changed"));
+                Log.log("data has changed");
                 if (save()) {
-                    Log.log(("data saved"));
+                    Log.log("data saved");
                     changed = false;
                     result = true;
                 }
