@@ -18,7 +18,6 @@
     Locale locale = rdata.getSessionLocale();
     Configuration configuration = (Configuration) rdata.getSessionObject("config");
     assert (configuration != null);
-    MailSender.SmtpConnectionType[] connectionTypes = MailSender.SmtpConnectionType.values();
     String url = "/ajax/admin/saveConfiguration";
 %>
 <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -44,24 +43,6 @@
                 <% String label = $SH("_logo",locale) + " (" + $SH("_logoInfo",locale) + ")"; %>
                 <form:file name="logo" label="<%=label%>" required="false"/>
                 <form:text name="copyright" label="_copyright" value="<%=configuration.getCopyright()%>">
-                </form:text>
-                <form:text name="smtpHost" label="_smtpHost" value="<%=configuration.getSmtpHost()%>">
-                </form:text>
-                <form:text name="smtpPort" label="_smtpPort" value="<%=$I(configuration.getSmtpPort())%>">
-                </form:text>
-                <form:select name="smtpConnectionType" label="_smtpConnectionType">
-                    <% for (MailSender.SmtpConnectionType ctype : connectionTypes) {%>
-                    <option value="<%=ctype.name()%>" <%=ctype.equals(configuration.getSmtpConnectionType()) ? "selected" : ""%>><%=ctype.name()%>
-                    </option>
-                    <%}%>
-                </form:select>
-                <form:text name="smtpUser" label="_smtpUser" value="<%=configuration.getSmtpUser()%>">
-                </form:text>
-                <form:text name="smtpPassword" label="_password" value="<%=configuration.getSmtpPassword()%>">
-                </form:text>
-                <form:text name="mailSendingUser" label="_emailSender" value="<%=configuration.getMailSendingUser()%>">
-                </form:text>
-                <form:text name="mailReceivingUser" label="_emailReceiver" value="<%=configuration.getMailReceivingUser()%>">
                 </form:text>
                 <form:text name="timerInterval" label="_timerInterval" value="<%=$I(configuration.getTimerInterval())%>">
                 </form:text>

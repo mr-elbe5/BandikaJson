@@ -10,7 +10,6 @@
           <element id="library" level="project" name="apache-commons" />
           <element id="library" level="project" name="json" />
           <element id="library" level="project" name="lucene-6.5.0" />
-          <element id="library" level="project" name="mail" />
         </element>
       </element>
       <element id="javaee-facet-resources" facet="BandikaJson/web/Web" />
