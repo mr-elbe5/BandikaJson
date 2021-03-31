@@ -74,10 +74,13 @@ public interface JsonData {
 
     // Lists
 
-    default <T extends JsonData> JSONArray createJSONArray(List<T> list){
+    default <T extends BaseData> JSONArray createJSONArray(List<T> list){
         JSONArray arr = new JSONArray();
         for (T data : list){
-            arr.put(data.toJSONObject());
+            JSONObject jo = new JSONObject();
+            jo.append(IData.typeKey, data.getTypeKey());
+            jo.append(IData.dataKey, data.toJSONObject());
+            arr.put(jo);
         }
         return arr;
     }
@@ -91,11 +94,12 @@ public interface JsonData {
                     return list;
                 }
                 for (int i = 0; i < arr.length(); i++) {
-                    JSONObject jo = arr.optJSONObject(i);
+                    JSONObject itemObj = obj.optJSONObject(key);
+                    String typeKey = itemObj.optString(IData.typeKey);
+                    T data = DataFactory.createObject(typeKey, listClass);
+                    JSONObject jo = itemObj.optJSONObject(IData.dataKey);
                     if (jo==null)
                         continue;
-                    String typeKey = jo.optString(IData.typeKey);
-                    T data = DataFactory.createObject(typeKey, listClass);
                     if (data!=null) {
                         data.fromJSONObject(jo);
                         list.add(data);
@@ -124,60 +128,6 @@ public interface JsonData {
             obj.put(key,map.get(key).toJSONObject());
         }
         return obj;
-    }
-
-    default <T extends IData> Map<Integer,T> getIntMap(JSONObject obj, String key, Class<T> mapClass){
-        Map<Integer,T> map = new HashMap<>();
-        try{
-            if (obj.has(key)) {
-                JSONObject mapObject = obj.optJSONObject(key);
-                if (mapObject==null){
-                    return map;
-                }
-                for (String okey : mapObject.keySet()) {
-                    JSONObject jo = mapObject.optJSONObject(okey);
-                    if (jo==null){
-                        continue;
-                    }
-                    String typeKey = jo.optString(IData.typeKey);
-                    T data = DataFactory.createObject(typeKey, mapClass);
-                    if (data!=null) {
-                        data.fromJSONObject(jo);
-                        map.put(Integer.parseInt(okey), data);
-                    }
-                }
-            }
-        }catch (JSONException e) {
-            Log.error("could not read json array", e);
-        }
-        return map;
-    }
-
-    default <T extends IData> Map<String,T> getStringMap(JSONObject obj, String key, Class<T> mapClass){
-        Map<String,T> map = new HashMap<>();
-        try{
-            if (obj.has(key)) {
-                JSONObject mapObject = obj.optJSONObject(key);
-                if (mapObject == null){
-                    return map;
-                }
-                for (String okey : mapObject.keySet()) {
-                    JSONObject jo = mapObject.optJSONObject(okey);
-                    if (jo == null){
-                        continue;
-                    }
-                    String typeKey = jo.optString(IData.typeKey);
-                    T data = DataFactory.createObject(typeKey, mapClass);
-                    if (data!=null) {
-                        data.fromJSONObject(jo);
-                        map.put(okey, data);
-                    }
-                }
-            }
-        }catch (JSONException e) {
-            Log.error("could not read json array", e);
-        }
-        return map;
     }
 
     default void dump(){

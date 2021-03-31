@@ -94,7 +94,22 @@ public class TemplatePageData extends EditableContentData {
     public void fromJSONObject(JSONObject obj) throws JSONException {
         super.fromJSONObject(obj);
         template = obj.optString(keys.template.name());
-        sections = this.getStringMap(obj, keys.sections.name(), SectionData.class);
+        sections.clear();
+        if (obj.has(keys.sections.name())) {
+            JSONObject mapObject = obj.optJSONObject(keys.sections.name());
+            if (mapObject == null){
+                return;
+            }
+            for (String okey : mapObject.keySet()) {
+                JSONObject jo = mapObject.optJSONObject(okey);
+                if (jo == null){
+                    continue;
+                }
+                SectionData section = new SectionData();
+                section.fromJSONObject(jo);
+                sections.put(okey, section);
+            }
+        }
     }
 
     // request

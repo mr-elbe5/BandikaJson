@@ -50,7 +50,7 @@ public class TemplatePartData extends BaseData implements Comparable<TemplatePar
     protected LocalDateTime publishDate = null;
     protected String publishedContent = "";
 
-    protected Map<String, PartField> fields = new HashMap<>();
+    protected List<PartField> fields = new ArrayList<>();
 
     // constructors and type
 
@@ -73,10 +73,10 @@ public class TemplatePartData extends BaseData implements Comparable<TemplatePar
         setPosition(data.getPosition());
         setTemplate(data.getTemplate());
         fields.clear();
-        for (String fieldName : data.getFields().keySet()){
-            PartField field = IData.getEditableCopy(data.getFields().get(fieldName));
+        for (PartField dataField : data.getFields()){
+            PartField field = IData.getEditableCopy(dataField);
             if (field != null){
-                fields.put(fieldName, field);
+                fields.add(field);
             }
         }
     }
@@ -98,7 +98,7 @@ public class TemplatePartData extends BaseData implements Comparable<TemplatePar
         obj.put(keys.sectionName.name(), sectionName);
         obj.put(keys.position.name(), position);
         obj.put(keys.template.name(), template);
-        obj.put(keys.fields.name(), createJSONObjectFromStringMap(fields));
+        obj.put(keys.fields.name(), createJSONArray(fields));
     }
 
     @Override
@@ -108,7 +108,7 @@ public class TemplatePartData extends BaseData implements Comparable<TemplatePar
         sectionName = obj.optString(keys.sectionName.name());
         position = obj.optInt(keys.position.name());
         template = obj.optString(keys.template.name());
-        fields = getStringMap(obj, keys.fields.name(), PartField.class);
+        fields = getList(obj, keys.fields.name(), PartField.class);
     }
 
     // overrides
@@ -123,7 +123,7 @@ public class TemplatePartData extends BaseData implements Comparable<TemplatePar
     public void readRequestData(RequestData rdata){
         // -1 if deleted
         setPosition(rdata.getInt(getPartPositionName(),-1));
-        for (PartField field : getFields().values()) {
+        for (PartField field : getFields()) {
             field.readRequestData(rdata);
         }
     }
@@ -181,44 +181,49 @@ public class TemplatePartData extends BaseData implements Comparable<TemplatePar
         this.template = template;
     }
 
-    public Map<String, PartField> getFields() {
+    public List<PartField> getFields() {
         return fields;
     }
 
     public PartField getField(String name) {
-        return fields.get(name);
+        for (PartField field : fields){
+            if (field.name.equals(name)){
+                return field;
+            }
+        }
+        return null;
     }
 
     public TextField ensureTextField(String name) {
-        PartField field = fields.get(name);
+        PartField field = getField(name);
         if (field instanceof TextField)
             return (TextField) field;
         TextField textfield = new TextField();
         textfield.setName(name);
         textfield.setPartId(getId());
-        fields.put(name, textfield);
+        fields.add(textfield);
         return textfield;
     }
 
     public HtmlField ensureHtmlField(String name) {
-        PartField field = fields.get(name);
+        PartField field = getField(name);
         if (field instanceof HtmlField)
             return (HtmlField) field;
         HtmlField htmlfield = new HtmlField();
         htmlfield.setName(name);
         htmlfield.setPartId(getId());
-        fields.put(name, htmlfield);
+        fields.add(htmlfield);
         return htmlfield;
     }
 
     public ScriptField ensureScriptField(String name) {
-        PartField field = fields.get(name);
+        PartField field = getField(name);
         if (field instanceof ScriptField)
             return (ScriptField) field;
         ScriptField scriptField = new ScriptField();
         scriptField.setName(name);
         scriptField.setPartId(getId());
-        fields.put(name, scriptField);
+        fields.add(scriptField);
         return scriptField;
     }
 

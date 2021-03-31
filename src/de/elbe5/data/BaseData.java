@@ -90,7 +90,6 @@ public abstract class BaseData implements IData, JsonData {
 
     public JSONObject toJSONObject() {
         JSONObject obj = new JSONObject();
-        obj.put(typeKey, getTypeKey());
         addJSONAttributes(obj);
         return obj;
     }

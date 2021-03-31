@@ -8,12 +8,12 @@
  */
 package de.elbe5.templatepage;
 
+import de.elbe5.data.BaseData;
 import de.elbe5.data.IData;
-import de.elbe5.data.JsonData;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public abstract class PartField implements IData, JsonData {
+public abstract class PartField extends BaseData {
 
     public static final String TYPE_KEY = "partfield";
 

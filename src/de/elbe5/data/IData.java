@@ -13,6 +13,7 @@ import de.elbe5.request.RequestData;
 public interface IData extends JsonData{
 
     String typeKey = "type";
+    String dataKey = "data";
 
     static <T extends IData> T getEditableCopy(T obj){
         T newObj = DataFactory.getBlankCopy(obj);
